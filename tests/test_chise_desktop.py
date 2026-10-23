@@ -69,3 +69,35 @@ class DesktopBundleTests(unittest.TestCase):
                 self.assertEqual(result.returncode, 0, result.stderr)
             with self.assertRaises(FileExistsError):
                 build_chise_desktop.build(destination)
+
+
+class DesktopFullscreenTests(unittest.TestCase):
+    def test_window_registers_fullscreen_setup_before_start(self):
+        webview = mock.MagicMock()
+        window = webview.create_window.return_value
+        before_show = window.events.before_show
+        with mock.patch.dict('sys.modules', {'webview': webview}), \
+                mock.patch.object(desktop, 'ensure_backend'), \
+                mock.patch.object(desktop.Path, 'mkdir'):
+            desktop.main()
+        before_show.__iadd__.assert_called_once_with(desktop.enable_media_fullscreen)
+        webview.start.assert_called_once()
+
+    def test_macos_webview_enables_element_fullscreen(self):
+        window = mock.MagicMock()
+        preferences = window.gui.BrowserView.instances[window.uid].webview.configuration.return_value.preferences.return_value
+        with mock.patch.object(desktop.sys, 'platform', 'darwin'):
+            desktop.enable_media_fullscreen(window)
+        preferences.setElementFullscreenEnabled_.assert_called_once_with(True)
+
+    def test_other_platforms_keep_their_native_fullscreen_settings(self):
+        window = mock.MagicMock()
+        with mock.patch.object(desktop.sys, 'platform', 'win32'):
+            desktop.enable_media_fullscreen(window)
+        window.gui.BrowserView.instances.__getitem__.assert_not_called()
+
+    def test_webkit_without_element_fullscreen_reports_the_limitation(self):
+        window = mock.MagicMock()
+        window.gui.BrowserView.instances[window.uid].webview.configuration.return_value.preferences.return_value = object()
+        with mock.patch.object(desktop.sys, 'platform', 'darwin'), self.assertLogs(level='WARNING'):
+            desktop.enable_media_fullscreen(window)
