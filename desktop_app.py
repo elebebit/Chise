@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 import json
+import logging
 from pathlib import Path
 import subprocess
+import sys
 import time
 import urllib.request
 
 PROJECT_DIR = Path(__file__).resolve().parent
 URL = "http://127.0.0.1:8900/"
+LOGGER = logging.getLogger(__name__)
 
 
 def is_service_ready(url: str = URL, timeout: float = 1.0) -> bool:
@@ -42,6 +45,20 @@ def ensure_backend() -> subprocess.Popen | None:
     raise RuntimeError('Chise 服务未能在 20 秒内启动，请检查托盘与 8900 端口。')
 
 
+def enable_media_fullscreen(window) -> None:
+    """在 Cocoa 主线程、首次导航前开启 WebKit 元素全屏。"""
+    if sys.platform != 'darwin':
+        return
+    # pywebview 6.2.1 此时尚未将 WKWebView 设为 NSWindow 的内容视图。
+    native_view = window.gui.BrowserView.instances[window.uid].webview
+    preferences = native_view.configuration().preferences()
+    enable = getattr(preferences, 'setElementFullscreenEnabled_', None)
+    if enable is None:
+        LOGGER.warning('当前 macOS WebKit 不支持网页元素全屏，需要 macOS 12.3 或更高版本。')
+        return
+    enable(True)
+
+
 def main() -> None:
     import webview
 
@@ -50,11 +67,12 @@ def main() -> None:
     storage = Path.home() / 'Library/Application Support/Peach/webview'
     storage.mkdir(parents=True, exist_ok=True)
     webview.settings['ALLOW_DOWNLOADS'] = True
-    webview.create_window(
+    window = webview.create_window(
         title='Chise', url=URL, width=1320, height=880,
         min_size=(960, 600), resizable=True, text_select=True,
         zoomable=True, background_color='#121214',
     )
+    window.events.before_show += enable_media_fullscreen
     icon = PROJECT_DIR / 'resources/peach.icns'
     webview.start(private_mode=False, storage_path=str(storage),
                   icon=str(icon) if icon.is_file() else None)
