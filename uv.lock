@@ -1121,6 +1121,7 @@ dev = [
 ]
 macos = [
     { name = "pyobjc-framework-cocoa", marker = "sys_platform == 'darwin'" },
+    { name = "pyobjc-framework-webkit", marker = "sys_platform == 'darwin'" },
     { name = "pywebview", marker = "sys_platform == 'darwin'" },
 ]
 maintenance-115 = [
@@ -1161,6 +1162,7 @@ requires-dist = [
     { name = "pydantic", specifier = "==2.14.1" },
     { name = "pyinstaller", marker = "extra == 'build'", specifier = "==6.22.3" },
     { name = "pyobjc-framework-cocoa", marker = "sys_platform == 'darwin' and extra == 'macos'", specifier = "==12.2.2" },
+    { name = "pyobjc-framework-webkit", marker = "sys_platform == 'darwin' and extra == 'macos'", specifier = "==12.2.2" },
     { name = "pystray", specifier = "==0.19.5" },
     { name = "pywebview", marker = "sys_platform == 'darwin' and extra == 'macos'", specifier = "==6.2.1" },
     { name = "resvg-py", specifier = "==0.5.0" },

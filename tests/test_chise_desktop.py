@@ -80,24 +80,26 @@ class DesktopFullscreenTests(unittest.TestCase):
                 mock.patch.object(desktop, 'ensure_backend'), \
                 mock.patch.object(desktop.Path, 'mkdir'):
             desktop.main()
-        before_show.__iadd__.assert_called_once_with(desktop.enable_media_fullscreen)
+        before_show.__iadd__.assert_called_once_with(desktop.configure_desktop_window)
         webview.start.assert_called_once()
 
-    def test_macos_webview_enables_element_fullscreen(self):
+    def test_macos_window_supports_native_fullscreen_and_identifies_its_pages(self):
         window = mock.MagicMock()
-        preferences = window.gui.BrowserView.instances[window.uid].webview.configuration.return_value.preferences.return_value
-        with mock.patch.object(desktop.sys, 'platform', 'darwin'):
-            desktop.enable_media_fullscreen(window)
-        preferences.setElementFullscreenEnabled_.assert_called_once_with(True)
+        window.native.collectionBehavior.return_value = 4 | 512
+        appkit = mock.Mock(NSWindowCollectionBehaviorFullScreenPrimary=128,
+                           NSWindowCollectionBehaviorFullScreenNone=512)
+        webkit = mock.Mock(WKUserScriptInjectionTimeAtDocumentStart=0)
+        with mock.patch.object(desktop.sys, 'platform', 'darwin'), \
+                mock.patch.dict('sys.modules', {'AppKit': appkit, 'WebKit': webkit}):
+            desktop.configure_desktop_window(window)
+        window.native.setCollectionBehavior_.assert_called_once_with(4 | 128)
+        construct = webkit.WKUserScript.alloc.return_value.initWithSource_injectionTime_forMainFrameOnly_
+        construct.assert_called_once_with('window.chiseDesktop = true;', 0, True)
+        config = window.gui.BrowserView.instances[window.uid].webview.configuration.return_value
+        config.userContentController.return_value.addUserScript_.assert_called_once_with(construct.return_value)
 
     def test_other_platforms_keep_their_native_fullscreen_settings(self):
         window = mock.MagicMock()
         with mock.patch.object(desktop.sys, 'platform', 'win32'):
-            desktop.enable_media_fullscreen(window)
+            desktop.configure_desktop_window(window)
         window.gui.BrowserView.instances.__getitem__.assert_not_called()
-
-    def test_webkit_without_element_fullscreen_reports_the_limitation(self):
-        window = mock.MagicMock()
-        window.gui.BrowserView.instances[window.uid].webview.configuration.return_value.preferences.return_value = object()
-        with mock.patch.object(desktop.sys, 'platform', 'darwin'), self.assertLogs(level='WARNING'):
-            desktop.enable_media_fullscreen(window)

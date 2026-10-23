@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import logging
 from pathlib import Path
 import subprocess
 import sys
@@ -12,7 +11,6 @@ import urllib.request
 
 PROJECT_DIR = Path(__file__).resolve().parent
 URL = "http://127.0.0.1:8900/"
-LOGGER = logging.getLogger(__name__)
 
 
 def is_service_ready(url: str = URL, timeout: float = 1.0) -> bool:
@@ -45,18 +43,24 @@ def ensure_backend() -> subprocess.Popen | None:
     raise RuntimeError('Chise 服务未能在 20 秒内启动，请检查托盘与 8900 端口。')
 
 
-def enable_media_fullscreen(window) -> None:
-    """在 Cocoa 主线程、首次导航前开启 WebKit 元素全屏。"""
+def configure_desktop_window(window) -> None:
+    """在 Cocoa 主线程配置窗口全屏与网页宿主身份。"""
     if sys.platform != 'darwin':
         return
+    import AppKit
+    import WebKit
+
+    behavior = window.native.collectionBehavior()
+    window.native.setCollectionBehavior_(
+        (behavior & ~AppKit.NSWindowCollectionBehaviorFullScreenNone)
+        | AppKit.NSWindowCollectionBehaviorFullScreenPrimary
+    )
     # pywebview 6.2.1 此时尚未将 WKWebView 设为 NSWindow 的内容视图。
     native_view = window.gui.BrowserView.instances[window.uid].webview
-    preferences = native_view.configuration().preferences()
-    enable = getattr(preferences, 'setElementFullscreenEnabled_', None)
-    if enable is None:
-        LOGGER.warning('当前 macOS WebKit 不支持网页元素全屏，需要 macOS 12.3 或更高版本。')
-        return
-    enable(True)
+    script = WebKit.WKUserScript.alloc().initWithSource_injectionTime_forMainFrameOnly_(
+        'window.chiseDesktop = true;', WebKit.WKUserScriptInjectionTimeAtDocumentStart, True,
+    )
+    native_view.configuration().userContentController().addUserScript_(script)
 
 
 def main() -> None:
@@ -72,7 +76,7 @@ def main() -> None:
         min_size=(960, 600), resizable=True, text_select=True,
         zoomable=True, background_color='#121214',
     )
-    window.events.before_show += enable_media_fullscreen
+    window.events.before_show += configure_desktop_window
     icon = PROJECT_DIR / 'resources/peach.icns'
     webview.start(private_mode=False, storage_path=str(storage),
                   icon=str(icon) if icon.is_file() else None)
