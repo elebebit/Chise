@@ -165,7 +165,7 @@ describe('实体与索引域控制', () => {
   });
 
   it('厂牌大位和圆框分别取 large 与 ring，标识可回落实体图但不能回落代表作', () => {
-    const company = { k: 'Peach & Co', n: 3, entity_id: 41, has_logo: true, logo_version: 'logo 2',
+    const company = { k: 'Chise & Co', n: 3, entity_id: 41, has_logo: true, logo_version: 'logo 2',
       has_image: true, image_version: 'face 2', has_avatar: true, rep: 91,
       avatar_focus: { axis: 'y', pct: 20 }, avatar_stand_in: true };
     for (const big of [true, false]) {

@@ -199,7 +199,7 @@ def _access_error(policy: dict, token: str) -> str | None:
     if policy.get("mode") not in {"password", "legacy"}:
         return "访问设置不是受支持的密码模式"
     if not token:
-        return "缺少 Peach 内部访问令牌，不能启动公网 Tunnel"
+        return "缺少 Chise 内部访问令牌，不能启动公网 Tunnel"
     return None
 
 

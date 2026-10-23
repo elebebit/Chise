@@ -270,7 +270,7 @@ class Lifecycle:
 
 def main(argv: list[str] | None = None) -> int:
     import argparse
-    parser = argparse.ArgumentParser(description="监视一个 Windows Peach 托盘实例")
+    parser = argparse.ArgumentParser(description="监视一个 Windows Chise 托盘实例")
     parser.add_argument("record", type=Path)
     return watch(parser.parse_args(argv).record)
 

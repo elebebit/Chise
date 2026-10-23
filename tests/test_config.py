@@ -438,9 +438,9 @@ class ModuleConstantTests(unittest.TestCase):
         # 挂载点是 `/Volumes/<共享名>`：两者分开写就会挂上一个没人去读的路径。
         self.assertEqual(config.SHARED_SMB_SHARE, config.SHARED_DATA_ROOT.name)
 
-    def test_location_declarations_stay_in_ledger_shape(self):
+    def test_location_declarations_follow_configured_sources(self):
         # `asset.path` 与配置中的路径前缀均使用 Windows 格式，供目录访问权限检查匹配。
-        self.assertEqual(set(config.LOCATION_ROOT_DECLARATIONS), {"local", "115", "pikpak"})
+        self.assertEqual(set(config.LOCATION_ROOT_DECLARATIONS), set(settings_file.active().locations))
         self.assertEqual(
             tuple(root for roots in config.LOCATION_ROOT_DECLARATIONS.values() for root in roots),
             config.MEDIA_ROOT_DECLARATIONS,

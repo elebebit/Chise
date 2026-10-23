@@ -38,7 +38,7 @@ def menu_path() -> Path:
 
 def download(opener, root: Path, version: str, kind: str) -> Path:
     request = urllib.request.Request(
-        f"https://api.github.com/repos/peach-mitao/peach/releases/tags/v{version}")
+        f"https://api.github.com/repos/elebebit/Chise/releases/tags/v{version}")
     if token := os.environ.get("GH_TOKEN"):
         request.add_header("Authorization", f"Bearer {token}")
     with opener.open(request, timeout=30) as response:
@@ -117,7 +117,7 @@ def main() -> int:
     assert os.name == "nt", "覆盖升级验收需要 Windows"
     if args.kind == "installer":
         assert os.environ.get("GITHUB_ACTIONS") == "true", "安装包验收只允许在干净的 Actions runner 上运行"
-        assert installation() is None and not menu_path().exists(), "已有 Peach 安装登记或快捷方式，停止验收"
+        assert installation() is None and not menu_path().exists(), "已有 Chise 安装登记或快捷方式，停止验收"
     cookies = http.cookiejar.CookieJar()
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), urllib.request.HTTPCookieProcessor(cookies))
     with smoke_directory(args.evidence_dir.resolve()) as root:

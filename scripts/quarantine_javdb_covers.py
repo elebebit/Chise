@@ -20,7 +20,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
     root, report = args.data_root.resolve(), args.report.resolve()
     if not report.is_relative_to(root / 'review'):
-        parser.error('备份区必须位于当前 Peach 数据目录的 review 内')
+        parser.error('备份区必须位于当前 Chise 数据目录的 review 内')
     covers = root / 'generated/covers'
     paths = [path for path in sorted(covers.glob('*.jpg')) if has_javdb_source(path)]
     report.mkdir(parents=True, exist_ok=True)

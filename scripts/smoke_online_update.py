@@ -20,7 +20,7 @@ from smoke_desktop import (artifact_processes, complete_first_run, smoke_directo
 
 
 def download_release(opener, root: Path, version: str) -> Path:
-    with opener.open(f"https://api.github.com/repos/peach-mitao/peach/releases/tags/v{version}", timeout=30) as response:
+    with opener.open(f"https://api.github.com/repos/elebebit/Chise/releases/tags/v{version}", timeout=30) as response:
         release = json.load(response)
     asset = next(asset for asset in release["assets"] if asset["name"] == f"Peach-{version}-windows-x64.zip")
     archive = root / "old.zip"

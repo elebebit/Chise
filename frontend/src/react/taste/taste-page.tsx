@@ -1,6 +1,6 @@
 /* 口味页：两套证据说同一件事。
  *
- * 左边是浏览器记录（这台机器上读到的、或从别处导进来的私有导出），右边是 Peach 自己的
+ * 左边是浏览器记录（这台机器上读到的、或从别处导进来的私有导出），右边是 Chise 自己的
  * 观看行为。两套各有自己的读数、图和名次，由顶上的页签整块切换——它们是两份证据，不是
  * 同一份数据的两种画法，并排摆会被读成互相印证。
  *
@@ -68,18 +68,18 @@ const CARD = `${cardClass()} flex flex-col gap-4`;
 const TILE = 'rounded-xl bg-background-primary-default p-3';
 
 /* 中文正文写成常量：JSX 里换行的文字会在接缝处多出一个空格，中文句子里看得见。 */
-const REFRESH_TITLE = '读取运行 Peach 的这台电脑上的浏览历史与书签';
+const REFRESH_TITLE = '读取运行 Chise 的这台电脑上的浏览历史与书签';
 const NO_SOURCE_HINT = '导入或读取浏览记录后，这里会列出已采集设备。';
 const NO_LEAD_HINT = '馆藏里暂时没有对得上浏览信号的标签。';
 const NO_CATEGORY_HINT = '采集浏览记录后，这里会显示聚合后的口味证据。';
-const GAP_HINT = '这些词在浏览记录中出现，但 Peach 观看记录还没有对应证据';
+const GAP_HINT = '这些词在浏览记录中出现，但 Chise 观看记录还没有对应证据';
 const NO_BROWSER_TAG_HINT = '采集浏览记录后，这里会列出浏览过的标签。';
 const NO_BROWSER_CREATOR_HINT = '采集浏览记录后，这里会列出浏览过的创作者。';
 const NO_DOMAIN_HINT = '采集浏览记录后，这里会列出常访问的网站。';
-const NO_PEACH_TAG_HINT = '在 Peach 里播放或评价作品后，这里会列出对应的标签。';
-const NO_PEACH_CREATOR_HINT = '在 Peach 里播放或评价作品后，这里会列出对应的创作者。';
-const NO_PEACH_PERFORMER_HINT = '在 Peach 里播放或评价作品后，这里会列出对应的女优。';
-const GUIDE_LOCAL = '在运行 Peach 的电脑上使用浏览器：点上面的「读取浏览器记录」。';
+const NO_PEACH_TAG_HINT = '在 Chise 里播放或评价作品后，这里会列出对应的标签。';
+const NO_PEACH_CREATOR_HINT = '在 Chise 里播放或评价作品后，这里会列出对应的创作者。';
+const NO_PEACH_PERFORMER_HINT = '在 Chise 里播放或评价作品后，这里会列出对应的女优。';
+const GUIDE_LOCAL = '在运行 Chise 的电脑上使用浏览器：点上面的「读取浏览器记录」。';
 const GUIDE_REMOTE = '记录在其他设备上：导出文件后，选择「导入历史文件」或「导入书签文件」。书签支持浏览器导出的 HTML 文件和 Chromium Bookmarks JSON 文件。';
 const GUIDE_REFRESH = '需要刷新时再次读取或导入；数据源可在页面底部移除。';
 const REMOVE_BODY = '删除这个来源的已导入记录，原始文件保留。若浏览器仍启用，下次读取会再次导入。';
@@ -480,7 +480,7 @@ export function TastePage(props: TasteProps) {
           {/* 旧 `.insightswitch`：证据来源是两个互斥视图，形态是分段控件不是两枚裸按钮。 */}
           <TabList aria-label="口味证据来源" className={SEGMENTED_TRACK}>
             <Tab id="browser" className={SEGMENT}>浏览器记录</Tab>
-            <Tab id="peach" className={SEGMENT}>Peach 内部</Tab>
+            <Tab id="peach" className={SEGMENT}>Chise 内部</Tab>
           </TabList>
           <div className="flex flex-wrap items-center gap-2">
             <Select aria-label="分析范围" selectedKey={range}
@@ -552,16 +552,16 @@ export function TastePage(props: TasteProps) {
         </TabPanel>
         <TabPanel id="peach" className="flex flex-col gap-5">
           <div className={STAT_STRIP}>
-            <SummaryCard accent={0} icon={RiEyeLine} term="Peach 看过"
+            <SummaryCard accent={0} icon={RiEyeLine} term="Chise 看过"
               figure={Number(summary.peach_items || 0).toLocaleString()}
               detail={tasteHours(summary.peach_seconds || 0)} />
             <SummaryCard accent={1} icon={RiThumbUpLine} term="喜欢" figure={Number(summary.liked || 0).toLocaleString()} />
             <SummaryCard accent={2} icon={RiThumbDownLine} term="不合口味" figure={Number(summary.disliked || 0).toLocaleString()} />
             <SummaryCard accent={3} icon={RiPriceTag3Line} term="有标签" figure={tagged.toLocaleString()} />
           </div>
-          <section className={`${CARD} md:flex-row md:gap-6`} aria-label="Peach 观看">
+          <section className={`${CARD} md:flex-row md:gap-6`} aria-label="Chise 观看">
             <div className="flex shrink-0 flex-col gap-0.5 pb-5 md:w-72 md:pr-6 md:pb-0">
-              <span className="text-caption-1-regular text-text-secondary">Peach 观看</span>
+              <span className="text-caption-1-regular text-text-secondary">Chise 观看</span>
               <b className="text-display-4-medium tabular-nums text-text-primary">
                 {Number(summary.peach_items || 0).toLocaleString()}
               </b>
@@ -572,7 +572,7 @@ export function TastePage(props: TasteProps) {
               <CoverageMetric term="有身份" value={identified} rest={coverage.unidentified || 0} />
             </div>
           </section>
-          <DimensionPanels label="Peach 口味维度" onSignal={onSignal}
+          <DimensionPanels label="Chise 口味维度" onSignal={onSignal}
             panels={[
               { id: 'tags', name: '标签', props: { rows: rank.peach_tags || [], kind: 'tag', visual: 'none', empty: NO_PEACH_TAG_HINT } },
               { id: 'creators', name: '创作者', props: { rows: rank.peach_creators || [], kind: 'creator', visual: 'creator', empty: NO_PEACH_CREATOR_HINT } },

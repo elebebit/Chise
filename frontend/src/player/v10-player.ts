@@ -1,4 +1,4 @@
-/* Peach 播放会话：Video.js 10 的媒体、原生事件与自有控制条共用同一枚 video。 */
+/* Chise 播放会话：Video.js 10 的媒体、原生事件与自有控制条共用同一枚 video。 */
 import type { PlayerEvents, PlayerSource, QualityLevelList, VideojsFactory, VjsPlayer } from './types';
 
 interface HlsEngine {
@@ -16,7 +16,7 @@ interface MediaElement extends HTMLElement {
 
 const tags = (events: PlayerEvents): string[] => typeof events === 'string' ? [events] : events;
 
-/** 控件由 Video.js 10 自定义元素处理；Peach 管片源、时长口径和会话释放。 */
+/** 控件由 Video.js 10 自定义元素处理；Chise 管片源、时长口径和会话释放。 */
 export const createV10Player: VideojsFactory = (video, options) => {
   const root = document.createElement('div');
   const provider = document.createElement('video-player');

@@ -88,7 +88,7 @@ describe('浏览器添加 JAV 设置', () => {
         assert.equal(await token.getAttribute('type'), 'password');
         assert.equal(await region.getByRole('link', { name: '安装 Peach 用户脚本' }).getAttribute('href'),
           'https://sleazyfork.org/zh-CN/scripts/600821');
-        assert.equal(await region.getByLabel('Peach 地址', { exact: true }).inputValue(), new URL(page.url()).origin);
+        assert.equal(await region.getByLabel('Chise 地址', { exact: true }).inputValue(), new URL(page.url()).origin);
         await region.getByRole('button', { name: '更新渠道与令牌', exact: true }).click();
         await page.waitForFunction(() => document.querySelector<HTMLInputElement>(
           'input[type="password"][value="test-issued-token-2"]') !== null);

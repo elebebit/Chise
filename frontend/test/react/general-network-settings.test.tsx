@@ -12,7 +12,7 @@ it('开机自启：静默启动跟着开机自启解锁，保存发出三颗开�
   const receipt = vi.fn();
   const host = await mount(<StartupSettings startup={startup} receipt={receipt} />);
   expect(switches(host).map((input) => input.getAttribute('aria-label')))
-    .toEqual(['开机后启动 Peach', '只启动托盘，不打开网页', '在桌面创建快捷方式']);
+    .toEqual(['开机后启动 Chise', '只启动托盘，不打开网页', '在桌面创建快捷方式']);
   expect(switches(host).map((input) => input.disabled)).toEqual([false, true, false]);
   expect(buttonNamed('保存配置', host)).not.toBeNull();
   await click(switches(host)[0]);
@@ -26,15 +26,15 @@ it('开机自启：静默启动跟着开机自启解锁，保存发出三颗开�
 });
 
 it('桌面快捷方式被别的安装占着时只锁那一颗，并说出原因', async () => {
-  // 桌面上摆着另一份 Peach 的图标不该连开机自启都不让改，那一格自己还是好的。
+  // 桌面上摆着另一份 Chise 的图标不该连开机自启都不让改，那一格自己还是好的。
   const host = await mount(<StartupSettings
-    startup={{ ...startup, enabled: true, desktop_message: '桌面快捷方式属于另一份 Peach 安装' }} receipt={vi.fn()} />);
+    startup={{ ...startup, enabled: true, desktop_message: '桌面快捷方式属于另一份 Chise 安装' }} receipt={vi.fn()} />);
   expect(switches(host).map((input) => input.disabled)).toEqual([false, false, true]);
   expect(buttonNamed('保存配置', host)?.disabled).toBe(false);
-  expect(host.textContent).toContain('桌面快捷方式属于另一份 Peach 安装');
+  expect(host.textContent).toContain('桌面快捷方式属于另一份 Chise 安装');
 });
 
-it('Peach 代理：选自定义才出地址栏，保存后清空地址并记住已保存', async () => {
+it('Chise 代理：选自定义才出地址栏，保存后清空地址并记住已保存', async () => {
   const fetcher = fetchMock(200, { mode: 'proxy', proxy_saved: true, needs_selection: false });
   vi.stubGlobal('fetch', fetcher);
   const receipt = vi.fn();

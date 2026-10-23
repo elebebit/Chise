@@ -1,4 +1,4 @@
-/* Peach 配置中的采集档位与来源更新偏好，读写复用设置接口和查询缓存。 */
+/* Chise 配置中的采集档位与来源更新偏好，读写复用设置接口和查询缓存。 */
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useQuery } from '@tanstack/react-query';
 

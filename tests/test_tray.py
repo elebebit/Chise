@@ -537,7 +537,7 @@ class SetupGateTests(unittest.TestCase):
         # 托盘的单实例锁会建出 `state/`，Peach 数据目录于是存在、`configured` 变成 True。
         (self.data_root / "state").mkdir(parents=True)
         self.assertTrue(self._config().configured)
-        self.assertTrue(needs_setup(self._config()), "空 Peach 数据目录不算配置过")
+        self.assertTrue(needs_setup(self._config()), "空 Chise 数据目录不算配置过")
 
     def test_an_existing_deployment_without_a_settings_file_is_left_alone(self):
         (self.data_root / "database").mkdir(parents=True)
@@ -606,7 +606,7 @@ class SetupGateTests(unittest.TestCase):
         self.assertTrue(manager.specs, "切换之后必须有正常服务规格")
         self.assertEqual(manager.log_dir, self.data_root / "logs")
         self.assertEqual(manager.child_environment()["PEACH_DATA_ROOT"], str(self.data_root))
-        self.assertEqual(gate.open_label(), "打开 Peach")
+        self.assertEqual(gate.open_label(), "打开 Chise")
         self.assertEqual(gate.open_url(), "https://peach-writer.local/")
 
         scan = scan_popen.call_args

@@ -50,7 +50,7 @@ function BrowserForm({ initial, receipt }: { initial: State; receipt(message: st
         </SelectItem>)}
       </Select></div>
       {!ready ? <Help>请先保存所选网盘的账号和目标目录。</Help> : null}
-      <Input label="Peach 地址" value={window.location.origin} isReadOnly autoComplete="off" />
+      <Input label="Chise 地址" value={window.location.origin} isReadOnly autoComplete="off" />
       {token ? <>
         <Input label="浏览器添加专用令牌" type="password" value={token} isReadOnly autoComplete="new-password" />
         <div><Button variant="secondary" type="button" onClick={() => {

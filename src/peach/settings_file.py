@@ -586,15 +586,15 @@ def _render_pairs(pairs: dict[str, object]) -> list[str]:
 def render(config: PeachConfig) -> str:
     """把设置渲染成带注释的 TOML。注释是给人读的，`load_config` 不依赖它们。"""
     lines = [
-        "# Peach 设置文件。优先级：环境变量 > 本文件 > 程序默认值；手动修改后重启服务生效。",
-        "# 本文件保存在 Peach 数据目录中；该目录由 PEACH_DATA_ROOT 或项目旁的 peach-data 决定。",
+        "# Chise 设置文件。优先级：环境变量 > 本文件 > 程序默认值；手动修改后重启服务生效。",
+        "# 本文件保存在 Chise 数据目录中；该目录由 PEACH_DATA_ROOT 或项目旁的 peach-data 决定。",
         "# Docker：本文件位于 /data/config.toml；将 /data 放在数据卷中，重建容器时保留该卷。",
         "# Docker 中的 /media 是容器内的媒体目录，宿主机目录由 Compose 挂载到这里。",
-        "# Docker 部署说明：https://github.com/peach-mitao/peach/blob/master/docs/DOCKER.md",
-        f"# 生成入口：peach init（Peach 数据目录：{config.data_root}）",
+        "# Docker 部署说明：https://github.com/elebebit/Chise/blob/master/docs/DOCKER.md",
+        f"# 生成入口：peach init（Chise 数据目录：{config.data_root}）",
         "",
         "[directories]",
-        "# Peach 数据目录下的子目录，例如 database、logs；省略时使用同名目录。",
+        "# Chise 数据目录下的子目录，例如 database、logs；省略时使用同名目录。",
         "# 也可填写绝对路径。Docker 中相对目录位于 /data 下；其他目录需要单独挂载并保留数据。",
     ]
     lines += _render_pairs({key: config.directories[key]
@@ -602,13 +602,13 @@ def render(config: PeachConfig) -> str:
     lines += [
         "",
         "[media.locations]",
-        "# 通常在网页的媒体目录中填写实际目录即可；Peach 保存时自动维护本表和 [media.mounts]。",
+        "# 通常在网页的媒体目录中填写实际目录即可；Chise 保存时自动维护本表和 [media.mounts]。",
         "# 以下说明供手动编辑配置参考；已有影片按本表查找文件，改成不匹配的值会使影片无法读取。",
         "# local、115、pikpak 等键表示媒体来源；值是数据库中影片路径的目录前缀。",
-        "# Peach 数据库在所有系统上都保存 Windows 格式的路径，例如 R:\\media\\a.mp4。",
+        "# Chise 数据库在所有系统上都保存 Windows 格式的路径，例如 R:\\media\\a.mp4。",
         "# 因此 Docker / Linux / macOS 也使用本表；R:\\media 无需在这些系统上实际存在。",
         "# 例：本表 local = 'R:\\media'，[media.mounts] local = '/media'。",
-        "# Peach 会把数据库中的 R:\\media\\a.mp4 转换为 /media/a.mp4，再读取文件。",
+        "# Chise 会把数据库中的 R:\\media\\a.mp4 转换为 /media/a.mp4，再读取文件。",
         "# 本表必须匹配数据库中的路径；Docker / Linux / macOS 搬动实际目录时保留本表，修改 [media.mounts]。",
         "# Windows 示例：local = ['D:\\Videos', 'E:\\Movies']，直接使用本机媒体目录。",
     ]
@@ -632,7 +632,7 @@ def render(config: PeachConfig) -> str:
     lines += [
         "",
         "[media.mounts]",
-        "# 与 [media.locations] 使用相同的媒体来源键；值是 Peach 实际读取文件的目录。",
+        "# 与 [media.locations] 使用相同的媒体来源键；值是 Chise 实际读取文件的目录。",
         "# Docker 填容器内路径，例如 local = '/media'；宿主机目录在 Compose 的 volumes 中配置。",
         "# Linux / macOS 也使用本机绝对路径，例如 /mnt/media 或 /Volumes/Media。",
         "# 一个来源有多个目录时，两表都写数组，目录数量和顺序必须相同。",
@@ -662,7 +662,7 @@ def render(config: PeachConfig) -> str:
         "# 两台电脑之间的数据库复制设置（ADR-0017）；只有一台允许修改数据库，另一台只读。",
         "# 单机与独立 Docker 部署保持 enabled = false。",
         "# 关闭时不启动同步观察器、不探测 SMB；桌面托盘不显示 Ledger 菜单项。",
-        "# shared_root 是两台电脑交换数据库副本的目录；留空时使用 Peach 数据目录旁的 peach-sync。",
+        "# shared_root 是两台电脑交换数据库副本的目录；留空时使用 Chise 数据目录旁的 peach-sync。",
         "# smb_* 用于连接另一台电脑的共享目录；留空时不连接共享目录。",
     ]
     lines += _render_pairs({

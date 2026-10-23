@@ -27,7 +27,7 @@ def archive(destination: Path, root: Path, files: list[Path], manifest: dict | N
 
 def download_notes(version: str, *, lite_installer: bool = False) -> str:
     """发布页的下载入口与包类型说明。"""
-    base = f"https://github.com/peach-mitao/peach/releases/download/v{version}/Peach-{version}-windows-x64"
+    base = f"https://github.com/elebebit/Chise/releases/download/v{version}/Peach-{version}-windows-x64"
     lite = (f"| [轻量安装包（lite-setup.exe）]({base}-lite-setup.exe) | 不含工具，安装时复用已有工具或按需联网下载 |\n"
             if lite_installer else "")
     return (
@@ -36,12 +36,12 @@ def download_notes(version: str, *, lite_installer: bool = False) -> str:
         f"| [安装包（setup.exe）]({base}-setup.exe) | 包含全部工具，首次安装推荐 |\n"
         + lite +
         f"| [完整免安装包（ZIP）]({base}.zip) | 包含全部工具，解压后运行 `Peach.exe` |\n"
-        f"| [应用更新包（update.zip）]({base}-update.zip) | 不含工具，由 Peach 更新器安装，不能单独用于首次安装 |\n"
+        f"| [应用更新包（update.zip）]({base}-update.zip) | 不含工具，由 Chise 更新器安装，不能单独用于首次安装 |\n"
         f"| 工具包（tools-*.zip）：[FFmpeg]({base}-tools-ffmpeg.zip) / "
         f"[untrunc]({base}-tools-untrunc.zip) / [cloudflared]({base}-tools-cloudflared.zip) "
         "| 更新器按需下载，普通使用无需手动选择 |\n"
         "| `*-corresponding-source.zip` | 第三方工具源码，普通使用无需下载 |\n\n"
-        "已有 Peach：在「配置 → 应用与维护」检查更新，下载完成后确认重启安装。"
+        "已有 Chise：在「配置 → 应用与维护」检查更新，下载完成后确认重启安装。"
         "手动更新可运行安装包，或使用完整免安装包。\n"
     )
 

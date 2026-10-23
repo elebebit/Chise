@@ -1,4 +1,4 @@
-/* Geist MiddleTruncate 的 Peach 原生适配层。
+/* Geist MiddleTruncate 的 Chise 原生适配层。
 
    只复用已验证的行为：按容器宽度保留首尾、使用单个省略号、宽度变化后重算、复制与无障碍名称
    仍提供完整原文。调用方只需给文件名、路径、URL 或 ID 加 data-middle-truncate；标题和说明继续

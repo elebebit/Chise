@@ -139,7 +139,7 @@ def _named_origin(request: Request) -> tuple[str, str, int | None] | None:
 
 
 def same_origin(request: Request) -> None:
-    """浏览器写请求只接受 Peach 页面或当前隧道页面发来的 Origin。
+    """浏览器写请求只接受 Chise 页面或当前隧道页面发来的 Origin。
 
     独立包的 origin 是回环 HTTP，cloudflared 转发时 Host 仍可能是本机地址，
     所以不能单纯把 ``Origin`` 和 ASGI 的 ``base_url`` 比较。临时链接的随机入口由当前
@@ -149,13 +149,13 @@ def same_origin(request: Request) -> None:
     """
     origin = request.headers.get("origin")
     if request.headers.get("sec-fetch-site") == "cross-site":
-        raise HTTPException(403, "请从 Peach 配置页提交")
+        raise HTTPException(403, "请从 Chise 配置页提交")
     if origin:
         supplied = _origin_key(origin)
         local = _origin_key(str(request.base_url))
         allowed = {local, _tunnel_origin(request), _named_origin(request)}
         if supplied is None or supplied not in allowed:
-            raise HTTPException(403, "请从 Peach 配置页提交")
+            raise HTTPException(403, "请从 Chise 配置页提交")
 
 
 def require_auth(request: Request) -> dict[str, str]:
@@ -229,7 +229,7 @@ def login_html(next_path: str, *, invalid: bool = False, error: str = "") -> str
         data["invalid"] = "true"
     if error:
         data["error"] = error
-    return page_shell("登录 Peach", "login", data)
+    return page_shell("登录 Chise", "login", data)
 
 
 def _safe_next(value: str) -> str:

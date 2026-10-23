@@ -63,7 +63,7 @@ export function StatusBadge({ source }: { source: FollowSource }) {
   return <Chip variant="caption" color={color}>{statusText(source)}</Chip>;
 }
 
-/** 来源名连到站上的原页面。新标签页不继承这一页的会话，来源地址也不带走 Peach 自己的地址。 */
+/** 来源名连到站上的原页面。新标签页不继承这一页的会话，来源地址也不带走 Chise 自己的地址。 */
 export function SourceLink({ source }: { source: FollowSource }) {
   return (
     <a href={source.url} target="_blank" rel="noreferrer noopener" title="打开原来源"

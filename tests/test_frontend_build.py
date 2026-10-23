@@ -77,7 +77,7 @@ class MainBundleTests(unittest.TestCase):
         `web/dist/peach-app.js` 是提交进 Git 的产物。改了 `frontend/src` 不重建，浏览器拿到
         的仍是旧的那一份，而 tsc 和 vitest 都只看源码，谁都不会红——只有扫产物这一条会。
         """
-        for label in ("开机后启动 Peach", "只启动托盘，不打开网页", "在桌面创建快捷方式"):
+        for label in ("开机后启动 Chise", "只启动托盘，不打开网页", "在桌面创建快捷方式"):
             self.assertIn(label, self.bundle,
                           f"产物里没有「{label}」，先跑 npm --prefix frontend run build")
         payload = self.bundle[self.bundle.index('"/api/configuration/startup"'):][:240]
@@ -234,7 +234,7 @@ class BoardUiUpstreamTests(unittest.TestCase):
         present = {file.relative_to(root).as_posix(): file for file in root.rglob("*")
                    if file.is_file() and file.name not in self.RECORDS}
         self.assertEqual(sorted(present), sorted(recorded),
-                         f"{name}/ 的文件要与 UPSTREAM.sha256 一一对应；Peach 自己的组合放在 {name}/ 外面")
+                         f"{name}/ 的文件要与 UPSTREAM.sha256 一一对应；Chise 自己的组合放在 {name}/ 外面")
         for path, file in present.items():
             self.assertEqual(hashlib.sha256(file.read_bytes()).hexdigest(), recorded[path],
                              f"{name}/{path} 与复制时的上游内容不同；外观差异在 {name}/ 外面组合")

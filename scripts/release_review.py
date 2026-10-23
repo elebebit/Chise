@@ -105,7 +105,7 @@ def review(root: Path, repo: str) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--repo", default="peach-mitao/peach")
+    parser.add_argument("--repo", default="elebebit/Chise")
     args = parser.parse_args()
     try:
         print(json.dumps(review(ROOT, args.repo), ensure_ascii=False))

@@ -62,7 +62,7 @@ describe('登录页', () => {
 
 describe('错误页', () => {
   const cases = [
-    { status: '403', title: '这里不能打开', lede: '请在运行 Peach 的电脑上打开配置' },
+    { status: '403', title: '这里不能打开', lede: '请在运行 Chise 的电脑上打开配置' },
     { status: '404', title: '四〇四', lede: null },
     { status: '409', title: '现在不能这样做', lede: '请先完成首次设置' },
     { status: '500', title: '出了点问题', lede: '服务出错' },
@@ -72,7 +72,7 @@ describe('错误页', () => {
       const detail = lede ?? '这个地址下没有页面。';
       const host = await mount(<ErrorPage data={{ status, detail }} />);
       expect(host.querySelector('h1')?.textContent).toBe(title);
-      expect(document.title).toBe(`Peach · ${title}`);
+      expect(document.title).toBe(`Chise · ${title}`);
       expect(host.textContent?.includes(detail)).toBe(lede !== null);
       const home = host.querySelector('a');
       expect(home?.getAttribute('href')).toBe('/');

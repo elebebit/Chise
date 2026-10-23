@@ -36,7 +36,7 @@ def describe(root: Path) -> dict:
 def save(root: Path, body: dict) -> dict:
     mode = body.get("mode")
     if mode not in {"environment", "direct", "proxy"}:
-        raise ValueError("请选择 Peach 代理的连接方式")
+        raise ValueError("请选择 Chise 代理的连接方式")
     address = body.get("proxy") or values(root).get("proxy", "")
     if not isinstance(address, str):
         raise ValueError("代理地址必须是文字")
@@ -58,7 +58,7 @@ def save(root: Path, body: dict) -> dict:
 def client_options(root: Path) -> dict:
     saved = values(root)
     if saved.get("conflict"):
-        raise ValueError("来源代理设置不同，请先在配置页选择 Peach 代理")
+        raise ValueError("来源代理设置不同，请先在配置页选择 Chise 代理")
     mode = saved.get("mode", "environment")
     if mode == "proxy":
         return {"trust_env": False, "proxy": saved["proxy"]}

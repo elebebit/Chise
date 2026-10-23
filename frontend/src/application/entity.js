@@ -239,7 +239,7 @@ entityState.syncedText = r=>[r.trashed?`已把 ${r.trashed} 项移入回收站`:
 entityState.sourceToolButtons = id=>`
     <button type="button" data-reveal="${id}" title="在文件管理器里打开源文件所在目录"
       aria-label="定位源文件">${icon('folder-open')}</button>
-    <button type="button" data-sync="${id}" title="核对该目录：磁盘上已删除的移入 Peach 回收站，带个人记录的标为已消失"
+    <button type="button" data-sync="${id}" title="核对该目录：磁盘上已删除的移入 Chise 回收站，带个人记录的标为已消失"
       aria-label="同步删除">${icon('folder-sync')}</button>`;
 }
 

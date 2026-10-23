@@ -67,7 +67,7 @@ export function AccessSettings({ initial, receipt }: AccessSettingsProps) {
         <Stack>
           {help ? <Help>{help}</Help> : null}
           {state.mode === 'open'
-            ? <Note tone="warning" title="未设置访问密码">能连接到 Peach 的设备打开地址就能看馆藏，不需要登录。</Note>
+            ? <Note tone="warning" title="未设置访问密码">能连接到 Chise 的设备打开地址就能看馆藏，不需要登录。</Note>
             : null}
           {state.mode === 'password' || state.mode === 'legacy'
             ? <Checkbox isSelected={disable} onChange={setDisable}>关闭访问密码</Checkbox>
@@ -83,7 +83,7 @@ export function AccessSettings({ initial, receipt }: AccessSettingsProps) {
                 disabled={disable} passwordError={fields.password} confirmationError={fields.confirmation}
                 passwordHint={disable ? '关闭访问密码时无需填写。' : '至少 8 个字符。保存后其他设备需要重新登录。'} />
             : null}
-          {disable ? <Note tone="warning" title="访问范围">保存后，能连接到 Peach 的设备将直接访问馆藏。</Note> : null}
+          {disable ? <Note tone="warning" title="访问范围">保存后，能连接到 Chise 的设备将直接访问馆藏。</Note> : null}
           {action.error ? <ErrorText>{action.error}</ErrorText> : null}
         </Stack>
       </div>

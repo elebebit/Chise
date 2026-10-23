@@ -33,7 +33,7 @@ effects.own(()=>{
 /* Board 外壳：媒体库选择、侧栏底部、玻璃折射。 */
 document.documentElement.classList.toggle('board-high-contrast',localStorage.getItem('peach.high-contrast')==='true');
 const boardBrand=document.querySelector('#brandHome');
-boardBrand.setAttribute('aria-label','Peach 首页');
+boardBrand.setAttribute('aria-label','Chise 首页');
 const libraryPicker=document.createElement('div');libraryPicker.className='board-library-menu';libraryPicker.id='boardLibraryMenu';libraryPicker.hidden=true;libraryPicker.setAttribute('popover','manual');libraryPicker.setAttribute('role','dialog');libraryPicker.setAttribute('aria-label','媒体库');
 document.body.append(libraryPicker);
 effects.own(()=>libraryPicker.remove());

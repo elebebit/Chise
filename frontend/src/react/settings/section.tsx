@@ -84,7 +84,7 @@ export function FieldLabel({ children }: { children: ReactNode }) {
 }
 
 /** 新窗口打开的外部链接，尾部带外链字形。`rel` 两项都写：新标签页不继承这一页的会话，
- *  来源地址也不带走 Peach 自己的地址。 */
+ *  来源地址也不带走 Chise 自己的地址。 */
 export function ExternalLink({ href, children, leadingIcon }: {
   href: string; children: ReactNode;
   leadingIcon?: ComponentType<{ className?: string; 'aria-hidden'?: boolean | 'true' | 'false' }>;

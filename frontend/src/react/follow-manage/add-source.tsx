@@ -208,7 +208,7 @@ function PickRow(
       {(row.external_searches || []).map((search) => (
         <div key={search.url} className="flex flex-wrap items-center gap-2">
           <small className="text-caption-1-regular text-text-secondary">{search.evidence}</small>
-          {/* 这一条会离开 Peach，所以带外链标；标由共用的 `ExternalLink` 给，全站一个写法。 */}
+          {/* 这一条会离开 Chise，所以带外链标；标由共用的 `ExternalLink` 给，全站一个写法。 */}
           <ExternalLink href={search.url}>{`${search.label}：${search.query}`}</ExternalLink>
         </div>
       ))}

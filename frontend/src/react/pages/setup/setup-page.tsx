@@ -1,6 +1,6 @@
 /* 首次运行页：取题目、画表单，成功后在同一页换成完成态。
  *
- * 题目接口只对运行 Peach 的这台电脑开放；别的设备打开时它回 403，页面不画表单，只说去哪里打开。 */
+ * 题目接口只对运行 Chise 的这台电脑开放；别的设备打开时它回 403，页面不画表单，只说去哪里打开。 */
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/base/buttons/button';
@@ -43,8 +43,8 @@ export function SetupPage() {
     setAttempt((count) => count + 1);
   };
   return (
-    <AuthCard title="欢迎使用 Peach" lede="添加媒体库，开始整理馆藏。" busy={view.kind === 'loading'}>
-      {view.kind === 'denied' ? <Note tone="error">请在运行 Peach 的这台电脑上打开设置。</Note> : null}
+    <AuthCard title="欢迎使用 Chise" lede="添加媒体库，开始整理馆藏。" busy={view.kind === 'loading'}>
+      {view.kind === 'denied' ? <Note tone="error">请在运行 Chise 的这台电脑上打开设置。</Note> : null}
       {view.kind === 'failed'
         ? <Note tone="error" action={<Button variant="secondary" onClick={retry}>重试</Button>}>{view.message}</Note>
         : null}

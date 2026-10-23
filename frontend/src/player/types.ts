@@ -1,4 +1,4 @@
-/* Peach 播放会话接口与条目形状；Video.js 10 通过本地 ESM 模块提供媒体与控件。 */
+/* Chise 播放会话接口与条目形状；Video.js 10 通过本地 ESM 模块提供媒体与控件。 */
 
 export type PlayerEvents = string | string[];
 

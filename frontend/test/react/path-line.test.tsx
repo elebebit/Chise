@@ -18,7 +18,7 @@ it('定位请求只递这条路径，成功回执一句', async () => {
 
   expect(fetcher.mock.calls[0]?.[0]).toBe('/api/reveal');
   expect(sentBody(fetcher)).toEqual({ path: LOG });
-  /* 资源管理器弹在跑 Peach 那台机器上：从别的设备看这一页时，屏幕上不会有任何动静。 */
+  /* 资源管理器弹在跑 Chise 那台机器上：从别的设备看这一页时，屏幕上不会有任何动静。 */
   expect(revealed).toHaveBeenCalledWith('已在资源管理器中显示');
 });
 
@@ -37,13 +37,13 @@ it('开不了时原因留在路径旁边，不冒充成功的回执', async () =
    服务端自带的那句中文要能盖过它，否则人会去换一台电脑重试。 */
 it('服务端不认这条路径时照直说，不落进通用的权限说法', async () => {
   vi.stubGlobal('fetch', fetchMock(403, {
-    error: 'path not in the data root', message: '这个位置不归 Peach 管，只能自己打开',
+    error: 'path not in the data root', message: '这个位置不归 Chise 管，只能自己打开',
   }));
   const host = await mount(<PathLine path={'C:\\Windows'} />);
 
   await click(host.querySelector('button[aria-label="在资源管理器中显示"]'));
 
-  expect(host.textContent).toContain('这个位置不归 Peach 管，只能自己打开');
+  expect(host.textContent).toContain('这个位置不归 Chise 管，只能自己打开');
 });
 
 it('路径和那颗键排在同一条中线上', async () => {

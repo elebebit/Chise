@@ -15,7 +15,7 @@ const host = document.createElement('div');
 host.dataset.agentation = '';
 identifyAgentationFields(host);
 document.body.append(host);
-// Peach 自己占着全局快捷键（Esc 收起面板、方向键翻图），标注工具只走工具栏按钮。
+// Chise 自己占着全局快捷键（Esc 收起面板、方向键翻图），标注工具只走工具栏按钮。
 createRoot(host).render(
-  <Agentation appName="Peach" endpoint={ENDPOINT} portalContainer={host} enableKeyboardShortcuts={false} />,
+  <Agentation appName="Chise" endpoint={ENDPOINT} portalContainer={host} enableKeyboardShortcuts={false} />,
 );

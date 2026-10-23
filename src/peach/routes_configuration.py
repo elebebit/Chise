@@ -100,7 +100,7 @@ def local_client(request: Request) -> bool:
 
 def local_only(request: Request) -> None:
     if not local_client(request):
-        raise HTTPException(403, "请在运行 Peach 的电脑上打开配置")
+        raise HTTPException(403, "请在运行 Chise 的电脑上打开配置")
 
 
 @router.get("/api/diagnostics")
@@ -108,7 +108,7 @@ def system_diagnostics(request: Request, args: dict[str, str] = Depends(require_
     """本机诊断与 doctor JSON 共用报告；媒体来源只读后台快照。"""
     from . import diagnostics
     if not local_client(request):
-        raise HTTPException(403, "请在运行 Peach 的电脑上打开系统诊断")
+        raise HTTPException(403, "请在运行 Chise 的电脑上打开系统诊断")
     return diagnostics.report(request.app.state.settings, request.app.state.mount_reachability.summary())
 
 
@@ -500,8 +500,8 @@ def save_startup(request: Request, body: dict = Body(...), _args=Depends(require
 def uninstall(request: Request, body: dict = Body(...), _args=Depends(require_auth)):
     local_only(request)
     same_origin(request)
-    if body.get("confirmation") != "卸载 Peach":
-        raise HTTPException(400, "请确认卸载 Peach")
+    if body.get("confirmation") != "卸载 Chise":
+        raise HTTPException(400, "请确认卸载 Chise")
     from .jobs import BackgroundJob
     if any(isinstance(job, BackgroundJob) and (job.snapshot() or {}).get("status") == "running"
            for job in vars(request.app.state.web_contract).values()):
@@ -764,9 +764,9 @@ def save_tunnel(request: Request, body: dict[str, Any] = Body(default_factory=di
 @router.post("/api/pick-folder")
 def pick_folder(request: Request, body: dict[str, Any] = Body(default_factory=dict),
                 _args=Depends(require_auth)):
-    """让运行 Peach 的这台电脑弹系统文件夹对话框，选中的绝对路径交回页面。
+    """让运行 Chise 的这台电脑弹系统文件夹对话框，选中的绝对路径交回页面。
 
-    只对本机连接开放：系统对话框显示在运行 Peach 的电脑上。首启页和配置页共用这一条，
+    只对本机连接开放：系统对话框显示在运行 Chise 的电脑上。首启页和配置页共用这一条，
     所以不要求独立包。对话框是模态的，一次只开一个；用户取消时 `path` 为 None。
     """
     local_only(request)

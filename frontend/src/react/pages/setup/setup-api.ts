@@ -81,7 +81,7 @@ async function request<T>(url: string, init: RequestInit, fallback: string): Pro
     });
   } catch (cause) {
     if (init.signal?.aborted) throw cause;
-    throw new SetupRequestError(0, '连接不到 Peach，请确认它仍在运行后重试');
+    throw new SetupRequestError(0, '连接不到 Chise，请确认它仍在运行后重试');
   }
   const body = await response.json().catch(() => null) as { error?: string; errors?: SetupErrors } | null;
   if (!response.ok) throw new SetupRequestError(response.status, body?.error || fallback, body?.errors);

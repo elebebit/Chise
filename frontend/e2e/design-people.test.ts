@@ -1083,7 +1083,7 @@ describe('设计决定：人物与厂牌资料页', () => {
         assert.deepEqual(opened.problems, []);
       } finally { await opened.close(); }
     });
-    it(`Peach 配置的来源凭据按要求分组并带描边（${viewport.name}）`, { timeout: 60_000 }, async () => {
+    it(`Chise 配置的来源凭据按要求分组并带描边（${viewport.name}）`, { timeout: 60_000 }, async () => {
       const opened = await openFollowManage(browser, viewport);
       try {
         const page = opened.page;

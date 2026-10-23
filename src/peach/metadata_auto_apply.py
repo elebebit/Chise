@@ -1254,7 +1254,7 @@ def _apply_metadata_candidate(
     if field not in {
         "title", "original_title", "performers", "studio", "series", "release_date", "tags",
     }:
-        raise ValueError("该元数据字段没有 Peach 写入映射")
+        raise ValueError("该元数据字段没有 Chise 写入映射")
     code = str(group.get("code") or "").strip()
     asset_ids, source, confidence, metadata = _landing_scope(
         connection, group, candidate, expected_revision)

@@ -255,7 +255,7 @@ describe('设计决定：关注详情、作品详情、播放器与侧栏', () =
         ...base, performers: ['无名氏'], performer_total: 1, performer_entities: [{ id: 0, has_image: false }], has_studio_logo: true,
         entity_refs: { ...base.entity_refs,
           performer: [{ id: 0, name: '无名氏', has_image: false, avatar_focus: null }],
-          studio: [{ id: 50, name: 'Peach Studio', has_image: false, has_logo: true }] },
+          studio: [{ id: 50, name: 'Chise Studio', has_image: false, has_logo: true }] },
       };
       await page.route((url) => url.pathname === '/api/item', (route) => route.fulfill({ json: payload }));
       await page.goto(new URL('/assets/14', page.url()).href, { waitUntil: 'load' });

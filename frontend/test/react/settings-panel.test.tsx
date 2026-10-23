@@ -171,7 +171,7 @@ function watchReports() {
 }
 
 describe('设置面板与壳的接缝', () => {
-  it('五个分区按使用场景组织，Peach 配置入口遵守设备权限', async () => {
+  it('五个分区按使用场景组织，Chise 配置入口遵守设备权限', async () => {
     const current = await setup();
     const openConfiguration = vi.fn();
     current.host.openConfiguration = openConfiguration;

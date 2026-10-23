@@ -6,7 +6,7 @@
 `PeachConfig`，`apply()` 把它变成一台能直接起服务的机器（目录、账本、CA、口令、设置
 文件）。前端只负责把字串送进来、把结果和错误显示出去。
 
-终端问答收集 Peach 数据目录、本地媒体目录、监听范围、端口和局域网名字。网页引导另按每个目录收集
+终端问答收集 Chise 数据目录、本地媒体目录、监听范围、端口和局域网名字。网页引导另按每个目录收集
 媒体来源与实际目录，校验和内部路径配置由 `media_configuration` 负责。复制、writer
 镜像与 SMB 保持关闭或留空，设置文件只写用户声明过的来源。
 
@@ -48,9 +48,9 @@ LOCAL_LOCATION = "local"
 #: 命令行里追加目录的题面：空答案就是「不加了」。
 MORE_MEDIA_PROMPT = "再加一个媒体目录（不加就直接回车）"
 #: 迁移随代码走，不随数据走。这里不 import `peach.config`：那个模块的常量在进程启动
-#: 那一刻就定型了，而首次设置正是要改变它们指向的 Peach 数据目录。
+#: 那一刻就定型了，而首次设置正是要改变它们指向的 Chise 数据目录。
 MIGRATIONS_DIR = settings_file.PROJECT_ROOT / "migrations"
-#: 「现在扫描」的一次性标记，落在 `<Peach 数据目录>/state/`。设置页写它、托盘消费它：
+#: 「现在扫描」的一次性标记，落在 `<Chise 数据目录>/state/`。设置页写它、托盘消费它：
 #: 设置页所在的引导服务在设置完成的那一刻就会被托盘停掉，扫描不能跑在它的进程里。
 SCAN_REQUEST_NAME = "first-scan.request"
 RELOAD_NAME = "configuration-reload.request"
@@ -99,10 +99,10 @@ class Answers:
 def validate_data_root(raw: str) -> Path:
     text = raw.strip()
     if not text:
-        raise ValueError("Peach 数据目录不能为空")
+        raise ValueError("Chise 数据目录不能为空")
     path = Path(text).expanduser()
     if path.is_file():
-        raise ValueError(f"{path} 是一个文件，Peach 数据目录要是目录")
+        raise ValueError(f"{path} 是一个文件，Chise 数据目录要是目录")
     return path
 
 
@@ -240,7 +240,7 @@ def questions(
     home = Path.home() if home is None else home
     media_default = default_media_dir(home, windows=windows)
     return (
-        Question("data_root", "数据目录（Peach 数据库、缓存和设置文件都放在这里）",
+        Question("data_root", "数据目录（Chise 数据库、缓存和设置文件都放在这里）",
                  str(config.data_root), validate_data_root),
         Question("media_dir", "媒体目录（必须已经存在，可以在外置硬盘上）",
                  str(media_default) if media_default else "",
@@ -294,7 +294,7 @@ def collect(
     """逐题产出 `(Answers 的字段名, 值)`。`ask` 由前端注入，测试用脚本化答案驱动。
 
     媒体目录问完第一个之后接着问「再加一个」，回车即结束，整组目录作为 `media_dirs`
-    一次产出；页面上对应的是「添加文件夹」。做成生成器是为了让命令行在 Peach 数据目录那一题
+    一次产出；页面上对应的是「添加文件夹」。做成生成器是为了让命令行在 Chise 数据目录那一题
     之后就能判「设置文件已存在」并退出，不必等剩下的题答完。
     """
     for question in questions(config, windows=windows, home=home):
@@ -386,9 +386,9 @@ class Applied:
 def resolve_config(
     data_root: Path | None = None, environ: dict[str, str] | None = None,
 ) -> tuple[PeachConfig, settings_file.SettingsFileError | None]:
-    """按给定 Peach 数据目录重新解析设置；文件坏了就退回内建默认并把错误一并交出。
+    """按给定 Chise 数据目录重新解析设置；文件坏了就退回内建默认并把错误一并交出。
 
-    `peach init` 与设置页都要在拿到 Peach 数据目录之后重新解析一次：Peach 数据目录决定设置文件在哪，
+    `peach init` 与设置页都要在拿到 Chise 数据目录之后重新解析一次：Chise 数据目录决定设置文件在哪，
     而进程启动时那一份是按发现顺序算的，用户完全可以填一个别的目录。
     """
     environ = dict(os.environ if environ is None else environ)
@@ -497,7 +497,7 @@ def mounts_explanation(media_dirs: Sequence[Path | str] | Path | str) -> str:
         media_dirs = (media_dirs,)
     shown = "、".join(str(path) for path in media_dirs) or "（还没填）"
     roots = "、".join(posix_declared_roots(max(len(media_dirs), 1)))
-    return (f"Peach 数据库用 Windows 格式保存影片路径，前缀为 {roots}；"
+    return (f"Chise 数据库用 Windows 格式保存影片路径，前缀为 {roots}；"
             f"实际媒体目录为 {shown}，按相同顺序保存在 [media.mounts] local，读取文件前自动转换。")
 
 

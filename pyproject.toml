@@ -57,9 +57,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/peach-mitao/peach"
-Repository = "https://github.com/peach-mitao/peach"
-Issues = "https://github.com/peach-mitao/peach/issues"
+Homepage = "https://github.com/elebebit/Chise"
+Repository = "https://github.com/elebebit/Chise"
+Issues = "https://github.com/elebebit/Chise/issues"
 
 [project.scripts]
 peach = "peach.error_reporting:cli_main"
@@ -77,7 +77,10 @@ build = [
     "pyinstaller==6.22.3",
     "dmgbuild==1.6.7; sys_platform == 'darwin'",
 ]
-macos = ["pyobjc-framework-Cocoa==12.2.2; sys_platform == 'darwin'"]
+macos = [
+    "pyobjc-framework-Cocoa==12.2.2; sys_platform == 'darwin'",
+    "pywebview==6.2.1; sys_platform == 'darwin'",
+]
 # numpy 本来就是 opencv 的传递依赖，这里显式钉住：`face_detect.decode` 直接 import 它
 # 把字节喂给 `cv2.imdecode`，被 import 的外部模块必须有声明的归属。
 vision = ["opencv-python-headless==5.0.0.93", "numpy==2.5.4"]

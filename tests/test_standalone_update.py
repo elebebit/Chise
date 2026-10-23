@@ -178,7 +178,7 @@ class StandaloneUpdateTests(unittest.TestCase):
         archive = output / "Peach-1.0.0-windows-x64-update.zip"
         release = dict(state="available", latest_version="1.0.0", asset_size=archive.stat().st_size,
                        asset_digest="sha256:" + update_packages.digest(archive),
-                       asset_url="https://github.com/peach-mitao/peach/releases/download/v1.0.0/" + archive.name,
+                       asset_url="https://github.com/elebebit/Chise/releases/download/v1.0.0/" + archive.name,
                        package_kind="update")
         return source, output, manifest, target, archive, release
 

@@ -130,7 +130,7 @@ def prepare(program: Path, owner: int, error_file: Path) -> int:
         previous = job_recovery.legacy_library_request(db)
         update_tasks.wait_quiescent(db)
         if not stop(program):
-            raise update_tasks.UpdateBusy('Peach 尚未退出，安装未完成。请稍后重试。')
+            raise update_tasks.UpdateBusy('Chise 尚未退出，安装未完成。请稍后重试。')
         job_recovery.import_legacy_library(db, previous)
         return 0
     except Exception as exc:
@@ -158,7 +158,7 @@ def prepare_install_tools(program: Path, cache: Path, error_file: Path, *, stage
                 standalone_update.download(url, archive, size, checksum, progress)
 
         release = {'latest_version': __version__,
-                   'asset_url': f'https://github.com/peach-mitao/peach/releases/download/v{__version__}/package.zip'}
+                   'asset_url': f'https://github.com/elebebit/Chise/releases/download/v{__version__}/package.zip'}
         with tempfile.TemporaryDirectory(prefix='peach-installer-tools-', dir=stage.parent) as folder:
             standalone_update.prepare_tools(stage, program, Path(folder).resolve(), release, {'total': 0, 'downloaded': 0},
                                             report=lambda data, **changes: data.update(changes), fetch=fetch)

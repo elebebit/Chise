@@ -23,7 +23,7 @@ LOGGER = logging.getLogger(__name__)
 CREDENTIAL = "jav-browser"
 ACTIVE = {"queued", "searching"}
 MESSAGES = {
-    "idle": "加入 Peach", "queued": "等待搜索磁力", "searching": "正在搜索磁力",
+    "idle": "加入 Chise", "queued": "等待搜索磁力", "searching": "正在搜索磁力",
     "submitted": "云下载进行中", "ingested": "已入库", "owned": "馆藏已有这部作品",
     "failed": "添加失败，可重试", "no_match": "未找到可自动下载的磁力，可重试",
 }
@@ -250,7 +250,7 @@ class JavBrowser:
                 elif candidate is None:
                     failed = result.get("state") in {"error", "unavailable"} or bool(result.get("error"))
                     row.update(state="failed" if failed else "no_match", message=(
-                        "资源搜索暂不可用，请在 Peach 检查来源后重试" if failed else MESSAGES["no_match"]))
+                        "资源搜索暂不可用，请在 Chise 检查来源后重试" if failed else MESSAGES["no_match"]))
                 else:
                     submitted = submit_offline_download(
                         self.downloads, magnet=candidate["uri"], provider=provider, code=code,
@@ -263,7 +263,7 @@ class JavBrowser:
             LOGGER.error("JAV 浏览器添加失败：%s (%s)", code, type(error).__name__)
             with self._lock:
                 if row["state"] == "searching":
-                    row.update(state="failed", message="搜索或云下载提交失败，请在 Peach 检查下载渠道后重试")
+                    row.update(state="failed", message="搜索或云下载提交失败，请在 Chise 检查下载渠道后重试")
                     self._save()
         return True
 

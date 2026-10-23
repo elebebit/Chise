@@ -97,7 +97,7 @@ class PrivateArtifactTests(unittest.TestCase):
         self.assertIsNotNone(COLLECTION_INVENTORY.search("本机盘点有 1234 部作品"))
         self.assertIsNotNone(PRIVATE_RECORD_PATH.search("peach-data/review/current-catalog.csv"))
         self.assertIsNone(COLLECTION_INVENTORY.search("示例库包含 12 部合成视频"))
-        self.assertIsNone(PRIVATE_RECORD_PATH.search("<Peach 数据目录>/review/<复核产物>"))
+        self.assertIsNone(PRIVATE_RECORD_PATH.search("<Chise 数据目录>/review/<复核产物>"))
 
 
 def _loose_files(top: pathlib.Path) -> list[str]:
@@ -394,7 +394,7 @@ class PersonalLiteralTests(unittest.TestCase):
                 if PERSONAL_LITERAL.search(text)
             ]
         self.assertEqual(offenders, [],
-                         "把它搬进 <Peach 数据目录>/config.toml（peach init --from-existing 会生成），"
+                         "把它搬进 <Chise 数据目录>/config.toml（peach init --from-existing 会生成），"
                          "或者做成命令行参数")
 
     def test_the_guard_catches_the_shape_it_describes(self):
@@ -504,7 +504,7 @@ class MachineCoordinateTests(unittest.TestCase):
             for number, line in enumerate(text.splitlines(), 1):
                 if COLLECTION_INVENTORY.search(line) or PRIVATE_RECORD_PATH.search(line.replace("\\", "/")):
                     offenders.append(f"{name}:{number}")
-        self.assertEqual(offenders, [], "馆藏盘点与私有记录名应保存在部署 Peach 数据目录，检查输出只列文件和行号")
+        self.assertEqual(offenders, [], "馆藏盘点与私有记录名应保存在部署 Chise 数据目录，检查输出只列文件和行号")
 
     def test_no_tracked_file_names_this_machine(self):
         """本机的账号名与主机名对任何维护者都成立，正好不用在正则里点名。

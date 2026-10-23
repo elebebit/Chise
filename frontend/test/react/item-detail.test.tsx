@@ -499,7 +499,7 @@ describe('侧栏怎么读', () => {
       is_jav: true, performers: ['七海ひな', '桜井まい'],
       entity_refs: {
         performer: [{ id: 1, name: '七海ひな' }, { id: null, name: '桜井まい' }],
-        studio: [{ id: 5, name: 'Peach Studio', has_logo: true }],
+        studio: [{ id: 5, name: 'Chise Studio', has_logo: true }],
         series: [{ id: 7, name: '夏日系列' }],
       },
     } as Partial<DetailItem>));
@@ -509,7 +509,7 @@ describe('侧栏怎么读', () => {
     const bare = [...host.querySelectorAll('[data-id-cell]')].find((cell) => cell.textContent?.includes('桜井まい'));
     expect(bare?.tagName).toBe('SPAN');
     expect(bare?.hasAttribute('data-entity-kind')).toBe(false);
-    expect(host.querySelector('[data-id-cell="studio"] img')?.getAttribute('src')).toBe('/logo?studio=Peach%20Studio&variant=icon');
+    expect(host.querySelector('[data-id-cell="studio"] img')?.getAttribute('src')).toBe('/logo?studio=Chise%20Studio&variant=icon');
     const series = host.querySelector('[data-series-link]');
     expect(glyph(series)).toBe('#i-tags');
     await click(series);

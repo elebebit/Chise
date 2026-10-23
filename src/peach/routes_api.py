@@ -119,7 +119,7 @@ def reveal(request: Request, body: dict[str, Any] = Body(default_factory=dict), 
         target = _own_data_path(str(body.get("path") or ""))
         if target is None:
             return JSONResponse({"error": "path not in the data root",
-                                 "message": "这个位置不归 Peach 管，只能自己打开"}, status_code=403)
+                                 "message": "这个位置不归 Chise 管，只能自己打开"}, status_code=403)
         if not target.exists():
             return JSONResponse({"error": "file missing",
                                  "message": "这个位置已经不在了"}, status_code=410)

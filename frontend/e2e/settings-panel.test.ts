@@ -49,7 +49,7 @@ describe('设置面板', () => {
   before(async () => { browser = await launch() });
   after(async () => { await browser?.close() });
 
-  it('五个偏好分区各自显示对应设置，Peach 配置单独直达配置页', { timeout: 60_000 }, async () => {
+  it('五个偏好分区各自显示对应设置，Chise 配置单独直达配置页', { timeout: 60_000 }, async () => {
     const opened = await openHome(browser);
     const { page } = opened;
     try {
@@ -65,7 +65,7 @@ describe('设置面板', () => {
         assert.deepEqual((await layout(page)).offenders, []);
       }
       assert.equal(await page.locator(`${PANEL} #videoThumbnailSetting, ${PANEL} #followScheduleSetting`).count(), 0);
-      const configuration = page.locator(PANEL).getByRole('button', { name: 'Peach 配置', exact: true });
+      const configuration = page.locator(PANEL).getByRole('button', { name: 'Chise 配置', exact: true });
       await configuration.click();
       await page.waitForURL((url) => url.pathname === '/settings/library');
       await page.locator(PANEL).waitFor({ state: 'hidden' });

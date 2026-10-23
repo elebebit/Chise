@@ -12,9 +12,9 @@ const questions = (over: Partial<SetupQuestions> = {}): SetupQuestions => ({
   windows: true,
   standalone: false,
   questions: [
-    { key: 'data_root', label: '数据目录', help: ['Peach 数据库、缓存和设置文件都放在这里。'], default: 'C:\\peach-data',
+    { key: 'data_root', label: '数据目录', help: ['Chise 数据库、缓存和设置文件都放在这里。'], default: 'C:\\peach-data',
       required: true, advanced: true, input: 'text', prefix: '', suffix: '' },
-    { key: 'media_dir', label: '媒体库', help: ['Peach 从媒体库读取视频和图片。'], default: 'D:\\Videos',
+    { key: 'media_dir', label: '媒体库', help: ['Chise 从媒体库读取视频和图片。'], default: 'D:\\Videos',
       required: true, advanced: false, input: 'folders', prefix: '', suffix: '' },
     { key: 'host', label: '谁可以访问', help: [], default: '2', required: false, advanced: true, input: 'choice',
       prefix: '', suffix: '', options: [{ value: '2', label: '同一局域网的设备' }, { value: '1', label: '只有这台电脑' }] },
@@ -99,7 +99,7 @@ function expectAnnounced(root: HTMLElement, input: Element | null | undefined, m
 
 it('题目、默认值与题面来自读题接口：媒体库一行在外面，其余折进高级设置', async () => {
   const { host } = await open();
-  expect(host.querySelector('h1')?.textContent).toBe('欢迎使用 Peach');
+  expect(host.querySelector('h1')?.textContent).toBe('欢迎使用 Chise');
   expect(paths(host).map((input) => input.value)).toEqual(['D:\\Videos']);
   expect(advanced(host)?.getAttribute('aria-expanded')).toBe('false');
   expect(field(host, 'port')?.value).toBe('8900');
@@ -261,13 +261,13 @@ describe('完成态', () => {
     await submitForm(host);
     expect(host.querySelector('h1')?.textContent).toBe('设置完成');
     expect(host.textContent).toContain('正在启动馆藏。');
-    expect(host.textContent).toContain('首次扫描已排队，在后台整理媒体库，期间可以照常使用 Peach。');
-    const entry = [...host.querySelectorAll('a')].find((link) => link.textContent === '进入 Peach');
+    expect(host.textContent).toContain('首次扫描已排队，在后台整理媒体库，期间可以照常使用 Chise。');
+    const entry = [...host.querySelectorAll('a')].find((link) => link.textContent === '进入 Chise');
     expect(entry?.getAttribute('href')).toBe('http://127.0.0.1:8900/?onboarding=1');
     expect(document.activeElement).toBe(entry);
     const facts = [...host.querySelectorAll('summary')].find((node) => node.textContent === '运行信息');
     expect(facts?.getAttribute('aria-expanded')).toBe('false');
-    expect(document.title).toBe('Peach · 设置完成');
+    expect(document.title).toBe('Chise · 设置完成');
   });
 
   it('选了导入浏览器历史又没扫描时，入口换成导入历史', async () => {
@@ -308,7 +308,7 @@ it('别的设备打开时读题接口回 403，只说去哪里打开、不画表
   const host = await mount(<SetupPage />);
   await settle();
   expect(host.querySelector('form')).toBeNull();
-  expect(host.querySelector('[role="alert"]')?.textContent).toBe('请在运行 Peach 的这台电脑上打开设置。');
+  expect(host.querySelector('[role="alert"]')?.textContent).toBe('请在运行 Chise 的这台电脑上打开设置。');
 });
 
 it('读题失败时给原因和重试', async () => {

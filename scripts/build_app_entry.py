@@ -132,7 +132,7 @@ def main(argv: list[str] | None = None) -> int:
         from peach.support_bundle import save_bundle
         path = save_bundle(Path(argv[2]) if len(argv) == 3 else None)
         if len(argv) == 2 and os.name == "nt":
-            ctypes.windll.user32.MessageBoxW(None, f"诊断报告已保存：\n{path}", "Peach 诊断报告", 0x40)
+            ctypes.windll.user32.MessageBoxW(None, f"诊断报告已保存：\n{path}", "Chise 诊断报告", 0x40)
         elif sys.stdout is not None:
             print(path)
         return 0
@@ -163,7 +163,7 @@ if __name__ == "__main__":
     except Exception as error:
         message = error_reporting.failure_details("desktop-entry", error)
         if os.name == "nt":
-            ctypes.windll.user32.MessageBoxW(None, message, "Peach 启动失败", 0x10)
+            ctypes.windll.user32.MessageBoxW(None, message, "Chise 启动失败", 0x10)
         elif sys.stderr is not None:
             print(message, file=sys.stderr)
         raise SystemExit(1)

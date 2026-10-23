@@ -1,5 +1,5 @@
 /* 矩形块拼贴参考 Folia 的 blockTemplates/layout，AGPL-3.0，固定 revision
- * 9a01e788ed52d25ea01b1f0d37934e5e371ae82b。Peach 按浏览位置接续馆藏。 */
+ * 9a01e788ed52d25ea01b1f0d37934e5e371ae82b。Chise 按浏览位置接续馆藏。 */
 import { getBlockTemplate, getBlockReflow } from './folia/blockTemplates';
 import type { MediaItem } from '../catalog-grid/types';
 export interface WallRect { x: number; y: number; width: number; height: number }

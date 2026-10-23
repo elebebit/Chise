@@ -110,14 +110,14 @@ export function UninstallSettings(
   const [removeData, setRemoveData] = useState(false);
   const [accepted, setAccepted] = useState('');
   const remove = () => void confirmModal({
-    title: '卸载 Peach',
+    title: '卸载 Chise',
     danger: true,
     body: removeData
-      ? '将退出 Peach，移除程序、开机自启、桌面图标、设置、本地数据库、观看记录、凭据和缓存。原始媒体文件保留。'
-      : '将退出 Peach 并移除程序、开机自启和桌面图标。设置、本地数据库、观看记录与缓存保留。',
-    confirmLabel: '卸载 Peach',
+      ? '将退出 Chise，移除程序、开机自启、桌面图标、设置、本地数据库、观看记录、凭据和缓存。原始媒体文件保留。'
+      : '将退出 Chise 并移除程序、开机自启和桌面图标。设置、本地数据库、观看记录与缓存保留。',
+    confirmLabel: '卸载 Chise',
     onConfirm: async () => {
-      const result = await apiSend<{ message: string }>('/api/configuration/uninstall', { delete_data: removeData, confirmation: '卸载 Peach' });
+      const result = await apiSend<{ message: string }>('/api/configuration/uninstall', { delete_data: removeData, confirmation: '卸载 Chise' });
       setAccepted(result.message);
     },
   });
@@ -126,8 +126,8 @@ export function UninstallSettings(
   const status = accepted || uninstall.message;
   const paths = [...new Set([uninstall.data_root, ...uninstall.directories])];
   return (
-    <Section id="uninstallPeach" title="卸载 Peach">
-      {uninstall.available ? <Stack><Help>卸载移除 Peach 程序本身，原始媒体文件保留。</Help></Stack> : null}
+    <Section id="uninstallPeach" title="卸载 Chise">
+      {uninstall.available ? <Stack><Help>卸载移除 Chise 程序本身，原始媒体文件保留。</Help></Stack> : null}
       <Rows>
         <SettingsRow label="完全卸载" description="同时删除设置、本地数据库、观看记录、凭据和缓存">
           <Switch aria-label="完全卸载" isSelected={removeData} isDisabled={!uninstall.full_available || Boolean(accepted)} onChange={setRemoveData} />
@@ -141,7 +141,7 @@ export function UninstallSettings(
         </Disclosure>
       </Stack>
       <Footer status={status ? <p role={accepted ? 'status' : undefined}>{status}</p> : null}>
-        <Button variant="danger" disabled={!uninstall.available || Boolean(accepted)} onClick={remove}>卸载 Peach</Button>
+        <Button variant="danger" disabled={!uninstall.available || Boolean(accepted)} onClick={remove}>卸载 Chise</Button>
       </Footer>
     </Section>
   );

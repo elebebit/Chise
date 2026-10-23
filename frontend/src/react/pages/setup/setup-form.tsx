@@ -205,12 +205,12 @@ export function SetupForm({ setup, onDone }: { setup: SetupQuestions; onDone: (d
         <div className="flex items-start justify-between gap-4">
           <div className="flex min-w-0 flex-col gap-0.5">
             <GroupTitle id="setup-access-title">访问密码</GroupTitle>
-            <p id="setup-access-description" className="text-body-2-regular text-text-secondary">开启后，访问 Peach 需要先登录。</p>
+            <p id="setup-access-description" className="text-body-2-regular text-text-secondary">开启后，访问 Chise 需要先登录。</p>
           </div>
           <Switch aria-labelledby="setup-access-title" aria-describedby="setup-access-description"
             isSelected={accessOn} onChange={setAccessOn} />
         </div>
-        <Help>未设置密码时，能连接到 Peach 的设备可直接进入。</Help>
+        <Help>未设置密码时，能连接到 Chise 的设备可直接进入。</Help>
         {accessOn
           ? <PasswordPair label="访问密码" password={password} confirmation={confirmation}
               onPassword={setPassword} onConfirmation={setConfirmation}

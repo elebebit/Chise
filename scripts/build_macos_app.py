@@ -56,7 +56,7 @@ def build(destination: Path, tray: Path) -> Path:
 
     info = {
         "CFBundleName": "Peach",
-        "CFBundleDisplayName": "Peach 蜜桃",
+        "CFBundleDisplayName": "Chise",
         "CFBundleIdentifier": BUNDLE_ID,
         "CFBundleVersion": __version__,
         "CFBundleShortVersionString": __version__,

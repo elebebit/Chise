@@ -9,8 +9,8 @@ from . import __version__, distribution
 from .http import HttpRequest, HttpxTransport
 from .update_packages import TOOL_PATHS
 
-RELEASES_URL = "https://github.com/peach-mitao/peach/releases"
-API_URL = "https://api.github.com/repos/peach-mitao/peach/releases?per_page=100"
+RELEASES_URL = "https://github.com/elebebit/Chise/releases"
+API_URL = "https://api.github.com/repos/elebebit/Chise/releases?per_page=100"
 
 
 def snapshot() -> dict:

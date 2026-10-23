@@ -50,12 +50,12 @@ it('展开作品表格并复制可识别信息；零结果有独立空态', asyn
   expect(host.querySelector('[data-empty-state]')?.textContent).toContain('清单为空');
 });
 it('请求失败保留原因和重试入口', async () => {
-  vi.stubGlobal('fetch', fetchMock(403, { detail: '请在运行 Peach 的电脑上打开系统诊断' }));
+  vi.stubGlobal('fetch', fetchMock(403, { detail: '请在运行 Chise 的电脑上打开系统诊断' }));
   const props = { navigate: vi.fn(), configure: vi.fn(), openItem: vi.fn(), receipt: vi.fn() };
   const host = await mount(<QueryClientProvider client={queryClient}><DiagnosticsPage {...props} /></QueryClientProvider>);
   await settle();
   expect(host.textContent).toContain('诊断读取失败');
-  expect(host.textContent).toContain('请在运行 Peach 的电脑上打开系统诊断');
+  expect(host.textContent).toContain('请在运行 Chise 的电脑上打开系统诊断');
   expect(buttonNamed('重新检查', host)).not.toBeNull();
 });
 it('异常检查位于首区，其他检查可展开且没有重复条目', async () => {

@@ -412,8 +412,8 @@ def next_steps(output: Path) -> str:
                     f"local = '{resolved.as_posix()}'"]
     return "\n".join([
         "下一步：",
-        "1. 建一个演示 Peach 数据目录：peach init --data-root <目录> --no-input",
-        "2. 在该 Peach 数据目录的设置文件里声明来源根：",
+        "1. 建一个演示 Chise 数据目录：peach init --data-root <目录> --no-input",
+        "2. 在该 Chise 数据目录的设置文件里声明来源根：",
         *(f"     {line}" for line in settings),
         "3. peach scan local，再 peach process；候选在复核页全选通过，或按字段跑",
         "     scripts/apply_metadata_tags.py <候选 CSV> --db <账本> --source local_nfo --field <字段> --apply --backup <备份>",

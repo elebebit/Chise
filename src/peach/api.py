@@ -92,10 +92,10 @@ LOGGER = logging.getLogger(__name__)
 BUILD = frozen_build()
 
 #: gzip 不碰的内容类型。Starlette 的默认名单已经排掉 `video/*`、`audio/*` 和各种
-#: 已压缩的图片，这里再补两个它没排、而 Peach 会真的撞上的：
+#: 已压缩的图片，这里再补两个它没排、而 Chise 会真的撞上的：
 #: `application/octet-stream` 是通用字节流；`text/plain` 是 `FileResponse` 猜不出
 #: 扩展名时的兜底值，`/stream` 与 `/photo` 都不传 media_type，一个没登记过扩展名的
-#: 媒体文件会以 `text/plain` 出去——压它纯属烧 CPU。Peach 自己有意发的
+#: 媒体文件会以 `text/plain` 出去——压它纯属烧 CPU。Chise 自己有意发的
 #: `text/plain` 只有 "missing" 这类错误提示，本来就在 `minimum_size` 之下。
 COMPRESSION_EXCLUDED_TYPES = (
     *DEFAULT_EXCLUDED_CONTENT_TYPES, "application/octet-stream", "text/plain",
@@ -416,7 +416,7 @@ def create_app(
             hls_plan_executor.shutdown(wait=False, cancel_futures=True)
 
     app = FastAPI(
-        title="Peach API",
+        title="Chise API",
         version=__version__,
         lifespan=lifespan,
         docs_url="/docs" if settings.docs_enabled else None,
@@ -511,7 +511,7 @@ def create_app(
         return JSONResponse({'error': '服务处理失败，请导出诊断报告',
                              'error_id': headers['X-Peach-Error-ID']}, status_code=500, headers=headers)
 
-    # 第三方前端依赖固定版本并随 Peach 自托管；局域网断网时仍可播放。
+    # 第三方前端依赖固定版本并随 Chise 自托管；局域网断网时仍可播放。
     app.mount(
         "/vendor",
         StaticFiles(directory=settings.vendor_path, check_dir=False),

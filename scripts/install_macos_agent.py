@@ -97,7 +97,7 @@ def remove_legacy_agents(domain: str) -> list[str]:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="注册 / 注销 Peach 菜单栏项的 LaunchAgent")
+    parser = argparse.ArgumentParser(description="注册 / 注销 Chise 菜单栏项的 LaunchAgent")
     parser.add_argument("action", choices=("install", "uninstall", "status"),
                         nargs="?", default="install")
     parser.add_argument("--tray", type=Path,

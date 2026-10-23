@@ -211,7 +211,7 @@ class PikPakClient:
     def _drive_captcha(self, action: str) -> str:
         profile = self.profile
         if not profile.known:
-            raise DownloadError("config", f"PikPak 网页端的客户端标识是 {profile.client_id}，Peach 没有它的签名常量，"
+            raise DownloadError("config", f"PikPak 网页端的客户端标识是 {profile.client_id}，Chise 没有它的签名常量，"
                                           "提交不了离线任务。可以先复制磁力手动添加")
         stamp = profile.sign_timestamp or str(int(self.clock() * 1000))
         try:

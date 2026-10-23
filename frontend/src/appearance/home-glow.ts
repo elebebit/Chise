@@ -47,7 +47,7 @@ const HOME_GLOW_PRESETS:readonly (readonly [key:string,label:string,palette:Glow
     spot1:{color:'#3f9e57',alpha:66},spot2:{color:'#7fae4a',alpha:48},spot3:{color:'#4f9463',alpha:56}},'emerald'],
   /* 下面十二档照 feralui.dev/gradients 预设区那十二枚 chip 取色，逐档记在
      docs/reference-snapshots/feralui-gradients-measured.md。它每档四枚色标，第一枚一律是
-     铺满画布的底色（十一档near-white、Midnight bloom 那档是近黑），Peach 没有底色层——
+     铺满画布的底色（十一档near-white、Midnight bloom 那档是近黑），Chise 没有底色层——
      三枚光晕各自向 transparent 收边、身后就是页面自己的面，把那一枚搬过来在深色侧栏上
      等于没有、在浅色侧栏上是一团脏。所以取的是第二、三、四枚，也就是它真正当光斑用的
      那三枚。不透明度不跟着走：那是这块玻璃自己的浓淡，统一用默认档那一组。

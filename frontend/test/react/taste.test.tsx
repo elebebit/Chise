@@ -154,7 +154,7 @@ it('首屏读 prefetch 落进缓存的那一份，两套证据是页签不是并
   expect(tasteGets(fetcher)).toHaveLength(1);
   expect(tasteGets(fetcher)[0]?.[0]).toBe(`${TASTE_URL}?window=all`);
   expect([...host.querySelectorAll('[role=tab]')].map((tab) => tab.textContent).slice(0, 2))
-    .toEqual(['浏览器记录', 'Peach 内部']);
+    .toEqual(['浏览器记录', 'Chise 内部']);
   expect(host.textContent).toContain('900');
   expect(host.textContent).not.toContain('个作品有内部行为证据');
 });
@@ -176,7 +176,7 @@ it('数据源与名次底下的数加千分位，没有起止日期时只读数�
   expect(historySpan({ history_sources: 2, range_start: '2026-01-01', range_end: '2026-09-01' }))
     .toMatch(/^2 个数据源 · .+–.+$/);
   expect(rankDetail({ name: '甲', web_visits: 12345, peach_items: 6789 }))
-    .toBe(`浏览 ${(12345).toLocaleString()} · Peach ${(6789).toLocaleString()}`);
+    .toBe(`浏览 ${(12345).toLocaleString()} · Chise ${(6789).toLocaleString()}`);
   expect(rankDetail({ name: '乙', web_visits: 5, web_bookmarks: 3 })).toBe('浏览 2 · 书签 3');
 });
 
@@ -203,11 +203,11 @@ it('维度不足三个时画像卡不出雷达，排行条照常出', async () =
 
 it('没有名次的榜给一句怎么补，不重复「暂无足够证据」', async () => {
   const { host } = await open();
-  await click([...host.querySelectorAll('[role=tab]')].find((tab) => tab.textContent === 'Peach 内部') ?? null);
+  await click([...host.querySelectorAll('[role=tab]')].find((tab) => tab.textContent === 'Chise 内部') ?? null);
   await click([...host.querySelectorAll('[role=tab]')].find((tab) => tab.textContent === '创作者') ?? null);
   const panel = [...host.querySelectorAll('[role=tabpanel]')].at(-1)!;
   expect(panel.textContent).toContain('暂无足够证据');
-  expect(panel.textContent).toContain('在 Peach 里播放或评价作品后，这里会列出对应的创作者。');
+  expect(panel.textContent).toContain('在 Chise 里播放或评价作品后，这里会列出对应的创作者。');
 });
 
 it('雷达半径按平方根刻度：最大的维度落在外圈，浮层读的仍是原始次数', async () => {
