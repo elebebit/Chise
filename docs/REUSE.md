@@ -1,5 +1,9 @@
 # 复用清单
 
+## Chise 品牌图标
+
+品牌原图为 `resources/Chise.png`。通过 `scripts/generate_brand_assets.py resources/Chise.png` 生成网页 Logo、多尺寸 Windows 图标与内嵌位图的 SVG favicon，再通过 `scripts/make_macos_icon.py` 生成带系统图标留白的 `.icns`。图片处理复用已固定的 Pillow，macOS 图标打包复用系统 `iconutil`。菜单栏保留品牌原色与内部字形，应用包从 `resources/peach.icns` 复制图标。资源文件名保持运行入口兼容，不改变 ledger 或访问配置。
+
 ## Chise 原生窗口
 
 macOS 源码窗口复用 `pywebview==6.2.1`（BSD-3-Clause），用系统 WebKit 显示现有前端，窗口 API 与持久会话遵循 [官方 API](https://pywebview.flowrl.com/api/)。本机 Python 3.14 已安装该版本；依赖通过 `macos` 可选组与 `uv.lock` 固定。Chise 只负责 `/healthz` 身份检查、托盘启动与等待上限，不复制浏览器引擎或前端业务。系统 WebKit 限定可播放的编码；完整独立发行仍使用现有打包流程。窗口存储沿用本机目录，ledger 与生产入口不在构建时修改。

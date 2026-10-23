@@ -121,7 +121,7 @@ from .web_router import (
     dispatch_api_get,
     dispatch_api_post,
 )
-from .web_state import CACHE_TTL, FAVICON, WebContract
+from .web_state import CACHE_TTL, WebContract
 from .web_stats import (
     TASTE_WINDOWS,
     q_quality_goals,
@@ -140,7 +140,6 @@ __all__ = [
     "write_owned_fields",
     "CARD_PERFORMERS", "CONTENT_BYTES", "ContractRouteNotFound", "EDITION_ORDER",
     "EFFECTIVE_REGION_SQL", "effective_region_sql",
-    "FAVICON",
     "GET_HANDLERS", "INTERNET_SHORTCUT_SUFFIXES", "JAV_ASSET_CLAUSE",
     "JAV_ASSET_PREDICATE", "JUNK_KINDS", "LENGTH_TAGS", "PART_MARK", "POST_HANDLERS",
     "PROMO_CLUSTER_FILES", "PROMO_DOMAIN", "PROMO_FILLER", "PROMO_PHRASE",

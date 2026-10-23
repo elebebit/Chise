@@ -1,7 +1,9 @@
-"""Generate Peach's square raster logo and Windows icon from the supplied artwork."""
+"""从品牌原图生成方形 Logo、Windows 图标和内嵌位图的 SVG favicon。"""
 from __future__ import annotations
 
 import argparse
+import base64
+import io
 from pathlib import Path
 
 from PIL import Image
@@ -35,6 +37,14 @@ def generate(source: Path, output_dir: Path) -> None:
         output_dir / "peach.ico",
         format="ICO",
         sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)],
+    )
+    favicon = io.BytesIO()
+    logo.resize((64, 64), Image.Resampling.LANCZOS).save(favicon, format="PNG", optimize=True)
+    payload = base64.b64encode(favicon.getvalue()).decode("ascii")
+    (output_dir / "favicon.svg").write_text(
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'
+        f'<image width="64" height="64" href="data:image/png;base64,{payload}"/></svg>\n',
+        encoding="utf-8",
     )
 
 

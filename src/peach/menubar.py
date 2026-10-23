@@ -8,8 +8,8 @@
 2. `NSImage.setSize_(18, 18)` —— 菜单栏高度是 22pt、图标按 18pt 画。直接把 64px 的
    PNG 塞进按钮，画出来要么被裁掉要么糊成一坨。
 
-它也不调 `setTemplate_`，所以图标不会跟着浅色/深色菜单栏反色。三件事都得自己补，
-补完等于把它那层薄封装重写一遍，不如直接用 AppKit——Windows 那边继续用 pystray。
+图标按品牌原色显示，由 `setTemplate_(False)` 保留底板与内部字形。
+菜单栏生命周期直接使用 AppKit；Windows 使用 pystray。
 
 判据不是猜的：`item.button().window().frame()` 能直接读出状态项落在屏幕的哪个位置，
 本机实测 `x=858 w=34`（屏宽 1512），确认它确实被放上了菜单栏。
@@ -35,7 +35,7 @@ ICON_POINTS = 18
 
 
 def nsimage(image: Image.Image, *, points: int = ICON_POINTS) -> AppKit.NSImage:
-    """把 PIL 图转成菜单栏用的 template NSImage。"""
+    """把品牌原色图转成适配 Retina 的菜单栏 NSImage。"""
     buffer = io.BytesIO()
     image.convert("RGBA").resize((points * 2, points * 2), Image.Resampling.LANCZOS).save(
         buffer, "PNG")
@@ -44,8 +44,8 @@ def nsimage(image: Image.Image, *, points: int = ICON_POINTS) -> AppKit.NSImage:
     result = AppKit.NSImage.alloc().initWithData_(data)
     # 尺寸按点设，位图给两倍以适配 Retina。
     result.setSize_(AppKit.NSMakeSize(points, points))
-    # template image 由系统按菜单栏明暗自动反色；彩色图不会跟着变。
-    result.setTemplate_(True)
+    # 品牌图包含不透明底板，按原色显示才能保留内部字形。
+    result.setTemplate_(False)
     return result
 
 
