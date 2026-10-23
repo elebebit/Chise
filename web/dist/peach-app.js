@@ -31872,24 +31872,51 @@ function oD() {
 //#endregion
 //#region src/player/v10-player.ts
 var sD = (e) => typeof e == "string" ? [e] : e, Ude = (e, t) => {
-	let n = document.createElement("div"), r = document.createElement("video-player");
-	n.className = "video-js vjs-paused vjs-user-active", n.id = e.id || `peach-player-${crypto.randomUUID()}`, n.setAttribute("lang", "zh-CN");
-	let i = document.createElement("media-container"), a = document.createElement("hlsjs-video");
-	e.parentNode?.replaceChild(n, e), e.removeAttribute("id"), e.className = "vjs-tech", e.slot = "media", e.controls = !1, e.preload = t.preload === "auto" ? "auto" : t.preload === "none" ? "none" : "metadata", t.poster && (e.poster = String(t.poster)), a.append(e), i.append(a), r.append(i), n.append(r), t.controls !== !1 && i.insertAdjacentHTML("beforeend", "<div class=\"vjs-loading-spinner\" aria-label=\"正在缓冲\"></div>\n      <div class=\"vjs-error-display\"><div class=\"vjs-modal-dialog-content\" role=\"alert\"></div></div>\n      <div class=\"vjs-control-bar\">\n        <media-play-button class=\"vjs-play-control vjs-control vjs-button\" label=\"播放\"></media-play-button>\n        <div class=\"vjs-volume-panel vjs-control vjs-volume-panel-horizontal\">\n          <media-mute-button class=\"vjs-mute-control vjs-control vjs-button\" label=\"静音\"></media-mute-button>\n          <div class=\"vjs-volume-control vjs-volume-horizontal\"><media-volume-slider class=\"vjs-volume-bar vjs-slider vjs-slider-horizontal\" label=\"音量\">\n            <media-slider-track><media-slider-fill class=\"vjs-volume-level\"></media-slider-fill></media-slider-track>\n            <media-slider-thumb class=\"vjs-volume-thumb\"></media-slider-thumb>\n            <media-slider-value class=\"vjs-volume-tooltip\"></media-slider-value>\n          </media-volume-slider></div>\n        </div>\n        <div class=\"vjs-progress-control vjs-control\"><media-time-slider class=\"vjs-progress-holder vjs-slider vjs-slider-horizontal\" label=\"播放进度\">\n          <media-slider-track><media-slider-buffer class=\"vjs-load-progress\"></media-slider-buffer><media-slider-fill class=\"vjs-play-progress\"></media-slider-fill></media-slider-track>\n          <media-slider-thumb class=\"vjs-progress-thumb\"></media-slider-thumb>\n        </media-time-slider></div>\n        <div class=\"vjs-subtitles-control vjs-control\"><button type=\"button\" class=\"vjs-button\" aria-label=\"开启字幕\" aria-pressed=\"false\">CC</button></div>\n        <media-pip-button class=\"vjs-picture-in-picture-control vjs-control vjs-button\" label=\"画中画\"></media-pip-button>\n        <media-fullscreen-button class=\"vjs-fullscreen-control vjs-control vjs-button\" label=\"全屏\"></media-fullscreen-button>\n      </div>");
-	let o = new EventTarget(), s = new AbortController(), c = s.signal, l = !1, u = 0, d = 0, f = 0, p = {
+	let n = window.chiseDesktop === !0, r = document.createElement("div"), i = document.createElement("video-player");
+	r.className = "video-js vjs-paused vjs-user-active", r.id = e.id || `peach-player-${crypto.randomUUID()}`, r.setAttribute("lang", "zh-CN");
+	let a = document.createElement("media-container"), o = document.createElement("hlsjs-video");
+	e.parentNode?.replaceChild(r, e), e.removeAttribute("id"), e.className = "vjs-tech", e.slot = "media", e.controls = !1, e.preload = t.preload === "auto" ? "auto" : t.preload === "none" ? "none" : "metadata", t.poster && (e.poster = String(t.poster)), o.append(e), a.append(o), i.append(a), r.append(i), t.controls !== !1 && a.insertAdjacentHTML("beforeend", `<div class="vjs-loading-spinner" aria-label="正在缓冲"></div>
+      <div class="vjs-error-display"><div class="vjs-modal-dialog-content" role="alert"></div></div>
+      <div class="vjs-control-bar">
+        <media-play-button class="vjs-play-control vjs-control vjs-button" label="播放"></media-play-button>
+        <div class="vjs-volume-panel vjs-control vjs-volume-panel-horizontal">
+          <media-mute-button class="vjs-mute-control vjs-control vjs-button" label="静音"></media-mute-button>
+          <div class="vjs-volume-control vjs-volume-horizontal"><media-volume-slider class="vjs-volume-bar vjs-slider vjs-slider-horizontal" label="音量">
+            <media-slider-track><media-slider-fill class="vjs-volume-level"></media-slider-fill></media-slider-track>
+            <media-slider-thumb class="vjs-volume-thumb"></media-slider-thumb>
+            <media-slider-value class="vjs-volume-tooltip"></media-slider-value>
+          </media-volume-slider></div>
+        </div>
+        <div class="vjs-progress-control vjs-control"><media-time-slider class="vjs-progress-holder vjs-slider vjs-slider-horizontal" label="播放进度">
+          <media-slider-track><media-slider-buffer class="vjs-load-progress"></media-slider-buffer><media-slider-fill class="vjs-play-progress"></media-slider-fill></media-slider-track>
+          <media-slider-thumb class="vjs-progress-thumb"></media-slider-thumb>
+        </media-time-slider></div>
+        <div class="vjs-subtitles-control vjs-control"><button type="button" class="vjs-button" aria-label="开启字幕" aria-pressed="false">CC</button></div>
+        <media-pip-button class="vjs-picture-in-picture-control vjs-control vjs-button" label="画中画"></media-pip-button>
+        ${n ? "<button type=\"button\" class=\"vjs-fullscreen-control vjs-control vjs-button\" aria-label=\"全屏\" aria-pressed=\"false\"></button>" : "<media-fullscreen-button class=\"vjs-fullscreen-control vjs-control vjs-button\" label=\"全屏\"></media-fullscreen-button>"}
+      </div>`);
+	let s = new EventTarget(), c = new AbortController(), l = c.signal, u = !1, d = 0, f = 0, p = 0, m = {
 		src: "",
 		type: ""
-	}, m = null, h, g = () => {
-		n.classList.add("vjs-user-active"), n.classList.remove("vjs-user-inactive"), h && clearTimeout(h), e.paused || (h = setTimeout(() => {
-			n.matches(":focus-within,:hover") && n.querySelector("[aria-expanded=\"true\"]") || (n.classList.remove("vjs-user-active"), n.classList.add("vjs-user-inactive"));
+	}, h = null, g, _ = () => {
+		r.classList.add("vjs-user-active"), r.classList.remove("vjs-user-inactive"), g && clearTimeout(g), e.paused || (g = setTimeout(() => {
+			r.matches(":focus-within,:hover") && r.querySelector("[aria-expanded=\"true\"]") || (r.classList.remove("vjs-user-active"), r.classList.add("vjs-user-inactive"));
 		}, 2500));
 	};
-	n.addEventListener("pointermove", g, { signal: c }), n.addEventListener("focusin", g, { signal: c }), e.addEventListener("click", () => {
+	r.addEventListener("pointermove", _, { signal: l }), r.addEventListener("focusin", _, { signal: l }), e.addEventListener("click", () => {
 		e.paused ? e.play().catch(() => {}) : e.pause();
-	}, { signal: c }), e.addEventListener("dblclick", () => n.querySelector("media-fullscreen-button")?.click(), { signal: c });
-	let _ = () => {
-		n.classList.toggle("vjs-paused", e.paused), n.classList.toggle("vjs-playing", !e.paused), n.classList.toggle("vjs-ended", e.ended), n.classList.toggle("vjs-has-started", e.currentTime > 0 || !e.paused), g();
-	}, v = (e) => o.dispatchEvent(new Event(e));
+	}, { signal: l }), e.addEventListener("dblclick", () => r.querySelector(".vjs-fullscreen-control")?.click(), { signal: l });
+	let v = () => {
+		r.classList.toggle("vjs-paused", e.paused), r.classList.toggle("vjs-playing", !e.paused), r.classList.toggle("vjs-ended", e.ended), r.classList.toggle("vjs-has-started", e.currentTime > 0 || !e.paused), _();
+	}, y = (e) => s.dispatchEvent(new Event(e)), b = !1, x = null, S = r.querySelector("button.vjs-fullscreen-control"), C = (e) => {
+		e !== b && (e && (x = document.activeElement instanceof HTMLElement ? document.activeElement : null), b = e, r.classList.toggle("vjs-fullscreen", e), r.toggleAttribute("data-window-fullscreen", e), S?.setAttribute("aria-pressed", String(e)), y("fullscreenchange"), !e && x?.isConnected && x.focus({ preventScroll: !0 }));
+	};
+	S?.addEventListener("click", () => C(!b), { signal: l }), document.addEventListener("keydown", (e) => {
+		b && e.key === "Escape" && (e.preventDefault(), e.stopPropagation(), C(!1));
+	}, {
+		signal: l,
+		capture: !0
+	});
 	for (let t of [
 		"play",
 		"pause",
@@ -31916,110 +31943,110 @@ var sD = (e) => typeof e == "string" ? [e] : e, Ude = (e, t) => {
 			"pause",
 			"ended",
 			"loadedmetadata"
-		].includes(t) && _(), [
+		].includes(t) && v(), [
 			"waiting",
 			"stalled",
 			"seeking"
-		].includes(t) && n.classList.add("vjs-waiting"), [
+		].includes(t) && r.classList.add("vjs-waiting"), [
 			"canplay",
 			"playing",
 			"seeked",
 			"pause"
-		].includes(t) && n.classList.remove("vjs-waiting"), v(t);
-	}, { signal: c });
-	let y = (e, t = !0) => {
-		m = e, n.classList.add("vjs-error");
-		let r = n.querySelector(".vjs-modal-dialog-content");
-		r && (r.textContent = e?.message || "视频暂时无法播放"), t && v("error");
+		].includes(t) && r.classList.remove("vjs-waiting"), y(t);
+	}, { signal: l });
+	let w = (e, t = !0) => {
+		h = e, r.classList.add("vjs-error");
+		let n = r.querySelector(".vjs-modal-dialog-content");
+		n && (n.textContent = e?.message || "视频暂时无法播放"), t && y("error");
 	};
-	a.addEventListener("error", () => y(a.error || e.error), { signal: c }), document.addEventListener("fullscreenchange", () => {
-		n.classList.toggle("vjs-fullscreen", !!document.fullscreenElement && n.contains(document.fullscreenElement)), v("fullscreenchange");
-	}, { signal: c });
-	let b = [], x = /* @__PURE__ */ new WeakSet(), S = [], C = !1, w = () => {
-		let e = a.engine;
+	o.addEventListener("error", () => w(o.error || e.error), { signal: l }), document.addEventListener("fullscreenchange", () => {
+		n || (r.classList.toggle("vjs-fullscreen", !!document.fullscreenElement && r.contains(document.fullscreenElement)), y("fullscreenchange"));
+	}, { signal: l });
+	let T = [], E = /* @__PURE__ */ new WeakSet(), D = [], O = !1, k = () => {
+		let e = o.engine;
 		if (e && Array.isArray(e.levels)) {
-			S.length !== e.levels.length && (S = e.levels.map(() => !0));
+			D.length !== e.levels.length && (D = e.levels.map(() => !0));
 			for (let t = 0; t < e.levels.length; t++) {
 				let n = e.levels[t];
-				b[t] = {
+				T[t] = {
 					...n,
 					get enabled() {
-						return S[t] ?? !0;
+						return D[t] ?? !0;
 					},
 					set enabled(n) {
-						if (S[t] = n, C) return;
-						C = !0;
-						let r = u;
+						if (D[t] = n, O) return;
+						O = !0;
+						let r = d;
 						queueMicrotask(() => {
-							if (l || a.engine !== e || r !== u) return;
-							C = !1;
-							let t = S.flatMap((e, t) => e ? [t] : []);
+							if (u || o.engine !== e || r !== d) return;
+							O = !1;
+							let t = D.flatMap((e, t) => e ? [t] : []);
 							e.currentLevel = t.length === 1 ? t[0] : -1;
 						});
 					}
 				};
 			}
-			b.length = e.levels.length, b.selectedIndex = e.currentLevel, v("qualitychange");
+			T.length = e.levels.length, T.selectedIndex = e.currentLevel, y("qualitychange");
 		}
 	};
-	b.on = (e, t) => o.addEventListener("qualitychange", t, { signal: c });
-	let T = () => {
-		let e = a.engine;
-		e && Array.isArray(e.levels) && !x.has(e) && (x.add(e), e.on("hlsManifestParsed", w), e.on("hlsLevelSwitched", w)), w();
+	T.on = (e, t) => s.addEventListener("qualitychange", t, { signal: l });
+	let A = () => {
+		let e = o.engine;
+		e && Array.isArray(e.levels) && !E.has(e) && (E.add(e), e.on("hlsManifestParsed", k), e.on("hlsLevelSwitched", k)), k();
 	};
-	return e.addEventListener("loadedmetadata", T, { signal: c }), {
-		on: (e, t) => sD(e).forEach((e) => o.addEventListener(e, t, { signal: c })),
-		off: (e, t) => sD(e).forEach((e) => o.removeEventListener(e, t)),
-		one: (e, t) => sD(e).forEach((e) => o.addEventListener(e, t, {
+	return e.addEventListener("loadedmetadata", A, { signal: l }), {
+		on: (e, t) => sD(e).forEach((e) => s.addEventListener(e, t, { signal: l })),
+		off: (e, t) => sD(e).forEach((e) => s.removeEventListener(e, t)),
+		one: (e, t) => sD(e).forEach((e) => s.addEventListener(e, t, {
 			once: !0,
-			signal: c
+			signal: l
 		})),
 		ready: (e) => queueMicrotask(() => {
-			l || e();
+			u || e();
 		}),
-		el: () => n,
-		isDisposed: () => l,
+		el: () => r,
+		isDisposed: () => u,
 		dispose: () => {
-			l || (v("dispose"), l = !0, s.abort(), h && clearTimeout(h), a.adapter.destroy(), e.pause(), e.removeAttribute("src"), e.load(), n.remove());
+			u || (C(!1), y("dispose"), u = !0, c.abort(), g && clearTimeout(g), o.adapter.destroy(), e.pause(), e.removeAttribute("src"), e.load(), r.remove());
 		},
-		trigger: v,
+		trigger: y,
 		paused: () => e.paused,
 		ended: () => e.ended,
-		error: (t) => t ? y(t, !1) : m || e.error,
+		error: (t) => t ? w(t, !1) : h || e.error,
 		play: async () => {
-			let t = ++d;
-			if (await Promise.resolve(), l || t !== d) throw new DOMException("播放请求已取消", "AbortError");
+			let t = ++f;
+			if (await Promise.resolve(), u || t !== f) throw new DOMException("播放请求已取消", "AbortError");
 			return e.play();
 		},
 		pause: () => {
-			d++, e.pause();
+			f++, e.pause();
 		},
 		currentTime: (t) => t === void 0 ? e.currentTime : e.currentTime = t,
-		duration: (t) => t === void 0 ? f || e.duration : f = t,
+		duration: (t) => t === void 0 ? p || e.duration : p = t,
 		playbackRate: (t) => t === void 0 ? e.playbackRate : e.playbackRate = t,
 		loop: (t) => t === void 0 ? e.loop : e.loop = t,
 		muted: () => e.muted,
 		volume: () => e.volume,
-		isFullscreen: () => !!document.fullscreenElement && n.contains(document.fullscreenElement),
+		isFullscreen: () => b || !!document.fullscreenElement && r.contains(document.fullscreenElement),
 		poster: (t) => {
 			e.poster = t;
 		},
 		src: (t) => {
-			p = t, m = null, n.classList.remove("vjs-error"), u++, d++, C = !1, S = [], b.length = 0;
-			let r = t.type.toLowerCase().includes("dash") ? "dash-video" : "hlsjs-video";
-			if (a.localName !== r) {
-				let t = a;
-				a = document.createElement(r), t.replaceWith(a), a.append(e), t.adapter.destroy(), a.addEventListener("error", () => y(a.error || e.error), { signal: c }), S = [], b.length = 0;
+			m = t, h = null, r.classList.remove("vjs-error"), d++, f++, O = !1, D = [], T.length = 0;
+			let n = t.type.toLowerCase().includes("dash") ? "dash-video" : "hlsjs-video";
+			if (o.localName !== n) {
+				let t = o;
+				o = document.createElement(n), t.replaceWith(o), o.append(e), t.adapter.destroy(), o.addEventListener("error", () => w(o.error || e.error), { signal: l }), D = [], T.length = 0;
 			}
-			a.source = {
+			o.source = {
 				...t,
 				src: new URL(t.src, location.href).href
-			}, T();
+			}, A();
 		},
-		currentSrc: () => p.src,
-		currentSource: () => p,
-		qualityLevels: () => b,
-		bandwidth: () => a.engine?.bandwidthEstimate || 0,
+		currentSrc: () => m.src,
+		currentSource: () => m,
+		qualityLevels: () => T,
+		bandwidth: () => o.engine?.bandwidthEstimate || 0,
 		addRemoteTextTrack: (t) => {
 			let n = document.createElement("track");
 			n.kind = String(t.kind || "subtitles"), n.src = String(t.src || ""), n.srclang = String(t.srclang || ""), n.label = String(t.label || ""), e.append(n);

@@ -79,6 +79,7 @@ build = [
 ]
 macos = [
     "pyobjc-framework-Cocoa==12.2.2; sys_platform == 'darwin'",
+    "pyobjc-framework-WebKit==12.2.2; sys_platform == 'darwin'",
     "pywebview==6.2.1; sys_platform == 'darwin'",
 ]
 # numpy 本来就是 opencv 的传递依赖，这里显式钉住：`face_detect.decode` 直接 import 它

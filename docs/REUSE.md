@@ -8,7 +8,7 @@
 
 macOS 源码窗口复用 `pywebview==6.2.1`（BSD-3-Clause），用系统 WebKit 显示现有前端，窗口 API 与持久会话遵循 [官方 API](https://pywebview.flowrl.com/api/)。本机 Python 3.14 已安装该版本；依赖通过 `macos` 可选组与 `uv.lock` 固定。Chise 只负责 `/healthz` 身份检查、托盘启动与等待上限，不复制浏览器引擎或前端业务。系统 WebKit 限定可播放的编码；完整独立发行仍使用现有打包流程。窗口存储沿用本机目录，ledger 与生产入口不在构建时修改。
 
-播放器元素全屏复用 macOS 12.3 起提供的 [WKPreferences 元素全屏开关](https://developer.apple.com/documentation/webkit/wkpreferences/iselementfullscreenenabled)。在同步 `before_show` 事件中，首次导航前开启该能力；原生视图通过已固定的 pywebview 6.2.1 Cocoa `BrowserView.instances` 取得，升级该依赖时须复核此适配点。播放器继续使用标准 Fullscreen API 进入和退出全屏。系统缺少该接口时记录限制，无新增依赖。
+原生窗口在同步 `before_show` 事件中声明 AppKit 的 [fullScreenPrimary](https://developer.apple.com/documentation/appkit/nswindow/collectionbehavior-swift.struct/fullscreenprimary)，绿色按钮进入和退出 macOS 全屏。网页宿主身份通过 WebKit 的文档起始用户脚本设置；原生视图通过已固定的 pywebview 6.2.1 Cocoa `BrowserView.instances` 取得，升级该依赖时须复核此适配点。App 中的播放器复用既有窗口内铺满样式，按钮、双击、F 键和 Escape 共用会话状态；浏览器中的播放器使用标准 Fullscreen API。WebKit 桥接沿用 pywebview 已引入的 `pyobjc-framework-WebKit==12.2.2`，在 macOS 依赖组显式固定，无额外安装包。
 
 ## 检查输入与源码文案
 

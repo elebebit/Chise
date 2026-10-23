@@ -13,7 +13,10 @@ beforeAll(() => {
   if (!customElements.get('hlsjs-video')) customElements.define('hlsjs-video', TestMedia);
   if (!customElements.get('dash-video')) customElements.define('dash-video', class extends TestMedia {});
 });
-afterEach(() => { document.body.replaceChildren(); vi.restoreAllMocks() });
+afterEach(() => {
+  document.body.replaceChildren(); vi.restoreAllMocks();
+  delete (window as Window & { chiseDesktop?: boolean }).chiseDesktop;
+});
 
 function mounted() {
   const video = document.createElement('video'); document.body.append(video);
@@ -23,6 +26,38 @@ function mounted() {
 }
 
 describe('Video.js 10 播放会话', () => {
+  it('App 全屏铺满窗口，按钮、Escape 与销毁保持状态一致', () => {
+    (window as Window & { chiseDesktop?: boolean }).chiseDesktop = true;
+    const video = document.createElement('video'); document.body.append(video);
+    const player = createV10Player(video, { controls: true });
+    const changed = vi.fn(); player.on('fullscreenchange', changed);
+    const button = player.el().querySelector<HTMLButtonElement>('button.vjs-fullscreen-control')!;
+    const request = vi.fn(); player.el().requestFullscreen = request;
+    button.click();
+    expect(player.isFullscreen()).toBe(true);
+    expect(player.el().hasAttribute('data-window-fullscreen')).toBe(true);
+    expect(button.getAttribute('aria-pressed')).toBe('true');
+    expect(request).not.toHaveBeenCalled();
+    const escape = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+    button.dispatchEvent(escape);
+    expect(escape.defaultPrevented).toBe(true);
+    expect(player.isFullscreen()).toBe(false);
+    button.click(); button.click();
+    expect(player.isFullscreen()).toBe(false);
+    video.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+    expect(player.isFullscreen()).toBe(true);
+    player.dispose();
+    expect(player.isFullscreen()).toBe(false);
+    expect(changed).toHaveBeenCalledTimes(6);
+  });
+
+  it('浏览器沿用媒体元素的标准全屏控件', () => {
+    const video = document.createElement('video'); document.body.append(video);
+    const player = createV10Player(video, { controls: true });
+    expect(player.el().querySelector('media-fullscreen-button')).not.toBeNull();
+    expect(player.el().querySelector('button.vjs-fullscreen-control')).toBeNull();
+    player.dispose();
+  });
   it('片源交给异步 adapter 后立即播放，原生 play 使用已挂载的片源', async () => {
     const { video, player, media } = mounted();
     Object.defineProperty(media, 'source', { set: (value: { src: string }) => {

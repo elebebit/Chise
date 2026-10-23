@@ -10,6 +10,42 @@ describe('播放器皮肤', () => {
   before(async () => { browser = await launch() });
   after(async () => { await browser?.close() });
 
+  it('App 播放器铺满窗口，调整窗口大小与 Escape 保留详情', { timeout: 60_000 }, async () => {
+    const opened = await visit(browser, `/assets/${requiredEnv('PEACH_E2E_ITEM')}`, VIEWPORTS[0]!, async page => {
+      await page.addInitScript(() => {
+        (window as Window & { chiseDesktop?: boolean }).chiseDesktop = true;
+        localStorage.setItem('peach.settings.v1', JSON.stringify({ detailAutoplay: false }));
+      });
+    });
+    const { page, problems } = opened;
+    const button = page.locator('#stage button.vjs-fullscreen-control');
+    const assertWindowFilled = async () => {
+      const frame = await page.locator('#stage .video-js').evaluate(root => {
+        const box = root.getBoundingClientRect();
+        return { box: [box.x, box.y, box.width, box.height], viewport: [0, 0, innerWidth, innerHeight],
+          native: !!document.fullscreenElement, center: root.contains(document.elementFromPoint(innerWidth / 2, innerHeight / 2)) };
+      });
+      assert.deepEqual(frame.box, frame.viewport);
+      assert.equal(frame.native, false);
+      assert.equal(frame.center, true);
+    };
+    try {
+      await button.waitFor();
+      await button.click();
+      await assertWindowFilled();
+      await page.setViewportSize({ width: 1000, height: 650 });
+      await assertWindowFilled();
+      await page.keyboard.press('Escape');
+      assert.equal(await page.locator('#stage').evaluate((dialog: HTMLDialogElement) => dialog.open), true);
+      assert.equal(await page.locator('#stage [data-window-fullscreen]').count(), 0);
+      await button.click();
+      await assertWindowFilled();
+      await button.click();
+      assert.equal(await button.getAttribute('aria-pressed'), 'false');
+      assert.deepEqual(problems, []);
+    } finally { await opened.close() }
+  });
+
   it('首次加载模块期间保留海报，控制条从完整皮肤开始显示', { timeout: 60_000 }, async () => {
     let release!: () => void;
     const gate = new Promise<void>(resolve => { release = resolve });
