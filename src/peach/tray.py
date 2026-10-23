@@ -1003,9 +1003,8 @@ class SetupGate:
 def create_icon(size: int = 64, *, template: bool = False) -> Image.Image:
     """Load the shared square Chise brand asset at tray resolution.
 
-    `template=True` 返回只有形状的单色版本：macOS 菜单栏图标必须是 template image，
-    由系统按浅色/深色菜单栏自己反色。彩色图标不会跟着变——浅色菜单栏下那颗桃子会
-    糊成一团。形状取自原图的 alpha 通道，颜色一律置黑。
+    `template=True` 返回只有形状的单色版本：形状取自原图的 alpha 通道，颜色一律置黑。
+    带底板的品牌图使用原色版本，以保留内部字形。
     """
     resource = Path(getattr(sys, "_MEIPASS", PROJECT_ROOT)) / "resources" / "peach-logo.png"
     if not resource.is_file():
@@ -1629,7 +1628,7 @@ def run_macos_menu_bar(manager: "ServiceManager", gate: "SetupGate | None" = Non
         webbrowser.open(gate.open_url() + "configuration")
 
     menu = MenuBarApp(
-        create_icon(template=True),
+        create_icon(),
         "Chise",
         [
             (gate.open_label, gate.open),

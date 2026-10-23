@@ -1,4 +1,6 @@
 .venv*/
+.DS_Store
+/Chise.png
 node_modules/
 __pycache__/
 *.py[cod]

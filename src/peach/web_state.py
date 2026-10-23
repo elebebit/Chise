@@ -7,8 +7,7 @@
 `web_catalog`、`web_entity`、`web_stats`、`web_batch` 全都 import 它，所以它一旦反
 过来 import 其中任何一个，整层立刻循环。判据就是这个文件里不许出现 `from .web_`。
 
-`CACHE_TTL` 与账本版本号归这里，因为它们决定本文件 `cached()`／`cached_lru()` 的寿命。内联 favicon 也放这里：它是
-唯一一个没有磁盘文件的静态资源，而 `api` 一直从契约模块取它，这次只搬位置。
+`CACHE_TTL` 与账本版本号归这里，因为它们决定本文件 `cached()`／`cached_lru()` 的寿命。
 """
 from __future__ import annotations
 
@@ -61,8 +60,6 @@ class AvatarRootIndex(NamedTuple):
 
 
 
-
-FAVICON = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#0B0B0D"/><defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9A76"/><stop offset="1" stop-color="#F2557B"/></linearGradient></defs><path d="M16 28c-5.7 0-9.7-3.6-9.7-8.6 0-4.3 2.8-7.6 6.5-7.6 1.4 0 2.4.5 3.2 1.1.8-.6 1.8-1.1 3.2-1.1 3.7 0 6.5 3.3 6.5 7.6C25.7 24.4 21.7 28 16 28z" fill="url(#pg)"/><path d="M16 13.4V27" stroke="#0B0B0D" stroke-width="1.1" opacity=".3" stroke-linecap="round"/><path d="M17.1 11.7c.6-2.8 2.8-4.6 5.6-4.8-.2 2.8-2.2 4.7-5.6 4.8z" fill="#5FB95F"/><path d="M16 11.9c0-1.9.5-3.4 1.5-4.5" stroke="#8A5A3B" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>')
 
 CACHE_TTL = 90
 

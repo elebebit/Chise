@@ -1085,8 +1085,15 @@ class AutomaticRebuildTests(unittest.TestCase):
 
 @unittest.skipUnless(sys.platform == "darwin", "菜单栏图标与服务规格是 macOS 专属")
 class MacMenuBarTests(unittest.TestCase):
+    def test_native_brand_icon_preserves_its_colors(self):
+        from peach.menubar import nsimage
+
+        image = nsimage(create_icon())
+        self.assertFalse(image.isTemplate())
+        self.assertEqual((image.size().width, image.size().height), (18, 18))
+
     def test_template_icon_is_a_black_silhouette(self):
-        """macOS 菜单栏图标必须是 template image：彩色图不会跟着浅色/深色反色。"""
+        """模板图仅由原图透明轮廓构成。"""
         colored = create_icon(32)
         template = create_icon(32, template=True)
         self.assertEqual(template.size, colored.size)

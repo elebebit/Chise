@@ -40,7 +40,6 @@ from .config import PROJECT_ROOT
 from .entities import resolve_entity, resolve_entity_id
 from .routes_auth import query_auth_redirect, require_asset_auth, require_page_auth, set_auth_cookie
 from .web_entry import page_shell, runtime_fact_entries
-from .web_state import FAVICON
 
 router = APIRouter()
 
@@ -639,10 +638,8 @@ def robots_txt():
 
 
 @router.api_route("/favicon.svg", methods=["GET", "HEAD"])
-def favicon():
-    response = Response(FAVICON, media_type="image/svg+xml")
-    response.headers["Cache-Control"] = "no-store"
-    return response
+def favicon(request: Request):
+    return asset_response(request, PROJECT_ROOT / "resources" / "favicon.svg", "image/svg+xml")
 
 
 @router.api_route("/favicon.ico", methods=["GET", "HEAD"])
