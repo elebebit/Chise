@@ -1,5 +1,9 @@
 # 复用清单
 
+## Chise 原生窗口
+
+macOS 源码窗口复用 `pywebview==6.2.1`（BSD-3-Clause），用系统 WebKit 显示现有前端，窗口 API 与持久会话遵循 [官方 API](https://pywebview.flowrl.com/api/)。本机 Python 3.14 已安装该版本；依赖通过 `macos` 可选组与 `uv.lock` 固定。Chise 只负责 `/healthz` 身份检查、托盘启动与等待上限，不复制浏览器引擎或前端业务。系统 WebKit 限定可播放的编码；完整独立发行仍使用现有打包流程。窗口存储沿用本机目录，ledger 与生产入口不在构建时修改。
+
 ## 检查输入与源码文案
 
 测试差异复用 Git 文件快照、Python AST、标准库 TOML/JSON 解析器及现有 filelock。Python 注释和清单说明字段通过有效内容比较识别；真实依赖、执行模式和无法解析的输入保留完整验证。完整批次按测试文件保存结果，仅补齐受影响范围，不延长结果有效期。

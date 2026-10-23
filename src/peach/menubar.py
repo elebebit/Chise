@@ -156,7 +156,7 @@ class MenuBarApp:
         frame = window.frame()
         return (frame.origin.x, frame.origin.y, frame.size.width, frame.size.height)
 
-    def notify(self, message: str, title: str = "Peach") -> None:
+    def notify(self, message: str, title: str = "Chise") -> None:
         """用系统通知报状态；菜单栏项没有窗口可以弹。"""
         notification = AppKit.NSUserNotification.alloc().init()
         notification.setTitle_(title)

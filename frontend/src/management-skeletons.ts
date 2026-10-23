@@ -48,7 +48,7 @@ export function tasteSkeleton(): string {
   const heat = (title: string) => `<section class="${chart}"><h3 class="text-title-2-medium text-text-primary">${title}</h3><div class="${placeholder} h-40"></div></section>`;
   return `<div class="peach-react"><div class="mx-auto flex w-full max-w-board flex-col gap-8">
     <div class="flex flex-col gap-5">
-      <div class="flex flex-wrap items-center justify-between gap-3">${track(['浏览器记录', 'Peach 内部'])}
+      <div class="flex flex-wrap items-center justify-between gap-3">${track(['浏览器记录', 'Chise 内部'])}
         <div class="flex flex-wrap items-center gap-2">${islandSelect('全部时间')}<span data-button-group data-split-button data-variant="primary">${islandButton({ glyph: 'compass', label: '读取浏览器历史', attrs: wait })}${islandButton({ glyph: 'chevron-down', attrs: wait })}</span></div>
       </div>
       <div class="inline-grid w-full grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4" data-taste-metrics>${metrics}</div>

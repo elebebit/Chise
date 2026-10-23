@@ -111,7 +111,7 @@ SCOPES: dict[str, tuple[str, ...]] = {
                 "test_restart_windows_tray.py", "test_deploy_windows_tray.py", "test_runtime_prepare.py",
                 "test_buildinfo.py", "test_versioning.py", "test_macos_standalone.py",
                 "test_windows_update.py", "test_release_updates.py", "test_automatic_updates.py", "test_standalone_update.py", "test_certs.py", "test_config.py",
-                "test_fsutil.py", "test_desktop_settings.py", "test_desktop_installer.py",
+                "test_fsutil.py", "test_desktop_settings.py", "test_desktop_installer.py", "test_chise_desktop.py",
                 "test_job_status.py", "test_jobs.py", "test_task_runs.py", "test_followups.py", "test_update_tasks.py",
                 "test_task_center_integration.py", "test_reference_updates.py",
                 "test_repo_hygiene.py", "test_seed_pack.py", "test_seed_followup.py",
@@ -488,7 +488,7 @@ def scopes_for_changes(paths: Iterable[str], *, contents: dict | None = None,
     if full_reasons:
         return ("full",), "Peach auto scope: full <- " + "; ".join(full_reasons)
     if not picked:
-        return ("checks",), "Peach auto scope: checks <- 没有改动文件，检查公共门槛"
+        return ("checks",), "Chise auto scope: checks <- 没有改动文件，检查公共门槛"
     ordered = tuple(scope for scope in SCOPES if scope in picked)
     detail = "; ".join(f"{scope}: {', '.join(picked[scope])}" for scope in ordered)
     return ordered, f"Peach auto scope: {', '.join(ordered)} <- {detail}"
@@ -514,7 +514,7 @@ def resolve_auto_scope() -> tuple[tuple[str, ...], str]:
     try:
         paths = changed_files()
     except (OSError, subprocess.CalledProcessError) as error:
-        return ("full",), f"Peach auto scope: full <- git 不可用（{error}）"
+        return ("full",), f"Chise auto scope: full <- git 不可用（{error}）"
     return scopes_for_changes(paths, contents=changed_contents(ROOT, "master", paths))
 
 
@@ -711,7 +711,7 @@ def environment_preflight(scopes: tuple[str, ...], timings: Path | None = None,
         print(f"本次范围不需要这些启动受限的工具，只作提示：{'、'.join(spared)}", flush=True)
     if not fatal:
         return
-    print(f"Peach 测试环境无法启动 PATH 中的工具：{'、'.join(fatal)}。"
+    print(f"Chise 测试环境无法启动 PATH 中的工具：{'、'.join(fatal)}。"
           "Windows Codex 任务请让 scripts/test.ps1 通过受控提权在正常 PowerShell 权限下运行；"
           "其他环境请先修复这些工具的执行权限。不要改单测或跳过用例。"
           "确认本次无关时用 PEACH_SKIP_PREFLIGHT=1 跳过预检。", flush=True)

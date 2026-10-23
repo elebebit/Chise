@@ -36,7 +36,7 @@ export function PortSettings({ data, receipt }: ConfigurationGroupProps) {
     });
   };
   if (saved) return <Section title="本机访问端口"><Stack>
-    <Note tone="success" title="配置已保存">Peach 正在重新启动。
+    <Note tone="success" title="配置已保存">Chise 正在重新启动。
       <LinkButton href={saved.url} size="small">进入馆藏</LinkButton>
     </Note>
   </Stack></Section>;
@@ -44,7 +44,7 @@ export function PortSettings({ data, receipt }: ConfigurationGroupProps) {
     <Input id="configPort" label="端口" inputMode="numeric" value={port} onChange={setPort}
       validationBehavior="aria" isInvalid={Boolean(fieldError)} hint={fieldError || undefined} />
     {action.error ? <Note tone="error" title="没有保存">{action.error}</Note> : null}
-  </Stack><Footer status="保存后 Peach 会重启，并跳转到新地址。">
+  </Stack><Footer status="保存后 Chise 会重启，并跳转到新地址。">
     <Button type="submit" {...busyProps(action.busy === 'save')}>保存配置</Button>
   </Footer></Section>;
 }

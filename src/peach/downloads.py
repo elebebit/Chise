@@ -178,7 +178,7 @@ def parse_magnet(raw: str) -> Magnet:
             info_hash = normalise_info_hash(value[len("urn:btih:"):])
             name = (query.get("dn") or [""])[0].strip()
             return Magnet(info_hash, text, name[:300])
-    raise ValueError("磁力链接里没有 urn:btih，Peach 只接受 BitTorrent 磁力")
+    raise ValueError("磁力链接里没有 urn:btih，Chise 只接受 BitTorrent 磁力")
 
 
 def magnet_info_hash(uri: str) -> str:

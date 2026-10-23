@@ -121,10 +121,10 @@ class DesktopSettingsTests(unittest.TestCase):
                 patch.object(settings_file, 'load_config', return_value=self.config), \
                 patch.object(desktop_uninstall, 'request', return_value={'accepted':True}) as remove:
             self.assertEqual(client.post('/api/configuration/uninstall',json={'delete_data':True}).status_code,400)
-            self.assertEqual(client.post('/api/configuration/uninstall',json={'delete_data':True,'confirmation':'卸载 Peach'},
+            self.assertEqual(client.post('/api/configuration/uninstall',json={'delete_data':True,'confirmation':'卸载 Chise'},
                                          headers={'origin':'https://other.invalid'}).status_code,403)
             remove.assert_not_called()
-            self.assertEqual(client.post('/api/configuration/uninstall',json={'delete_data':False,'confirmation':'卸载 Peach'}).status_code,200)
+            self.assertEqual(client.post('/api/configuration/uninstall',json={'delete_data':False,'confirmation':'卸载 Chise'}).status_code,200)
             remove.assert_called_once_with(self.config,False)
             self.assertEqual(client.post('/api/configuration/startup',json={'enabled':'false','silent':True}).status_code,400)
             self.assertEqual(client.post('/api/configuration/peach-proxy',json={'mode':'proxy','proxy':'invalid'}).status_code,400)
@@ -205,7 +205,7 @@ class DesktopSettingsTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, '另一份'):
                 desktop_startup.save(self.config, enabled=False, silent=True, desktop=True)
             self.assertEqual(desktop_startup.desktop_snapshot(self.config),
-                             {'desktop': False, 'desktop_message': '桌面快捷方式属于另一份 Peach 安装'})
+                             {'desktop': False, 'desktop_message': '桌面快捷方式属于另一份 Chise 安装'})
             desktop_startup.save(self.config, enabled=True, silent=True, desktop=False)
             self.assertEqual(len(list(startup.iterdir())), 1)
             self.assertTrue(icon.is_file())
@@ -375,7 +375,7 @@ class DesktopSettingsTests(unittest.TestCase):
             desktop_uninstall.plan(self.config, delete_data=False, program=self.program))
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertFalse(self.program.exists())
-        self.assertTrue(self.root.exists(), '只删除 Peach 解压目录，不删除用户选择的父目录')
+        self.assertTrue(self.root.exists(), '只删除 Chise 解压目录，不删除用户选择的父目录')
         self.assertIsNotNone(held.poll())
 
     @unittest.skipUnless(os.name == 'nt', 'Windows 系统卸载助手')

@@ -161,7 +161,7 @@ tutorialState.postSetupTutorialHtml = (tasks,skippedCount,totalCount)=>{
   return `<article class="post-setup-notification" data-collapsed="${collapsed}">
       <header class="post-setup-notification-head">
         <span class="post-setup-notification-icon" aria-hidden="true">${icon('compass')}</span>
-        <div><h2>完成 Peach 的安装教程</h2>
+        <div><h2>完成 Chise 的安装教程</h2>
         <p>已处理 ${completeCount}/${totalCount} 项。</p></div>
         <button class="post-setup-collapse" type="button" data-tutorial-collapse aria-controls="postSetupTaskList" aria-expanded="${!collapsed}"
           aria-label="${collapsed?'展开安装教程':'折叠安装教程'}">${icon(collapsed?'chevron-up':'chevron-down')}</button>

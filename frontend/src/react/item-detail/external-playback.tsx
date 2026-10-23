@@ -41,7 +41,7 @@ export function ExternalPlayback({ id }: { id: number }) {
           {player === 'm3u' ? '下载 M3U 播放列表' : `打开 ${PLAYERS.find(([key]) => key === player)?.[1]}`}
         </a>
         <Input label="网络播放地址" value={links.url} isReadOnly />
-        <Help>链接有效期为 6 小时。VR 播放器可使用网络播放地址；另一台设备需要能访问当前 Peach 地址。</Help>
+        <Help>链接有效期为 6 小时。VR 播放器可使用网络播放地址；另一台设备需要能访问当前 Chise 地址。</Help>
       </> : null}
     </Stack>
   </details>;

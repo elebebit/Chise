@@ -12,7 +12,7 @@ from .scraping_access import SOURCES, SourcePaused, SourceTransport, describe, s
 
 #: 连不上 DMM 图片主机时给的那句去处：2026-09 实测中国移动宽带直连大多在握手后被断开，
 #: 电信、联通直连正常，所以不是站点挂了，换条线路就好。
-MOBILE_BROADBAND_HINT = "中国移动宽带直连 DMM 图片主机常在握手后被断开，请把 DMM / FANZA 的连接方式设成 Peach 代理。"
+MOBILE_BROADBAND_HINT = "中国移动宽带直连 DMM 图片主机常在握手后被断开，请把 DMM / FANZA 的连接方式设成 Chise 代理。"
 
 
 def _kept_cover_size(target, incoming, incoming_size, installed, previous):
@@ -163,7 +163,7 @@ def _connection_failure(exc, label):
     if isinstance(exc, SourcePaused):
         detail, message = "cooldown", "来源正在冷却，请稍后重试。"
     elif isinstance(exc, httpx.ProxyError):
-        detail, message = "proxy", "代理连接失败，请检查 Peach 代理。"
+        detail, message = "proxy", "代理连接失败，请检查 Chise 代理。"
     elif isinstance(exc, httpx.TimeoutException):
         detail, message = "timeout", "来源连接超时，请稍后重试或检查连接方式。"
     else:

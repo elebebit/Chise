@@ -20,7 +20,7 @@ export const WRONG_PASSWORD = '访问密码不正确';
 export function LoginPage({ data }: { data: PageData }) {
   const [reason, setReason] = useState(data.error || (data.invalid === 'true' ? WRONG_PASSWORD : ''));
   return (
-    <AuthCard title="Peach">
+    <AuthCard title="Chise">
       <form method="post" action="/login" aria-labelledby="auth-card-title" className="flex flex-col gap-6">
         <Input id="login-token" label="访问密码" name="token" type="password" maxLength={256}
           autoComplete="current-password" autoFocus isRequired

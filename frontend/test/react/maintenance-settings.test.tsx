@@ -27,7 +27,7 @@ it('分区依次是运行信息、安装教程、卸载；缺依赖的那条运�
   };
   const host = await mount(<MaintenanceSettings data={data} receipt={vi.fn()} reopenTutorial={vi.fn()} />);
   expect([...host.firstElementChild!.children].map((node) => node.getAttribute('aria-label')))
-    .toEqual(['运行信息', '安装教程', '卸载 Peach']);
+    .toEqual(['运行信息', '安装教程', '卸载 Chise']);
   const facts = section(host, '运行信息')!;
   expect([...facts.querySelectorAll('dt')].map((dt) => dt.textContent)).toEqual(['版本', 'FFmpeg']);
   const link = facts.querySelector('a[href="https://ffmpeg.org/download.html"]');
@@ -96,7 +96,7 @@ describe('检查更新', () => {
     expect(host.querySelector('[role="progressbar"]')?.getAttribute('aria-valuenow')).toBe('100');
     expect(modal).toHaveBeenCalledTimes(1);
     expect(modal.mock.calls[0]?.[0]).toMatchObject({
-      title: '更新已准备好', body: 'Peach 0.10.0 将在重启后安装。', confirmLabel: '立即重启', cancelLabel: '稍后',
+      title: '更新已准备好', body: 'Chise 0.10.0 将在重启后安装。', confirmLabel: '立即重启', cancelLabel: '稍后',
     });
     expect(fetcher).not.toHaveBeenCalled();
     await act(async () => { await modal.mock.calls[0]?.[0].onConfirm?.(); });
@@ -137,7 +137,7 @@ describe('检查更新', () => {
 
 it('卸载默认保留数据，勾选完全卸载后确认文案点名要删的东西，受理后锁住', async () => {
   const modal = vi.spyOn(legacyUi, 'confirmModal');
-  const fetcher = fetchMock(200, { message: 'Peach 将在几秒后退出并卸载。' });
+  const fetcher = fetchMock(200, { message: 'Chise 将在几秒后退出并卸载。' });
   vi.stubGlobal('fetch', fetcher);
   const host = await mount(<UninstallSettings uninstall={uninstall} receipt={vi.fn()} />);
   const area = host.querySelector('#uninstallPeach')!;
@@ -147,18 +147,18 @@ it('卸载默认保留数据，勾选完全卸载后确认文案点名要删的�
   expect([...area.querySelectorAll('details p')].map((p) => p.textContent)).toEqual(['fixture', 'fixture/cache']);
   // 每条路径自己带一颗打开键：要删的是哪几个目录，看一眼比照着路径再翻一遍快。
   expect([...area.querySelectorAll('details button[aria-label="在资源管理器中显示"]')]).toHaveLength(2);
-  await click(buttonNamed('卸载 Peach', area));
-  expect(modal.mock.calls[0]?.[0]).toMatchObject({ title: '卸载 Peach', danger: true, confirmLabel: '卸载 Peach' });
+  await click(buttonNamed('卸载 Chise', area));
+  expect(modal.mock.calls[0]?.[0]).toMatchObject({ title: '卸载 Chise', danger: true, confirmLabel: '卸载 Chise' });
   expect(String(modal.mock.calls[0]?.[0].body)).toContain('设置、本地数据库、观看记录与缓存保留');
   expect(fetcher).not.toHaveBeenCalled();
   await click(full);
-  await click(buttonNamed('卸载 Peach', area));
+  await click(buttonNamed('卸载 Chise', area));
   const options = modal.mock.calls[1]![0];
   expect(String(options.body)).toContain('凭据和缓存');
   await act(async () => { await options.onConfirm?.(); });
-  expect(sentBody(fetcher)).toEqual({ delete_data: true, confirmation: '卸载 Peach' });
-  expect(area.querySelector('[role="status"]')?.textContent).toBe('Peach 将在几秒后退出并卸载。');
-  expect(buttonNamed('卸载 Peach', area)?.disabled).toBe(true);
+  expect(sentBody(fetcher)).toEqual({ delete_data: true, confirmation: '卸载 Chise' });
+  expect(area.querySelector('[role="status"]')?.textContent).toBe('Chise 将在几秒后退出并卸载。');
+  expect(buttonNamed('卸载 Chise', area)?.disabled).toBe(true);
 });
 
 describe('安装教程', () => {

@@ -40,8 +40,8 @@ UNRELEASED = "未发布"
 #: Release 页正文里跟在变更日志后面的安装提示。每一版都一样，所以只写在这里一处，
 #: 工作流不再自己抄一份。
 INSTALL_NOTE = ("Windows x64，支持本机和局域网浏览器访问；无需另装 Python 或媒体工具。"
-                "安装与使用见 [Windows 使用说明](https://github.com/peach-mitao/peach/blob/master/docs/TESTING_DESKTOP.md)，"
-                "macOS 见 [源码运行](https://github.com/peach-mitao/peach/blob/master/docs/OPERATIONS.md#从源码运行windowsmacos)。")
+                "安装与使用见 [Windows 使用说明](https://github.com/elebebit/Chise/blob/master/docs/TESTING_DESKTOP.md)，"
+                "macOS 见 [源码运行](https://github.com/elebebit/Chise/blob/master/docs/OPERATIONS.md#从源码运行windowsmacos)。")
 
 #: Conventional Commits 的主题形状：`type(scope)!: 描述`。
 SUBJECT = re.compile(r"^(?P<type>[a-z]+)(?:\((?P<scope>[^)]*)\))?(?P<bang>!)?:\s*(?P<text>.+)$")
@@ -297,7 +297,7 @@ def release(root: Path, version: str, *, repo: str, spec: str, today: str | None
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--repo", default="peach-mitao/peach")
+    parser.add_argument("--repo", default="elebebit/Chise")
     parser.add_argument("--range", dest="spec", help="提交区间，默认上一个版本标签到 HEAD")
     parser.add_argument("--release", help=f"把{UNRELEASED}节定版成这个版本号")
     parser.add_argument("--apply", action="store_true", help=f"写进 {CHANGELOG}")

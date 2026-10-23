@@ -1,4 +1,4 @@
-/* 详情播放器：给舞台播放区的 `<video>` 挂 Video.js 与全部 Peach 控件。
+/* 详情播放器：给舞台播放区的 `<video>` 挂 Video.js 与全部 Chise 控件。
  *
  * - `mountDetailPlayer` 挂一个 Video.js 实例：片源解析、时长校正、出错时从分片退回直读、脱盘判定，
  *   ready 之后挂设置菜单、拖动预览、Media Session、转圈与字幕。
@@ -101,7 +101,7 @@ export async function mountDetailPlayer(
     controlBar: {
       pictureInPictureToggle: true, currentTimeDisplay: false, timeDivider: false,
       durationDisplay: false, remainingTimeDisplay: false,
-      // 时间与悬停预览归 Peach 控件，进度条只保留播放与拖动所需的组件。
+      // 时间与悬停预览归 Chise 控件，进度条只保留播放与拖动所需的组件。
       progressControl: { seekBar: { mouseTimeDisplay: false, playProgressBar: { timeTooltip: false } } },
     },
   });

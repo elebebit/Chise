@@ -2974,11 +2974,11 @@ class FastApiContractTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(opened.status_code, 200)
         reveal.assert_called_once_with(log.resolve())
         self.assertEqual(refused.status_code, 403)
-        self.assertEqual(climbing.status_code, 403, "`..` 爬出 Peach 数据目录的一样不开")
+        self.assertEqual(climbing.status_code, 403, "`..` 爬出 Chise 数据目录的一样不开")
         self.assertEqual(gone.status_code, 410)
         # 410 与 403 在页面那层的通用错误映射里都没有说法，原因得由这条自己写成中文。
         self.assertEqual(gone.json()["message"], "这个位置已经不在了")
-        self.assertIn("不归 Peach 管", refused.json()["message"])
+        self.assertIn("不归 Chise 管", refused.json()["message"])
 
     async def test_photo_thumbnail_is_generated_once_and_cached(self):
         source = self._seed_photo()

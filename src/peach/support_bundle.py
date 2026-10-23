@@ -175,7 +175,7 @@ def save_bundle(destination: Path | None = None) -> Path:
 
 
 def main(argv=None) -> int:
-    parser = argparse.ArgumentParser(description="保存本机脱敏诊断包，无需启动 Peach 服务")
+    parser = argparse.ArgumentParser(description="保存本机脱敏诊断包，无需启动 Chise 服务")
     parser.add_argument("destination", nargs="?", type=Path)
     args = parser.parse_args(argv)
     print(save_bundle(args.destination))

@@ -76,7 +76,7 @@ def supervise(host: str, port: int, stopping: threading.Event) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="运行通过浏览器管理的 Peach 服务")
+    parser = argparse.ArgumentParser(description="运行通过浏览器管理的 Chise 服务")
     parser.add_argument("--host", default="0.0.0.0")
     parser.add_argument("--port", type=int, default=8900)
     args = parser.parse_args(argv)

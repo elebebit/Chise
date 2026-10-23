@@ -6,7 +6,7 @@ import { manageHeaderSkeletonHtml, manageHeaderView, type ManageEntry, type Mana
 
 const SECTIONS: ManageEntry[] = [
   ['stats', '统计', 'chart'], ['cleanup', '数据管理', 'database'], ['trash', '回收站', 'trash'],
-  ['configuration', 'Peach 配置', 'settings'],
+  ['configuration', 'Chise 配置', 'settings'],
 ];
 const MENU = SECTIONS.filter(([key]) => key !== 'trash');
 
@@ -15,7 +15,7 @@ const props = (section: string, path: string, patch: Partial<ManageHeaderProps> 
 
 describe('页头判据', () => {
   it('诊断分区共用配置页标题', () => {
-    expect(manageHeaderView(props('configuration', '/settings/diagnostics'))).toMatchObject({ title: 'Peach 配置', compact: true });
+    expect(manageHeaderView(props('configuration', '/settings/diagnostics'))).toMatchObject({ title: 'Chise 配置', compact: true });
   });
   it('不在管理区时整块不画', () => {
     expect(manageHeaderView(props('', '/'))).toBeNull();

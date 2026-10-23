@@ -81,7 +81,7 @@ export function prepareHomeFeed(host){
 
 export function feedNetworkNote(unreachable,items){
   if(!(unreachable>0)||!items.some(item=>!item.has_cover))return '';
-  return noteHtml(`${unreachable} 部新作的封面连不上 DMM 图片主机，中国移动宽带常见。把 DMM / FANZA 的连接方式设成 Peach 代理，下一轮会自动重取。`,
+  return noteHtml(`${unreachable} 部新作的封面连不上 DMM 图片主机，中国移动宽带常见。把 DMM / FANZA 的连接方式设成 Chise 代理，下一轮会自动重取。`,
     {variant:'warning',className:'feednetwork',actionLabel:'配置连接方式',actionHref:'/sources'});
 }
 

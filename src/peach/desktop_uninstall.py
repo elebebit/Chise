@@ -16,13 +16,13 @@ from . import desktop_installer, desktop_startup, distribution, settings_file, s
 from .fsutil import atomic_write_text
 
 
-#: Peach 生成的设置备份：`config.toml.<说明>-YYYYMMDD-HHMMSS`，时间戳跟着
+#: Chise 生成的设置备份：`config.toml.<说明>-YYYYMMDD-HHMMSS`，时间戳跟着
 #: `scripts` 与 `cli.py` 里同一个 `%Y%m%d-%H%M%S`。
 _GENERATED_BACKUP = re.compile(r"config\.toml\.[A-Za-z0-9._-]*?-\d{8}-\d{6}")
 
 
 def _generated_backups(root: Path) -> list[Path]:
-    """Peach 数据目录里由 Peach 自己写下的设置备份。
+    """Chise 数据目录里由 Chise 自己写下的设置备份。
 
     `config.toml.bak` 是 `docs/OPERATIONS.md` 教用户在升级前自己复制的一份，删掉它
     等于把回退的路一起删了；只认带时间戳的那种形态，其它未列名文件同样保留。
@@ -34,7 +34,7 @@ def _generated_backups(root: Path) -> list[Path]:
 
 def plan(config, *, delete_data: bool, program: Path | None = None) -> dict:
     if type(delete_data) is not bool:
-        raise ValueError("请选择是否删除 Peach 数据")
+        raise ValueError("请选择是否删除 Chise 数据")
     target = (program or Path(sys.executable).parent).resolve()
     root = config.data_root.resolve()
     if not (target / "_internal/standalone.txt").is_file() or not (target / "Peach.exe").is_file():
@@ -60,7 +60,7 @@ def plan(config, *, delete_data: bool, program: Path | None = None) -> dict:
 
 
 def snapshot(config) -> dict:
-    result = {"available": False, "message": "这个系统上先退出 Peach，再手动移除程序与数据目录", "data_root": str(config.data_root),
+    result = {"available": False, "message": "这个系统上先退出 Chise，再手动移除程序与数据目录", "data_root": str(config.data_root),
               "directories": [str(config.directory(key)) for key in settings_file.DIRECTORY_KEYS], "full_available": False}
     if sys.platform != "win32":
         return result
@@ -88,7 +88,7 @@ def request(config, delete_data: bool) -> dict:
     path = config.directory("state") / "uninstall-request.json"
     with FileLock(str(path) + ".lock", timeout=0):
         atomic_write_text(path, json.dumps(dict(data, requested_at=time.time())), mode=0o600)
-    return {"accepted": True, "message": "正在卸载，Peach 将退出。完成后可关闭此页。"}
+    return {"accepted": True, "message": "正在卸载，Chise 将退出。完成后可关闭此页。"}
 
 
 # 系统助手从 stdin 接受数据，路径不拼进脚本文本；只清理计划中的目录。
@@ -190,7 +190,7 @@ try {
   } catch { }
   if (-not $peachJob.quiet) {
     [System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms') | Out-Null
-    [System.Windows.Forms.MessageBox]::Show('卸载未完成，请手动检查：' + [Environment]::NewLine + $peachProgram + [Environment]::NewLine + $peachData + [Environment]::NewLine + $peachDetail, 'Peach') | Out-Null
+    [System.Windows.Forms.MessageBox]::Show('卸载未完成，请手动检查：' + [Environment]::NewLine + $peachProgram + [Environment]::NewLine + $peachData + [Environment]::NewLine + $peachDetail, 'Chise') | Out-Null
   }
   exit 1
 }
@@ -213,7 +213,7 @@ def poll(tray) -> None:
         if any(data.get(key) != value for key, value in checked.items()):
             raise ValueError("配置已变更，请重新确认卸载")
         shell = Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32/WindowsPowerShell/v1.0/powershell.exe"
-        # 桌面图标和启动项都在 Peach 数据目录之外，`_SCRIPT` 的路径校验只认 Peach 数据目录里的东西，
+        # 桌面图标和启动项都在 Chise 数据目录之外，`_SCRIPT` 的路径校验只认 Chise 数据目录里的东西，
         # 列进 `files` 会被它 `exit 2`。卸载前先由这一步把两个 `.lnk` 都撤掉。
         desktop_startup.save(config, enabled=False, silent=True, desktop=False)
         process = subprocess.Popen([str(shell), "-NoProfile", "-NonInteractive", "-EncodedCommand",
@@ -229,6 +229,6 @@ def poll(tray) -> None:
         tray.exit(reason="uninstall")
     except Exception as exc:
         path.unlink(missing_ok=True)
-        tray.icon.notify(f"卸载未能启动：{exc}", "Peach")
+        tray.icon.notify(f"卸载未能启动：{exc}", "Chise")
     finally:
         tray._action_lock.release()

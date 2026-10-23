@@ -26,7 +26,7 @@ const paths = (root: ParentNode) => [...root.querySelectorAll<HTMLInputElement>(
 it('媒体表单保留重启提示，访问端口由网络分区管理', async () => {
   const host = await open({ port_editable: false });
   expect(host.querySelector('#configPort')).toBeNull();
-  expect(host.textContent).toContain('保存后 Peach 会重新启动');
+  expect(host.textContent).toContain('保存后 Chise 会重新启动');
   expect(host.querySelector('form')).not.toBeNull();
 });
 
@@ -45,9 +45,9 @@ it('网盘来源缺依赖时给新窗口下载链接，已装的不提示', asyn
 });
 
 it('不能编辑时只说原因，不画表单', async () => {
-  const host = await open({ editable: false, notice: '请在运行 Peach 的电脑上打开配置' });
+  const host = await open({ editable: false, notice: '请在运行 Chise 的电脑上打开配置' });
   expect(host.querySelector('form')).toBeNull();
-  expect(host.querySelector('[role="note"]')?.textContent).toContain('请在运行 Peach 的电脑上打开配置');
+  expect(host.querySelector('[role="note"]')?.textContent).toContain('请在运行 Chise 的电脑上打开配置');
 });
 
 describe('媒体目录', () => {

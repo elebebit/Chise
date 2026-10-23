@@ -1,4 +1,4 @@
-/* 「网络与访问」分组：本机端口、Peach 代理、访问密码与公网入口。 */
+/* 「网络与访问」分组：本机端口、Chise 代理、访问密码与公网入口。 */
 import { useState, type FormEvent } from 'react';
 
 import { SettingsRow } from '@/components/application/settings/settings-rows';
@@ -42,7 +42,7 @@ export function PeachProxy({ initial, receipt }: { initial: PeachProxyState; rec
   };
 
   return (
-    <Section id="peachProxy" title="Peach 代理" onSubmit={submit}>
+    <Section id="peachProxy" title="Chise 代理" onSubmit={submit}>
       <Rows>
         <SettingsRow label="连接方式">
           <Select aria-label="连接方式" selectedKey={mode} onSelectionChange={(key) => { if (key !== null) setMode(String(key)); }}>

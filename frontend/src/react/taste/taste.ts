@@ -212,7 +212,7 @@ export const tasteDimensions = (rows: RankRow[]): RankRow[] =>
   rows.filter((row) => Number.isFinite(Number(row.score)) && Number(row.score) > 0)
     .sort((a, b) => Number(b.score) - Number(a.score));
 
-/** 一行在这一榜里的强度。浏览侧按访问次数，Peach 侧按分数，都退化到条目数。 */
+/** 一行在这一榜里的强度。浏览侧按访问次数，Chise 侧按分数，都退化到条目数。 */
 export const rankStrength = (row: RankRow): number =>
   Number(row.web_visits ?? row.score ?? row.visits ?? row.peach_items ?? 0);
 
@@ -224,7 +224,7 @@ export function rankDetail(row: RankRow): string {
   const visits = Number(row.web_visits ?? row.visits ?? 0) - bookmarks;
   if (visits > 0) parts.push(`浏览 ${visits.toLocaleString()}`);
   if (bookmarks) parts.push(`书签 ${bookmarks.toLocaleString()}`);
-  if (row.peach_items) parts.push(`Peach ${Number(row.peach_items).toLocaleString()}`);
+  if (row.peach_items) parts.push(`Chise ${Number(row.peach_items).toLocaleString()}`);
   return parts.join(' · ');
 }
 

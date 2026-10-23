@@ -119,7 +119,7 @@ function MediaForm({ data, receipt }: ConfigurationGroupProps) {
       <Section title="媒体目录">
         <Stack>
           <Note tone="success" title="配置已保存">
-            Peach 正在重新启动。稍后自动跳转，或点击<LinkButton href={saved.url} size="small">进入馆藏</LinkButton>。
+            Chise 正在重新启动。稍后自动跳转，或点击<LinkButton href={saved.url} size="small">进入馆藏</LinkButton>。
           </Note>
         </Stack>
       </Section>
@@ -165,7 +165,7 @@ function MediaForm({ data, receipt }: ConfigurationGroupProps) {
         <Checkbox isSelected={scanNow} onChange={setScanNow}>保存后扫描并补全资料</Checkbox>
         {failure ? <Note tone="error" title="没有保存">{failure}</Note> : null}
       </Stack>
-      <Footer status="保存后 Peach 会重新启动。">
+      <Footer status="保存后 Chise 会重新启动。">
         <Button type="submit" {...busyProps(action.busy === 'save')}>保存配置</Button>
       </Footer>
     </Section>

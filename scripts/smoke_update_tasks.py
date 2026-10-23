@@ -23,7 +23,7 @@ def validate_installer_host():
     key = r'Software\Microsoft\Windows\CurrentVersion\Uninstall\{02D9748A-78F6-4866-AC75-918177194DAB}_is1'
     try:
         with winreg.OpenKey(winreg.HKEY_CURRENT_USER, key):
-            raise AssertionError('已有 Peach 安装登记，停止验收')
+            raise AssertionError('已有 Chise 安装登记，停止验收')
     except FileNotFoundError:
         pass
 

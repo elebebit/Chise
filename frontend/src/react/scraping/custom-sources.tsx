@@ -71,7 +71,7 @@ function SourceForm({ initial, cancel, saved }: {
       <div className="flex flex-col gap-2">
         <FieldLabel>来源连接方式</FieldLabel>
         <SelectField id="custom-source-network" label="来源连接方式" epoch={0} value={source.network || 'direct'}
-          options={[["direct", "直连"], ["peach_proxy", "Peach 代理"]]} onPick={(network) => change({ network })} />
+          options={[["direct", "直连"], ["peach_proxy", "Chise 代理"]]} onPick={(network) => change({ network })} />
       </div>
       <div className="flex flex-col gap-2">
         <FieldLabel>接口番号格式</FieldLabel>

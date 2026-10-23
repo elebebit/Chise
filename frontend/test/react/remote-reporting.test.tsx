@@ -5,7 +5,7 @@ import { click, mount, settle, switches } from './render';
 
 const initial: RemoteReportingState = {
   usage: false, errors: false, available: false,
-  fields: { usage: 'Peach 版本、操作系统类型', errors: '异常链、代码位置和结构化错误码' },
+  fields: { usage: 'Chise 版本、操作系统类型', errors: '异常链、代码位置和结构化错误码' },
   notice: '不自动发送日志正文或媒体信息。',
 };
 

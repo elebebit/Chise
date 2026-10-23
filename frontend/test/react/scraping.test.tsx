@@ -115,9 +115,9 @@ it('首屏用 prefetch 缓存画出来源与任务，挂载时不重复请求', 
   expect(buttonNamed('重新安装', bridge!)).not.toBeNull();
   // 连接方式是 BoardUI 的 Select，画出来的是按钮；原生 select 是 React Aria 藏在后面
   // 供表单取值的那一个，不是这一行的长相。
-  expect(host.querySelector('[aria-haspopup=listbox]')?.textContent?.trim()).toBe('Peach 代理');
+  expect(host.querySelector('[aria-haspopup=listbox]')?.textContent?.trim()).toBe('Chise 代理');
   expect(host.querySelector<HTMLAnchorElement>('a[href="/settings/library#peachProxy"]')?.textContent)
-    .toContain('配置 Peach 代理');
+    .toContain('配置 Chise 代理');
   expect(host.querySelector<HTMLAnchorElement>('a[href="https://www.javbus.com/"]')?.target).toBe('_blank');
 });
 
@@ -325,5 +325,5 @@ it('登录外链只写主机名；数据库里认不出的连接方式原样列�
   expect(linkHost('https://www.javbus.com/login?next=%2F')).toBe('www.javbus.com');
   expect(linkHost('不是地址')).toBe('不是地址');
   expect(networkOptions('peach').map(([key]) => key)).toEqual(['peach', 'direct']);
-  expect(networkOptions('socks-legacy')).toEqual([['peach', 'Peach 代理'], ['direct', '直接连接'], ['socks-legacy', 'socks-legacy']]);
+  expect(networkOptions('socks-legacy')).toEqual([['peach', 'Chise 代理'], ['direct', '直接连接'], ['socks-legacy', 'socks-legacy']]);
 });

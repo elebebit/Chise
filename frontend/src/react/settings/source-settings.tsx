@@ -1,4 +1,4 @@
-/* 来源凭据、资源搜索与订阅采集共用一个 Peach 配置分区。 */
+/* 来源凭据、资源搜索与订阅采集共用一个 Chise 配置分区。 */
 import { useQuery } from '@tanstack/react-query';
 import { ButtonLink } from '@/components/base/buttons/button';
 import type { ConfigurationGroupProps } from '../bundle';

@@ -81,7 +81,7 @@ function update(patch: Partial<View>): void {
   flushSync(notify);
 }
 
-/* Peach 配置入口按当前设备的配置权限放行。 */
+/* Chise 配置入口按当前设备的配置权限放行。 */
 async function checkMachine(current: SettingsPanelHost): Promise<void> {
   const epoch = view.epoch;
   const configurable = await current.configurable();
@@ -236,8 +236,8 @@ function SettingsNav({ tab, epoch, configurable, openConfiguration, onSelect }: 
       ))}
       <div data-settings-service="" role="presentation">
         <button type="button" disabled={configurable !== true} onClick={openConfiguration}
-          title={configurable === false ? '请在运行 Peach 的设备上打开 Peach 配置' : undefined}>
-          <Icon name="folder-cog" />Peach 配置<Icon name="chevron-right" />
+          title={configurable === false ? '请在运行 Chise 的设备上打开 Chise 配置' : undefined}>
+          <Icon name="folder-cog" />Chise 配置<Icon name="chevron-right" />
         </button>
       </div>
     </div>

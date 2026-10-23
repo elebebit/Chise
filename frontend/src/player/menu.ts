@@ -2,7 +2,7 @@
  *
  * 项目照 YouTube 播放器 f572e43c 的 .ytp-contextmenu 取舍：循环播放、迷你播放器（小窗里是展开）、
  * 画中画、复制视频网址、复制当前时间的视频网址、播放统计；嵌入代码、调试信息和排查播放问题
- * Peach 没有对应能力，不列。 */
+ * Chise 没有对应能力，不列。 */
 import { esc, icon } from '@peach/legacy/core';
 import { dismissMenu, presentMenu, scrollMovesAnchor } from '@peach/legacy/ui';
 

@@ -49,7 +49,7 @@ class TokenFileTests(unittest.TestCase):
         first = auth.write_token(self.secrets)
         self.assertNotEqual(auth.write_token(self.secrets), first)
 
-    @unittest.skipIf(os.name == "nt", "Windows 的 chmod 只动只读位，权限靠 Peach 数据目录本身")
+    @unittest.skipIf(os.name == "nt", "Windows 的 chmod 只动只读位，权限靠 Chise 数据目录本身")
     def test_the_token_file_is_owner_only(self):
         auth.write_token(self.secrets)
         self.assertEqual(auth.token_path(self.secrets).stat().st_mode & 0o777, 0o600)

@@ -11055,7 +11055,7 @@ function Ot(e) {
 function kt({ data: e }) {
 	let t = Ot(e.status);
 	return (0, y.useEffect)(() => {
-		document.title = `Peach · ${t}`;
+		document.title = `Chise · ${t}`;
 	}, [t]), /* @__PURE__ */ (0, z.jsx)(wt, {
 		title: t,
 		lede: e.status === "404" ? void 0 : e.detail,
@@ -19198,7 +19198,7 @@ Vp.displayName = "Input";
 function Hp({ data: e }) {
 	let [t, n] = (0, y.useState)(e.error || (e.invalid === "true" ? "访问密码不正确" : ""));
 	return /* @__PURE__ */ (0, z.jsx)(wt, {
-		title: "Peach",
+		title: "Chise",
 		children: /* @__PURE__ */ (0, z.jsxs)("form", {
 			method: "post",
 			action: "/login",
@@ -19311,7 +19311,7 @@ async function Jp(e, t, n) {
 			}
 		});
 	} catch (e) {
-		throw t.signal?.aborted ? e : new qp(0, "连接不到 Peach，请确认它仍在运行后重试");
+		throw t.signal?.aborted ? e : new qp(0, "连接不到 Chise，请确认它仍在运行后重试");
 	}
 	let i = await r.json().catch(() => null);
 	if (!r.ok) throw new qp(r.status, i?.error || n, i?.errors);
@@ -19609,7 +19609,7 @@ function wm({ mark: e }) {
 function Tm({ done: e }) {
 	let t = (0, y.useRef)(null);
 	return (0, y.useEffect)(() => {
-		document.title = "Peach · 设置完成", t.current?.focus();
+		document.title = "Chise · 设置完成", t.current?.focus();
 	}, []), (0, y.useEffect)(() => {
 		let t = e.redirect;
 		if (!t) return;
@@ -19621,13 +19621,13 @@ function Tm({ done: e }) {
 		children: [
 			/* @__PURE__ */ (0, z.jsx)("p", {
 				className: "text-body-regular text-text-primary",
-				children: e.restored ? "已连接已有数据目录。" : e.scan_requested ? "首次扫描已排队，在后台整理媒体库，期间可以照常使用 Peach。" : "稍后在配置页开始扫描媒体库。"
+				children: e.restored ? "已连接已有数据目录。" : e.scan_requested ? "首次扫描已排队，在后台整理媒体库，期间可以照常使用 Chise。" : "稍后在配置页开始扫描媒体库。"
 			}),
 			/* @__PURE__ */ (0, z.jsx)(Ct, {
 				ref: t,
 				href: e.url,
 				className: "self-start",
-				children: e.history_guide ? "导入浏览器历史记录" : "进入 Peach"
+				children: e.history_guide ? "导入浏览器历史记录" : "进入 Chise"
 			}),
 			/* @__PURE__ */ (0, z.jsx)(Sm, {
 				summary: "运行信息",
@@ -21146,7 +21146,7 @@ function Og({ setup: e, onDone: t }) {
 							}), /* @__PURE__ */ (0, z.jsx)("p", {
 								id: "setup-access-description",
 								className: "text-body-2-regular text-text-secondary",
-								children: "开启后，访问 Peach 需要先登录。"
+								children: "开启后，访问 Chise 需要先登录。"
 							})]
 						}), /* @__PURE__ */ (0, z.jsx)(Om, {
 							"aria-labelledby": "setup-access-title",
@@ -21155,7 +21155,7 @@ function Og({ setup: e, onDone: t }) {
 							onChange: u
 						})]
 					}),
-					/* @__PURE__ */ (0, z.jsx)(_m, { children: "未设置密码时，能连接到 Peach 的设备可直接进入。" }),
+					/* @__PURE__ */ (0, z.jsx)(_m, { children: "未设置密码时，能连接到 Chise 的设备可直接进入。" }),
 					l ? /* @__PURE__ */ (0, z.jsx)(Sg, {
 						label: "访问密码",
 						password: d,
@@ -21288,13 +21288,13 @@ function Ag() {
 			});
 		}), () => e.abort();
 	}, [n]), e.kind === "done" ? /* @__PURE__ */ (0, z.jsx)(Tm, { done: e.done }) : /* @__PURE__ */ (0, z.jsxs)(wt, {
-		title: "欢迎使用 Peach",
+		title: "欢迎使用 Chise",
 		lede: "添加媒体库，开始整理馆藏。",
 		busy: e.kind === "loading",
 		children: [
 			e.kind === "denied" ? /* @__PURE__ */ (0, z.jsx)(Up, {
 				tone: "error",
-				children: "请在运行 Peach 的这台电脑上打开设置。"
+				children: "请在运行 Chise 的这台电脑上打开设置。"
 			}) : null,
 			e.kind === "failed" ? /* @__PURE__ */ (0, z.jsx)(Up, {
 				tone: "error",

@@ -556,7 +556,7 @@ def restart_tray(
     windows = find_windows(target)
     process_ids = {window.process_id for window in windows}
     if len(process_ids) != 1 or not windows:
-        return RestartResult(False, "拒绝重启：没有找到唯一且路径匹配的 Peach 托盘窗口")
+        return RestartResult(False, "拒绝重启：没有找到唯一且路径匹配的 Chise 托盘窗口")
     old_process_id = next(iter(process_ids))
     refusal = prepare.before_stop(old_process_id) if prepare is not None else None
     if refusal:

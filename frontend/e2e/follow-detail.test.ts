@@ -32,7 +32,7 @@ function watchFollowRequests(page: Page) {
 }
 
 /** 换条前记下舞台节点并盯住骨架：原地换条时浮窗还是同一个节点，中途不回骨架，焦点留在浮窗里。
- *  顺带盯新播放器：Peach 控件（提示圆是其中一枚）装上之前，Video.js 原装的控制条与大播放键不该露出来。 */
+ *  顺带盯新播放器：Chise 控件（提示圆是其中一枚）装上之前，Video.js 原装的控制条与大播放键不该露出来。 */
 const watchStage = (page: Page) => page.evaluate(() => {
   const watch = { stage: document.getElementById('stage'), skeleton: false, rawControls: false };
   const shown = (node: Element | null) => !!node && getComputedStyle(node).display !== 'none' && getComputedStyle(node).visibility !== 'hidden';
@@ -178,7 +178,7 @@ describe('关注详情岛', () => {
       assert.deepEqual(await stageKept(page), { same: true, skeleton: false, focused: true }, '后退到上一条重开了浮窗');
       assert.deepEqual(seen.item, [], '组里的另一条和取过的那一条又单条取了一次，点下去要等一个来回才换');
       assert.equal(await page.evaluate(() => (window as unknown as { stageWatch: { rawControls: boolean } }).stageWatch.rawControls),
-        false, 'Peach 控件装上之前露出了 Video.js 原装的控制条或大播放键');
+        false, 'Chise 控件装上之前露出了 Video.js 原装的控制条或大播放键');
       await page.locator('#closeStage').click();
       await pathIs(page, '/follow');
       await page.locator('[data-follow-list] > [data-follow-item]').first().waitFor({ timeout: 15_000 });

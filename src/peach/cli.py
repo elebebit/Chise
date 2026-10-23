@@ -427,7 +427,7 @@ def _init_interactive(
     answers = onboarding.Answers(**collected)  # type: ignore[arg-type]
     applied = onboarding.apply(config, answers, windows=windows)
     prepared = applied.config
-    print(f"Peach 数据目录：{prepared.data_root}")
+    print(f"Chise 数据目录：{prepared.data_root}")
     _report_data_tree(applied.tree)
     print(f"设置文件：{applied.settings_path}")
     if not windows:
@@ -522,7 +522,7 @@ def _create_data_tree(config: settings_file.PeachConfig) -> None:
     """建目录、把库迁到最新、生成本机 CA。事情由 `onboarding.create_data_tree` 做，
     这里只把它做过的事说出来——托盘的设置页调同一个函数，两条前端不会各做一套。
     """
-    print(f"Peach 数据目录：{config.data_root}")
+    print(f"Chise 数据目录：{config.data_root}")
     _report_data_tree(onboarding.create_data_tree(config))
 
 
@@ -711,7 +711,7 @@ def build_parser() -> argparse.ArgumentParser:
         "init", help="首次运行：不带参数在终端里问答；带任何参数或 --no-input 走非交互")
     init.add_argument("--no-input", action="store_true",
                       help="不进入问答，按参数与内建默认直接生成")
-    init.add_argument("--data-root", type=Path, help="Peach 数据目录；默认沿用当前发现结果")
+    init.add_argument("--data-root", type=Path, help="Chise 数据目录；默认沿用当前发现结果")
     init.add_argument("--from-existing", action="store_true",
                       help="只为已在运行的部署生成设置文件，不建目录、不建库")
     init.add_argument("--force", action="store_true", help="覆盖已存在的设置文件")
@@ -736,7 +736,7 @@ def build_parser() -> argparse.ArgumentParser:
     serve.add_argument("--token", default="")
     serve.add_argument("--docs", action="store_true")
     serve.add_argument("--setup", action="store_true",
-                       help="只提供首次运行表单：忽略发现到的 Peach 数据目录，也不要口令")
+                       help="只提供首次运行表单：忽略发现到的 Chise 数据目录，也不要口令")
     serve.add_argument("--no-auth", action="store_true",
                        help="跳过登录页；仅允许本机访问时可用，不读取或修改口令文件")
     serve.add_argument("--no-mdns", action="store_true")

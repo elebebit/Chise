@@ -206,7 +206,7 @@ def desktop_entry(program: Path) -> tuple[Path, dict]:
     path = desktop_directory() / "Peach.lnk"
     current = shortcut("read", path)
     if current["enabled"] and not owned_target(Path(current["target"]).resolve(), program):
-        raise ValueError("桌面快捷方式属于另一份 Peach 安装")
+        raise ValueError("桌面快捷方式属于另一份 Chise 安装")
     return path, current
 
 
@@ -220,7 +220,7 @@ def windows_entry(config, program: Path) -> tuple[Path, dict]:
     path = directory / f"Peach-{identity}.lnk"
     current = shortcut("read", path)
     if current["enabled"] and Path(current["target"]).resolve() != program.resolve():
-        raise ValueError("启动项属于另一份 Peach 安装")
+        raise ValueError("启动项属于另一份 Chise 安装")
     return path, current
 
 
@@ -266,7 +266,7 @@ def snapshot(config=None) -> dict:
             path = Path.home() / "Library/LaunchAgents" / f"{MACOS_LAUNCH_AGENT_LABEL}.plist"
             entry = plistlib.loads(path.read_bytes()) if path.is_file() else {}
             if entry.get("ProgramArguments") and Path(entry["ProgramArguments"][0]).resolve() != program.resolve():
-                raise ValueError("启动项属于另一份 Peach 安装")
+                raise ValueError("启动项属于另一份 Chise 安装")
             enabled = bool(entry.get("RunAtLoad", False))
             silent = "--show" not in entry.get("ProgramArguments", []) if enabled else bool(preference.get("silent", True))
         return {"available": program.is_file(), "enabled": enabled, "silent": silent,
@@ -308,7 +308,7 @@ def save(config, *, enabled: bool, silent: bool, desktop: bool, executable: Path
         path = Path.home() / "Library/LaunchAgents" / f"{MACOS_LAUNCH_AGENT_LABEL}.plist"
         entry = plistlib.loads(path.read_bytes()) if path.is_file() else {}
         if entry.get("ProgramArguments") and Path(entry["ProgramArguments"][0]).resolve() != program.resolve():
-            raise ValueError("启动项属于另一份 Peach 安装")
+            raise ValueError("启动项属于另一份 Chise 安装")
         entry.update(Label=MACOS_LAUNCH_AGENT_LABEL, ProgramArguments=[str(program), *args], RunAtLoad=enabled,
                      KeepAlive=False, ProcessType="Interactive", WorkingDirectory=str(directory))
         entry["EnvironmentVariables"] = {**entry.get("EnvironmentVariables", {}), "PEACH_DATA_ROOT": str(config.data_root),

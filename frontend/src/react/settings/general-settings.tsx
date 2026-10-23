@@ -50,8 +50,8 @@ export function StartupSettings({ startup, receipt }: { startup: StartupState; r
   return (
     <Section title="开机自启" onSubmit={submit}>
       <Rows>
-        <SettingsRow label="开机后启动 Peach">
-          <Switch aria-label="开机后启动 Peach" isSelected={enabled} isDisabled={!startup.available} onChange={setEnabled} />
+        <SettingsRow label="开机后启动 Chise">
+          <Switch aria-label="开机后启动 Chise" isSelected={enabled} isDisabled={!startup.available} onChange={setEnabled} />
         </SettingsRow>
         <SettingsRow label="只启动托盘，不打开网页">
           <Switch aria-label="只启动托盘，不打开网页" isSelected={silent} isDisabled={!startup.available || !enabled} onChange={setSilent} />

@@ -70,7 +70,7 @@ export async function launch(): Promise<Browser> {
  * 所以调用方先等到目标页面自己的主体出现，再调它。 */
 export async function settle(page: Page, scope = 'body'): Promise<void> {
   /* 活动页和馆藏页会持续轮询任务状态，本来就不保证进入 `networkidle`。页面导航由
-     `visit()` 等到 load，主体由调用方的 `expectBody()` 验证；这里只等 Peach 自己公开的
+     `visit()` 等到 load，主体由调用方的 `expectBody()` 验证；这里只等 Chise 自己公开的
      等待态结束。 */
   try {
     await page.waitForFunction(
@@ -113,10 +113,10 @@ export async function expectBody(page: Page, where: string, body: readonly Locat
   }
 }
 
-/** Peach 配置页的主体：标题与默认的媒体库分区。 */
+/** Chise 配置页的主体：标题与默认的媒体库分区。 */
 export function configurationBody(page: Page): Locator[] {
   return [
-    page.locator('#main').getByRole('heading', { name: 'Peach 配置', exact: true }),
+    page.locator('#main').getByRole('heading', { name: 'Chise 配置', exact: true }),
     page.locator('#stats').getByRole('tab', { name: '媒体库与入库' }),
   ];
 }

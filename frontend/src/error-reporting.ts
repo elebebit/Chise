@@ -1,4 +1,4 @@
-/* 浏览器异常只记录到当前 Peach 主机。失败不再生成新的错误请求。 */
+/* 浏览器异常只记录到当前 Chise 主机。失败不再生成新的错误请求。 */
 let installed = false;
 
 export function installErrorReporting(): void {

@@ -37,7 +37,7 @@ export function BrowserSources({ browsers, sources, range, children }:
     }}>
       <Input label="浏览器名称" value={name} onChange={setName} maxLength={80} isRequired isDisabled={change.isPending} />
       <Input label="资料目录或历史文件" value={path} onChange={setPath} maxLength={1024} isRequired isDisabled={change.isPending}
-        hint="请选择运行 Peach 的电脑上的浏览器资料。" />
+        hint="请选择运行 Chise 的电脑上的浏览器资料。" />
       <div className="flex gap-2">
         <Button type="submit" variant="secondary" disabled={!name.trim() || !path.trim()} {...busyProps(change.isPending)}>添加</Button>
         <Button variant="ghost" disabled={change.isPending} onClick={() => { setAdding(false); change.reset() }}>取消</Button>

@@ -39,7 +39,7 @@ import {
   type AmaneBridge, type Check, type CoverJob, type ScrapingData, type Source,
 } from './scraping';
 
-const NETWORKS = [['peach', 'Peach 代理'], ['direct', '直接连接']] as const;
+const NETWORKS = [['peach', 'Chise 代理'], ['direct', '直接连接']] as const;
 
 /** 连接方式的选项。数据库里存着这两种以外的值（旧版写下的、手改的）时把它原样列成一项，
  *  下拉框照实显示现在是什么，不落到空占位上。 */
@@ -174,7 +174,7 @@ function SourceCard({ source, toast }: { source: Source } & ScrapingProps) {
         {network === 'peach'
           ? <span className="self-start">
               <LinkButton href="/settings/library#peachProxy" size="small" trailingIcon={RiArrowRightLine}>
-                配置 Peach 代理
+                配置 Chise 代理
               </LinkButton>
             </span>
           : null}
@@ -325,7 +325,7 @@ function AmaneBridgeCard({ toast }: ScrapingProps) {
           : null}
         <Help>
           已安装版本：{data.installed_version || '未安装'}。amane（{data.license}）提供这些内置站点的解析能力。
-          重新安装会使用 Peach 内置的 {data.version} 版本，不随上游自动升级。
+          重新安装会使用 Chise 内置的 {data.version} 版本，不随上游自动升级。
         </Help>
         {running ? <LoadingDots label="正在重建运行环境" /> : null}
         {problem ? <Note tone="error">{problem}</Note> : null}

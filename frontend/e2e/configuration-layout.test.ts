@@ -101,7 +101,7 @@ describe('配置表单与行间距', () => {
           await route.fulfill({ json: { ...data, uninstall: { ...data.uninstall, available: false } } });
         });
         await page.reload();
-        const region = page.getByRole('region', { name: '卸载 Peach', exact: true });
+        const region = page.getByRole('region', { name: '卸载 Chise', exact: true });
         await region.getByText('完全卸载', { exact: true }).waitFor();
         await settle(page);
         const geometry = await region.evaluate(node => {

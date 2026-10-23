@@ -1,17 +1,21 @@
 <p align="center">
-  <img src="resources/peach-logo.png" alt="Peach" width="96">
+  <img src="resources/peach-logo.png" alt="Chise" width="96">
 </p>
 
-<h1 align="center">Peach</h1>
+<h1 align="center">Chise</h1>
+
+Chise 由 LONG YU 维护，项目仓库为 [elebebit/Chise](https://github.com/elebebit/Chise)。Python 包、CLI、环境变量与数据目录继续使用 `peach` 命名，现有馆藏与配置沿用本机目录。
+
+macOS 原生窗口：安装依赖后双击 `start.command`，或运行 `./.venv/bin/python desktop_app.py`。窗口连接本机 `8900` 端口，通过托盘启动后台服务。运行 `./.venv/bin/python scripts/build_chise_desktop.py` 可生成 `dist/chise-desktop/Chise.app`；这是依赖当前源码和 `.venv` 的本机入口。应用产物不进 Git，桌面窗口依赖随 `macos` 可选依赖安装。
 
 <p align="center">给自己用的私人影片馆藏：本地硬盘、网盘和关注的创作者，放在一个地方看。</p>
 
 <p align="center">
   <a href="https://peach.video">官网</a> ·
-  <a href="https://github.com/peach-mitao/peach/releases">下载安装包</a> ·
+  <a href="https://github.com/elebebit/Chise/releases">下载安装包</a> ·
   <a href="https://demo.peach.video">在线演示</a> ·
-  <a href="https://github.com/peach-mitao/peach/releases/tag/intro-video">介绍视频</a> ·
-  <a href="https://github.com/peach-mitao/peach/issues">问题反馈</a> ·
+  <a href="https://github.com/elebebit/Chise/releases/tag/intro-video">介绍视频</a> ·
+  <a href="https://github.com/elebebit/Chise/issues">问题反馈</a> ·
   <a href="https://github.com/orgs/peach-mitao/projects/7/views/1">需求看板</a> ·
   <a href="https://github.com/orgs/peach-mitao/projects/7/views/3">路线图</a> ·
   <a href="#文档">文档</a> ·
@@ -19,8 +23,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/peach-mitao/peach/releases"><img src="https://img.shields.io/github/v/release/peach-mitao/peach?include_prereleases&amp;filter=v*&amp;sort=semver&amp;display_name=tag" alt="release"></a>
-  <a href="https://github.com/peach-mitao/peach/actions/workflows/test.yml"><img src="https://img.shields.io/github/actions/workflow/status/peach-mitao/peach/test.yml?branch=master&amp;label=tests&amp;logo=githubactions&amp;logoColor=white" alt="CI 状态"></a>
+  <a href="https://github.com/elebebit/Chise/releases"><img src="https://img.shields.io/github/v/release/elebebit/Chise?include_prereleases&amp;filter=v*&amp;sort=semver&amp;display_name=tag" alt="release"></a>
+  <a href="https://github.com/elebebit/Chise/actions/workflows/test.yml"><img src="https://img.shields.io/github/actions/workflow/status/elebebit/Chise/test.yml?branch=master&amp;label=tests&amp;logo=githubactions&amp;logoColor=white" alt="CI 状态"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0--or--later-blue?logo=gnu&amp;logoColor=white" alt="license"></a>
   <a href="docs/TESTING_DESKTOP.md"><img src="https://img.shields.io/badge/Windows-x64-0078D4" alt="Windows x64"></a>
   <a href="docs/OPERATIONS.md#macos-独立测试包"><img src="https://img.shields.io/badge/macOS-DMG-555555?logo=apple&amp;logoColor=white" alt="macOS 独立应用构建与安装"></a>
@@ -40,7 +44,7 @@ https://github.com/user-attachments/assets/a5610874-e611-41bb-be22-7d99f0d64b62
 - **跨站关注**：同一创作者在 FANBOX、Patreon、Kemono 等站点的更新汇到一起，同一作品合成一张卡。
 - **追新作、找想看的**：按女优订阅新作，按口味发现作品，用「想要」清单留住待找的片子。
 - **云下载**：按番号查找资源或粘贴磁力，提交到 115 或 PikPak，落地后自动整理入库。
-- **浏览器添加 JAV**：在 JavDB、MissAV、Jable 等站点识别或选中番号，一键交给 Peach 云下载入库。[用户脚本](https://github.com/peach-mitao/peach-userscript)独立维护，见[安装与配对](docs/JAV_BROWSER.md)。
+- **浏览器添加 JAV**：在 JavDB、MissAV、Jable 等站点识别或选中番号，一键交给 Chise 云下载入库。[用户脚本](https://github.com/peach-mitao/peach-userscript)独立维护，见[安装与配对](docs/JAV_BROWSER.md)。
 - **口味**：结合观看、反馈、馆藏、浏览历史、书签与关注关系分析偏好。一次读取本机浏览器的历史和书签，也可导入 HTML 书签或 Chromium Bookmarks JSON；来源可停止读取或删除。见[口味数据来源](docs/TASTE_SOURCES.md)。
 
 观看记录、收藏和设置保存在本机。扫描不动原文件；手动整理先预览，可撤回上一批。
@@ -84,7 +88,7 @@ https://github.com/user-attachments/assets/a5610874-e611-41bb-be22-7d99f0d64b62
 
 ### Windows
 
-1. 从 [Releases](https://github.com/peach-mitao/peach/releases) 下载完整安装包 `Peach-<版本>-windows-x64-setup.exe`，双击安装，无需管理员权限；也可下载完整免安装包，解压后运行 `Peach.exe`。
+1. 从 [Releases](https://github.com/elebebit/Chise/releases) 下载完整安装包 `Peach-<版本>-windows-x64-setup.exe`，双击安装，无需管理员权限；也可下载完整免安装包，解压后运行 `Peach.exe`。
 2. 浏览器打开首次设置页后，选择媒体目录和访问范围。
 3. 开始扫描，随后在浏览器里浏览和播放。
 
@@ -96,7 +100,7 @@ https://github.com/user-attachments/assets/a5610874-e611-41bb-be22-7d99f0d64b62
 
 macOS 可在本机构建独立 `.app` 与 DMG，运行不需要 Python、源码或另一台电脑。构建与安装见 [macOS 独立测试包](docs/OPERATIONS.md#macos-独立测试包)。
 
-发版流程分别生成 Apple Silicon（`macos-arm64.dmg`）与 Intel（`macos-x86_64.dmg`）测试包；可下载版本以 [Releases](https://github.com/peach-mitao/peach/releases) 的实际资产为准。在「关于本机」确认芯片，打开对应镜像并将 Peach 拖入「应用程序」。测试包未完成 Apple 公证，媒体工具需另行准备。
+发版流程分别生成 Apple Silicon（`macos-arm64.dmg`）与 Intel（`macos-x86_64.dmg`）测试包；可下载版本以 [Releases](https://github.com/elebebit/Chise/releases) 的实际资产为准。在「关于本机」确认芯片，打开对应镜像并将 Chise 拖入「应用程序」。测试包未完成 Apple 公证，媒体工具需另行准备。
 
 ### 从源码运行（Windows、macOS）
 
@@ -115,7 +119,7 @@ macOS 可在本机构建独立 `.app` 与 DMG，运行不需要 Python、源码�
 
 ## 问题反馈
 
-先查看[用户反馈](https://github.com/peach-mitao/peach/issues)，或[提交问题](https://github.com/peach-mitao/peach/issues/new/choose)，附上版本、操作步骤、预期与实际结果。截图请遮掉凭据、局域网地址和完整路径，不要上传数据库或媒体；安全问题按[安全政策](SECURITY.md)私下报告。
+先查看[用户反馈](https://github.com/elebebit/Chise/issues)，或[提交问题](https://github.com/elebebit/Chise/issues/new/choose)，附上版本、操作步骤、预期与实际结果。截图请遮掉凭据、局域网地址和完整路径，不要上传数据库或媒体；安全问题按[安全政策](SECURITY.md)私下报告。
 
 ## 文档
 
@@ -131,9 +135,9 @@ macOS 可在本机构建独立 `.app` 与 DMG，运行不需要 Python、源码�
 
 <a href="https://www.star-history.com/?repos=peach-mitao%2Fpeach&amp;type=date&amp;logscale=&amp;releases=&amp;legend=top-left">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=peach-mitao/peach&amp;type=date&amp;theme=dark&amp;logscale&amp;legend=top-left">
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=peach-mitao/peach&amp;type=date&amp;logscale&amp;legend=top-left">
-    <img alt="Peach Star 历史" src="https://api.star-history.com/svg?repos=peach-mitao/peach&amp;type=date&amp;logscale&amp;legend=top-left">
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=elebebit/Chise&amp;type=date&amp;theme=dark&amp;logscale&amp;legend=top-left">
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=elebebit/Chise&amp;type=date&amp;logscale&amp;legend=top-left">
+    <img alt="Chise Star 历史" src="https://api.star-history.com/svg?repos=elebebit/Chise&amp;type=date&amp;logscale&amp;legend=top-left">
   </picture>
 </a>
 

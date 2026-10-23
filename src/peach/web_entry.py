@@ -53,7 +53,7 @@ def page_shell(title: str, page: str, data: Mapping[str, str] | None = None, *, 
 
 
 def runtime_facts(config) -> tuple[tuple[str, str], ...]:
-    """这台机器上 Peach 的位置与版本：设置完成页和 `/api/configuration` 共用同一份。"""
+    """这台机器上 Chise 的位置与版本：设置完成页和 `/api/configuration` 共用同一份。"""
     from . import __version__
     import platform as system_platform
     from .ffmpeg import FFmpegResolver

@@ -11105,18 +11105,18 @@ function Pt(e, t = 0) {
 	let n = String(e?.message ?? e ?? ""), r = Number(t || e?.status || n.match(/\b(400|401|403|404|408|409|413|429|500|502|503|504)\b/)?.[1]), i = {
 		400: "提交内容有误，请检查输入后重试。",
 		401: "登录已失效，请刷新页面重新登录。",
-		403: "当前设备没有执行此操作的权限，请在运行 Peach 的电脑上操作。",
+		403: "当前设备没有执行此操作的权限，请在运行 Chise 的电脑上操作。",
 		404: "请求的内容已不存在，请刷新列表。",
 		408: "请求超时，请稍后重试。",
 		409: "当前状态不允许此操作，请刷新后重试。",
 		413: "提交内容过大，请减少数量后重试。",
 		429: "请求过于频繁，请稍后重试。",
-		500: "Peach 服务处理失败，请重试；持续失败时查看托盘日志。",
-		502: "Peach 服务没有取回结果，请稍后重试；持续失败时查看托盘日志。",
-		503: "Peach 服务暂时不可用，请稍后重试。",
+		500: "Chise 服务处理失败，请重试；持续失败时查看托盘日志。",
+		502: "Chise 服务没有取回结果，请稍后重试；持续失败时查看托盘日志。",
+		503: "Chise 服务暂时不可用，请稍后重试。",
 		504: "等待服务响应超时，请稍后重试。"
 	};
-	return /Failed to fetch|fetch failed|NetworkError|Load failed|network request failed|ERR_CONNECTION/i.test(n) ? "无法连接到 Peach 服务，请确认网络连接和托盘服务已启动。" : e?.name === "TimeoutError" || !r && /timed? ?out|timeout/i.test(n) ? "等待服务响应超时，请检查连接后重试。" : /[㐀-鿿]/.test(n) && !/^请求失败[（(]/.test(n) ? n : i[r] ? i[r] : "操作未完成，请重试；持续失败时查看托盘日志。";
+	return /Failed to fetch|fetch failed|NetworkError|Load failed|network request failed|ERR_CONNECTION/i.test(n) ? "无法连接到 Chise 服务，请确认网络连接和托盘服务已启动。" : e?.name === "TimeoutError" || !r && /timed? ?out|timeout/i.test(n) ? "等待服务响应超时，请检查连接后重试。" : /[㐀-鿿]/.test(n) && !/^请求失败[（(]/.test(n) ? n : i[r] ? i[r] : "操作未完成，请重试；持续失败时查看托盘日志。";
 }
 //#endregion
 //#region src/core/icon-geometry.ts
@@ -34540,7 +34540,7 @@ var rk = {
 	},
 	"/settings/library": {
 		section: "configuration",
-		title: "Peach 配置",
+		title: "Chise 配置",
 		refresh: "reopen"
 	},
 	"/tasks": {
@@ -70824,7 +70824,7 @@ function SPe({ initial: e, cancel: t, saved: n }) {
 					label: "来源连接方式",
 					epoch: 0,
 					value: r.network || "direct",
-					options: [["direct", "直连"], ["peach_proxy", "Peach 代理"]],
+					options: [["direct", "直连"], ["peach_proxy", "Chise 代理"]],
 					onPick: (e) => d({ network: e })
 				})]
 			}),
@@ -70913,7 +70913,7 @@ function SPe({ initial: e, cancel: t, saved: n }) {
 }
 //#endregion
 //#region src/react/scraping/scraping-page.tsx
-var sG = [["peach", "Peach 代理"], ["direct", "直接连接"]];
+var sG = [["peach", "Chise 代理"], ["direct", "直接连接"]];
 function CPe(e) {
 	return sG.some(([t]) => t === e) || !e ? [...sG] : [...sG, [e, e]];
 }
@@ -71005,7 +71005,7 @@ function EPe({ source: e, toast: t }) {
 							href: "/settings/library#peachProxy",
 							size: "small",
 							trailingIcon: kk,
-							children: "配置 Peach 代理"
+							children: "配置 Chise 代理"
 						})
 					}) : null,
 					e.browser ? /* @__PURE__ */ (0, C.jsx)("p", {
@@ -71203,7 +71203,7 @@ function OPe({ toast: e }) {
 						o.installed_version || "未安装",
 						"。amane（",
 						o.license,
-						"）提供这些内置站点的解析能力。 重新安装会使用 Peach 内置的 ",
+						"）提供这些内置站点的解析能力。 重新安装会使用 Chise 内置的 ",
 						o.version,
 						" 版本，不随上游自动升级。"
 					] }),
@@ -71866,7 +71866,7 @@ function VPe({ initial: e, receipt: t }) {
 			}),
 			u ? null : /* @__PURE__ */ (0, C.jsx)(PA, { children: "请先保存所选网盘的账号和目标目录。" }),
 			/* @__PURE__ */ (0, C.jsx)(SP, {
-				label: "Peach 地址",
+				label: "Chise 地址",
 				value: window.location.origin,
 				isReadOnly: !0,
 				autoComplete: "off"
@@ -72307,7 +72307,7 @@ function XPe({ state: e, settle: t, receipt: n, username: r, setUsername: i }) {
 				children: g.username || "已登录"
 			}), g.method === "browser" ? /* @__PURE__ */ (0, C.jsx)(zA, {
 				term: "登录方式",
-				children: "浏览器登录，由 Peach 续期"
+				children: "浏览器登录，由 Chise 续期"
 			}) : /* @__PURE__ */ (0, C.jsx)(zA, {
 				term: "密码",
 				children: g.remember ? "已保存，登录过期时自动重新登录" : "未保存，登录过期后需要回到这里重新登录"
@@ -72457,23 +72457,23 @@ function tFe({ facts: e }) {
 }
 function nFe({ uninstall: e, receipt: t }) {
 	let [n, r] = (0, S.useState)(!1), [i, a] = (0, S.useState)(""), o = () => void Rs({
-		title: "卸载 Peach",
+		title: "卸载 Chise",
 		danger: !0,
-		body: n ? "将退出 Peach，移除程序、开机自启、桌面图标、设置、本地数据库、观看记录、凭据和缓存。原始媒体文件保留。" : "将退出 Peach 并移除程序、开机自启和桌面图标。设置、本地数据库、观看记录与缓存保留。",
-		confirmLabel: "卸载 Peach",
+		body: n ? "将退出 Chise，移除程序、开机自启、桌面图标、设置、本地数据库、观看记录、凭据和缓存。原始媒体文件保留。" : "将退出 Chise 并移除程序、开机自启和桌面图标。设置、本地数据库、观看记录与缓存保留。",
+		confirmLabel: "卸载 Chise",
 		onConfirm: async () => {
 			let e = await U("/api/configuration/uninstall", {
 				delete_data: n,
-				confirmation: "卸载 Peach"
+				confirmation: "卸载 Chise"
 			});
 			a(e.message);
 		}
 	}), s = i || e.message, c = [.../* @__PURE__ */ new Set([e.data_root, ...e.directories])];
 	return /* @__PURE__ */ (0, C.jsxs)(AA, {
 		id: "uninstallPeach",
-		title: "卸载 Peach",
+		title: "卸载 Chise",
 		children: [
-			e.available ? /* @__PURE__ */ (0, C.jsx)(MA, { children: /* @__PURE__ */ (0, C.jsx)(PA, { children: "卸载移除 Peach 程序本身，原始媒体文件保留。" }) }) : null,
+			e.available ? /* @__PURE__ */ (0, C.jsx)(MA, { children: /* @__PURE__ */ (0, C.jsx)(PA, { children: "卸载移除 Chise 程序本身，原始媒体文件保留。" }) }) : null,
 			/* @__PURE__ */ (0, C.jsx)(jA, { children: /* @__PURE__ */ (0, C.jsx)(DA, {
 				label: "完全卸载",
 				description: "同时删除设置、本地数据库、观看记录、凭据和缓存",
@@ -72504,7 +72504,7 @@ function nFe({ uninstall: e, receipt: t }) {
 					variant: "danger",
 					disabled: !e.available || !!i,
 					onClick: o,
-					children: "卸载 Peach"
+					children: "卸载 Chise"
 				})
 			})
 		]
@@ -72537,7 +72537,7 @@ function iFe({ initial: e, initialJob: t }) {
 		u.current && a(e);
 	}, p = () => void Rs({
 		title: "更新已准备好",
-		body: `Peach ${i.version || ""} 将在重启后安装。`,
+		body: `Chise ${i.version || ""} 将在重启后安装。`,
 		confirmLabel: "立即重启",
 		cancelLabel: "稍后",
 		onConfirm: f
@@ -72558,7 +72558,7 @@ function iFe({ initial: e, initialJob: t }) {
 				let n = await H("/api/configuration/automatic-updates", e.signal);
 				!e.signal.aborted && n.result && r(n.result);
 			} catch {
-				o += 1, o >= OG && !e.signal.aborted && s("尚未连接到 Peach，请检查托盘后刷新页面。");
+				o += 1, o >= OG && !e.signal.aborted && s("尚未连接到 Chise，请检查托盘后刷新页面。");
 			}
 			!e.signal.aborted && o < OG && (n = setTimeout(c, t));
 		};
@@ -72846,9 +72846,9 @@ function lFe({ startup: e, receipt: t }) {
 		children: [
 			/* @__PURE__ */ (0, C.jsxs)(jA, { children: [
 				/* @__PURE__ */ (0, C.jsx)(DA, {
-					label: "开机后启动 Peach",
+					label: "开机后启动 Chise",
 					children: /* @__PURE__ */ (0, C.jsx)(wU, {
-						"aria-label": "开机后启动 Peach",
+						"aria-label": "开机后启动 Chise",
 						isSelected: n,
 						isDisabled: !e.available,
 						onChange: r
@@ -73503,7 +73503,7 @@ function MFe({ data: e, receipt: t }) {
 			tone: "success",
 			title: "配置已保存",
 			children: [
-				"Peach 正在重新启动。稍后自动跳转，或点击",
+				"Chise 正在重新启动。稍后自动跳转，或点击",
 				/* @__PURE__ */ (0, C.jsx)(kA, {
 					href: _.url,
 					size: "small",
@@ -73597,7 +73597,7 @@ function MFe({ data: e, receipt: t }) {
 				children: h
 			}) : null
 		] }), /* @__PURE__ */ (0, C.jsx)(NA, {
-			status: "保存后 Peach 会重新启动。",
+			status: "保存后 Chise 会重新启动。",
 			children: /* @__PURE__ */ (0, C.jsx)(q, {
 				type: "submit",
 				...Y(b.busy === "save"),
@@ -73897,7 +73897,7 @@ function VFe({ initial: e, receipt: t }) {
 				n.mode === "open" ? /* @__PURE__ */ (0, C.jsx)(J, {
 					tone: "warning",
 					title: "未设置访问密码",
-					children: "能连接到 Peach 的设备打开地址就能看馆藏，不需要登录。"
+					children: "能连接到 Chise 的设备打开地址就能看馆藏，不需要登录。"
 				}) : null,
 				n.mode === "password" || n.mode === "legacy" ? /* @__PURE__ */ (0, C.jsx)(XP, {
 					isSelected: u,
@@ -73931,7 +73931,7 @@ function VFe({ initial: e, receipt: t }) {
 				u ? /* @__PURE__ */ (0, C.jsx)(J, {
 					tone: "warning",
 					title: "访问范围",
-					children: "保存后，能连接到 Peach 的设备将直接访问馆藏。"
+					children: "保存后，能连接到 Chise 的设备将直接访问馆藏。"
 				}) : null,
 				h.error ? /* @__PURE__ */ (0, C.jsx)(FA, { children: h.error }) : null
 			] })
@@ -73955,7 +73955,7 @@ function HFe({ data: e, receipt: t }) {
 		children: /* @__PURE__ */ (0, C.jsx)(MA, { children: /* @__PURE__ */ (0, C.jsxs)(J, {
 			tone: "success",
 			title: "配置已保存",
-			children: ["Peach 正在重新启动。", /* @__PURE__ */ (0, C.jsx)(kA, {
+			children: ["Chise 正在重新启动。", /* @__PURE__ */ (0, C.jsx)(kA, {
 				href: o.url,
 				size: "small",
 				children: "进入馆藏"
@@ -73991,7 +73991,7 @@ function HFe({ data: e, receipt: t }) {
 			title: "没有保存",
 			children: c.error
 		}) : null] }), /* @__PURE__ */ (0, C.jsx)(NA, {
-			status: "保存后 Peach 会重启，并跳转到新地址。",
+			status: "保存后 Chise 会重启，并跳转到新地址。",
 			children: /* @__PURE__ */ (0, C.jsx)(q, {
 				type: "submit",
 				...Y(c.busy === "save"),
@@ -74096,7 +74096,7 @@ function KFe({ revision: e, initial: t, receipt: n }) {
 			r.error ? /* @__PURE__ */ (0, C.jsx)(FA, { children: r.error }) : null,
 			h.error ? /* @__PURE__ */ (0, C.jsx)(FA, { children: h.error }) : null
 		] }), /* @__PURE__ */ (0, C.jsxs)(NA, {
-			status: r.enabled ? "Peach 重启后自动恢复。" : void 0,
+			status: r.enabled ? "Chise 重启后自动恢复。" : void 0,
 			children: [/* @__PURE__ */ (0, C.jsx)(q, {
 				variant: r.named_available ? "secondary" : "primary",
 				onClick: () => v("toggle", !g, (e) => n(e.enabled ? "公网入口已启动" : "公网入口已停止")),
@@ -74145,7 +74145,7 @@ function YFe({ initial: e, receipt: t }) {
 	let [n, r] = (0, S.useState)(e), [i, a] = (0, S.useState)(e.mode), [o, s] = (0, S.useState)(""), c = wA();
 	return /* @__PURE__ */ (0, C.jsxs)(AA, {
 		id: "peachProxy",
-		title: "Peach 代理",
+		title: "Chise 代理",
 		onSubmit: (e) => {
 			e.preventDefault(), c.run("save", (e) => U("/api/configuration/peach-proxy", {
 				mode: i,
@@ -74199,7 +74199,7 @@ function YFe({ initial: e, receipt: t }) {
 }
 //#endregion
 //#region src/react/follow-manage/credentials.tsx
-var XFe = "将清除这个来源在本机和共享副本中的登录凭据。", ZFe = "文件权限过宽。在运行 Peach 的 POSIX 主机上收紧为 0600。";
+var XFe = "将清除这个来源在本机和共享副本中的登录凭据。", ZFe = "文件权限过宽。在运行 Chise 的 POSIX 主机上收紧为 0600。";
 function QFe(e, t) {
 	return (e.shared_fields || []).includes(t) ? "来自共享，留空表示不改" : e.fields.includes(t) ? "已保存，留空表示不改" : "未填写";
 }
@@ -75404,10 +75404,10 @@ function jIe({ tab: e, epoch: t, configurable: n, openConfiguration: r, onSelect
 					type: "button",
 					disabled: n !== !0,
 					onClick: r,
-					title: n === !1 ? "请在运行 Peach 的设备上打开 Peach 配置" : void 0,
+					title: n === !1 ? "请在运行 Chise 的设备上打开 Chise 配置" : void 0,
 					children: [
 						/* @__PURE__ */ (0, C.jsx)(pO, { name: "folder-cog" }),
-						"Peach 配置",
+						"Chise 配置",
 						/* @__PURE__ */ (0, C.jsx)(pO, { name: "chevron-right" })
 					]
 				})
@@ -76448,7 +76448,7 @@ function nLe() {
     </div>`).join(""), n = Array.from({ length: 6 }, () => `<div class="${yK} h-6"></div>`).join(""), r = (e) => `<section class="${SK}"><h3 class="text-title-2-medium text-text-primary">${e}</h3><div class="${yK} h-40"></div></section>`;
 	return `<div class="peach-react"><div class="mx-auto flex w-full max-w-board flex-col gap-8">
     <div class="flex flex-col gap-5">
-      <div class="flex flex-wrap items-center justify-between gap-3">${e(["浏览器记录", "Peach 内部"])}
+      <div class="flex flex-wrap items-center justify-between gap-3">${e(["浏览器记录", "Chise 内部"])}
         <div class="flex flex-wrap items-center gap-2">${bo("全部时间")}<span data-button-group data-split-button data-variant="primary">${vo({
 		glyph: "compass",
 		label: "读取浏览器历史",
@@ -77987,7 +77987,7 @@ function hq({ id: e }) {
 				value: r.url,
 				isReadOnly: !0
 			}),
-			/* @__PURE__ */ (0, C.jsx)(PA, { children: "链接有效期为 6 小时。VR 播放器可使用网络播放地址；另一台设备需要能访问当前 Peach 地址。" })
+			/* @__PURE__ */ (0, C.jsx)(PA, { children: "链接有效期为 6 小时。VR 播放器可使用网络播放地址；另一台设备需要能访问当前 Chise 地址。" })
 		] }) : null
 	] })] }, e);
 }
@@ -78844,7 +78844,7 @@ function _Re({ id: e, actions: t, onStatus: n }) {
 	}), /* @__PURE__ */ (0, C.jsx)("button", {
 		type: "button",
 		"data-sync": e,
-		title: "核对该目录：磁盘上已删除的移入 Peach 回收站，带个人记录的标为已消失",
+		title: "核对该目录：磁盘上已删除的移入 Chise 回收站，带个人记录的标为已消失",
 		"aria-label": "同步删除",
 		...r === "sync" ? {
 			"aria-busy": !0,
@@ -104051,7 +104051,7 @@ var Out = AJ, kut = (e) => e.filter((e) => Number.isFinite(Number(e.score)) && N
 function jut(e) {
 	if (e.web_visits == null && !e.web_bookmarks) return Number(e.score || e.visits || 0).toLocaleString();
 	let t = [], n = Number(e.web_bookmarks || 0), r = Number(e.web_visits ?? e.visits ?? 0) - n;
-	return r > 0 && t.push(`浏览 ${r.toLocaleString()}`), n && t.push(`书签 ${n.toLocaleString()}`), e.peach_items && t.push(`Peach ${Number(e.peach_items).toLocaleString()}`), t.join(" · ");
+	return r > 0 && t.push(`浏览 ${r.toLocaleString()}`), n && t.push(`书签 ${n.toLocaleString()}`), e.peach_items && t.push(`Chise ${Number(e.peach_items).toLocaleString()}`), t.join(" · ");
 }
 function Mut(e) {
 	let t = e.map(Aut), n = Math.max(1, ...t);
@@ -104810,7 +104810,7 @@ function Edt({ browsers: e, sources: t, range: n, children: r }) {
 						maxLength: 1024,
 						isRequired: !0,
 						isDisabled: u.isPending,
-						hint: "请选择运行 Peach 的电脑上的浏览器资料。"
+						hint: "请选择运行 Chise 的电脑上的浏览器资料。"
 					}),
 					/* @__PURE__ */ (0, C.jsxs)("div", {
 						className: "flex gap-2",
@@ -104924,7 +104924,7 @@ function Edt({ browsers: e, sources: t, range: n, children: r }) {
 }
 //#endregion
 //#region src/react/taste/taste-page.tsx
-var Ddt = 10, X8 = fA(WP, GP, "text-body-2-medium"), Z8 = `${vA()} flex flex-col gap-4`, Odt = "rounded-xl bg-background-primary-default p-3", kdt = "读取运行 Peach 的这台电脑上的浏览历史与书签", Adt = "导入或读取浏览记录后，这里会列出已采集设备。", jdt = "馆藏里暂时没有对得上浏览信号的标签。", Mdt = "采集浏览记录后，这里会显示聚合后的口味证据。", Ndt = "这些词在浏览记录中出现，但 Peach 观看记录还没有对应证据", Pdt = "采集浏览记录后，这里会列出浏览过的标签。", Fdt = "采集浏览记录后，这里会列出浏览过的创作者。", Idt = "采集浏览记录后，这里会列出常访问的网站。", Ldt = "在 Peach 里播放或评价作品后，这里会列出对应的标签。", Rdt = "在 Peach 里播放或评价作品后，这里会列出对应的创作者。", zdt = "在 Peach 里播放或评价作品后，这里会列出对应的女优。", Bdt = "在运行 Peach 的电脑上使用浏览器：点上面的「读取浏览器记录」。", Vdt = "记录在其他设备上：导出文件后，选择「导入历史文件」或「导入书签文件」。书签支持浏览器导出的 HTML 文件和 Chromium Bookmarks JSON 文件。", Hdt = "需要刷新时再次读取或导入；数据源可在页面底部移除。", Udt = "删除这个来源的已导入记录，原始文件保留。若浏览器仍启用，下次读取会再次导入。", Wdt = "peach-taste-guide-dismissed";
+var Ddt = 10, X8 = fA(WP, GP, "text-body-2-medium"), Z8 = `${vA()} flex flex-col gap-4`, Odt = "rounded-xl bg-background-primary-default p-3", kdt = "读取运行 Chise 的这台电脑上的浏览历史与书签", Adt = "导入或读取浏览记录后，这里会列出已采集设备。", jdt = "馆藏里暂时没有对得上浏览信号的标签。", Mdt = "采集浏览记录后，这里会显示聚合后的口味证据。", Ndt = "这些词在浏览记录中出现，但 Chise 观看记录还没有对应证据", Pdt = "采集浏览记录后，这里会列出浏览过的标签。", Fdt = "采集浏览记录后，这里会列出浏览过的创作者。", Idt = "采集浏览记录后，这里会列出常访问的网站。", Ldt = "在 Chise 里播放或评价作品后，这里会列出对应的标签。", Rdt = "在 Chise 里播放或评价作品后，这里会列出对应的创作者。", zdt = "在 Chise 里播放或评价作品后，这里会列出对应的女优。", Bdt = "在运行 Chise 的电脑上使用浏览器：点上面的「读取浏览器记录」。", Vdt = "记录在其他设备上：导出文件后，选择「导入历史文件」或「导入书签文件」。书签支持浏览器导出的 HTML 文件和 Chromium Bookmarks JSON 文件。", Hdt = "需要刷新时再次读取或导入；数据源可在页面底部移除。", Udt = "删除这个来源的已导入记录，原始文件保留。若浏览器仍启用，下次读取会再次导入。", Wdt = "peach-taste-guide-dismissed";
 function Q8({ icon: e, term: t, figure: n, detail: r, detailTitle: i, accent: a }) {
 	return /* @__PURE__ */ (0, C.jsx)("div", {
 		className: kB(),
@@ -105397,7 +105397,7 @@ function $dt(e) {
 						}), /* @__PURE__ */ (0, C.jsx)(fP, {
 							id: "peach",
 							className: JF,
-							children: "Peach 内部"
+							children: "Chise 内部"
 						})]
 					}), /* @__PURE__ */ (0, C.jsxs)("div", {
 						className: "flex flex-wrap items-center gap-2",
@@ -105613,7 +105613,7 @@ function $dt(e) {
 								/* @__PURE__ */ (0, C.jsx)(Q8, {
 									accent: 0,
 									icon: kge,
-									term: "Peach 看过",
+									term: "Chise 看过",
 									figure: Number(b.peach_items || 0).toLocaleString(),
 									detail: Out(b.peach_seconds || 0)
 								}),
@@ -105639,13 +105639,13 @@ function $dt(e) {
 						}),
 						/* @__PURE__ */ (0, C.jsxs)("section", {
 							className: `${Z8} md:flex-row md:gap-6`,
-							"aria-label": "Peach 观看",
+							"aria-label": "Chise 观看",
 							children: [/* @__PURE__ */ (0, C.jsxs)("div", {
 								className: "flex shrink-0 flex-col gap-0.5 pb-5 md:w-72 md:pr-6 md:pb-0",
 								children: [
 									/* @__PURE__ */ (0, C.jsx)("span", {
 										className: "text-caption-1-regular text-text-secondary",
-										children: "Peach 观看"
+										children: "Chise 观看"
 									}),
 									/* @__PURE__ */ (0, C.jsx)("b", {
 										className: "text-display-4-medium tabular-nums text-text-primary",
@@ -105670,7 +105670,7 @@ function $dt(e) {
 							})]
 						}),
 						/* @__PURE__ */ (0, C.jsx)(Jdt, {
-							label: "Peach 口味维度",
+							label: "Chise 口味维度",
 							onSignal: t,
 							panels: [
 								{
@@ -107308,7 +107308,7 @@ var tmt = [
 	],
 	[
 		"configuration",
-		"Peach 配置",
+		"Chise 配置",
 		"folder-cog"
 	]
 ], nmt = [
@@ -107689,7 +107689,7 @@ function Mmt(e) {
 	!e || lk(e) || e.querySelector("[data-feed-id]") || (e.hidden = Z.homeHasFeed !== !0, Z.homeHasFeed === !0 && (e.setAttribute("aria-busy", "true"), e.querySelector(".feednewskeleton") || (e.innerHTML = Q5.feedNewSkeletonHtml())));
 }
 function Nmt(e, t) {
-	return !(e > 0) || !t.some((e) => !e.has_cover) ? "" : ko(`${e} 部新作的封面连不上 DMM 图片主机，中国移动宽带常见。把 DMM / FANZA 的连接方式设成 Peach 代理，下一轮会自动重取。`, {
+	return !(e > 0) || !t.some((e) => !e.has_cover) ? "" : ko(`${e} 部新作的封面连不上 DMM 图片主机，中国移动宽带常见。把 DMM / FANZA 的连接方式设成 Chise 代理，下一轮会自动重取。`, {
 		variant: "warning",
 		className: "feednetwork",
 		actionLabel: "配置连接方式",
@@ -108042,7 +108042,7 @@ function tht() {
 	].filter(Boolean).join("，"), n7.sourceToolButtons = (e) => `
     <button type="button" data-reveal="${e}" title="在文件管理器里打开源文件所在目录"
       aria-label="定位源文件">${z("folder-open")}</button>
-    <button type="button" data-sync="${e}" title="核对该目录：磁盘上已删除的移入 Peach 回收站，带个人记录的标为已消失"
+    <button type="button" data-sync="${e}" title="核对该目录：磁盘上已删除的移入 Chise 回收站，带个人记录的标为已消失"
       aria-label="同步删除">${z("folder-sync")}</button>`;
 }
 function nht() {
@@ -108702,7 +108702,7 @@ function Lht() {
 		}))(Tht())
 	}), S7.wantsDiscoveryBars = () => R("#catalogFilter").style.display !== "none", S7.entityShapesReady = null, S7.ENTITY_SHAPES_WAIT = 400, S7.syncPageTitle = (e) => {
 		let t = new URL(e, location.origin), n = ik(decodeURIComponent(t.pathname))?.title;
-		document.title = n ? `${n} · Peach` : "Peach · 蜜桃", document.body.dataset.surface = t.pathname, h_t();
+		document.title = n ? `${n} · Chise` : "Chise", document.body.dataset.surface = t.pathname, h_t();
 	};
 }
 //#endregion
@@ -110450,7 +110450,7 @@ function m_t() {
 		return `<article class="post-setup-notification" data-collapsed="${o}">
       <header class="post-setup-notification-head">
         <span class="post-setup-notification-icon" aria-hidden="true">${z("compass")}</span>
-        <div><h2>完成 Peach 的安装教程</h2>
+        <div><h2>完成 Chise 的安装教程</h2>
         <p>已处理 ${a}/${n} 项。</p></div>
         <button class="post-setup-collapse" type="button" data-tutorial-collapse aria-controls="postSetupTaskList" aria-expanded="${!o}"
           aria-label="${o ? "展开安装教程" : "折叠安装教程"}">${z(o ? "chevron-up" : "chevron-down")}</button>
@@ -111303,7 +111303,7 @@ function B_t() {
 			n.inert = r, Q.placeSidebarHead === x && (Q.placeSidebarHead = i);
 		}), document.documentElement.classList.toggle("board-high-contrast", localStorage.getItem("peach.high-contrast") === "true");
 		let c = document.querySelector("#brandHome");
-		c.setAttribute("aria-label", "Peach 首页");
+		c.setAttribute("aria-label", "Chise 首页");
 		let l = document.createElement("div");
 		l.className = "board-library-menu", l.id = "boardLibraryMenu", l.hidden = !0, l.setAttribute("popover", "manual"), l.setAttribute("role", "dialog"), l.setAttribute("aria-label", "媒体库"), document.body.append(l), e.own(() => l.remove()), c.setAttribute("aria-haspopup", "dialog"), c.setAttribute("aria-controls", l.id), c.insertAdjacentHTML("beforeend", "<svg class=\"board-library-chevron\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"m5 6 3-3 3 3M5 10l3 3 3-3\"/></svg>");
 		let u = c.lastElementChild;

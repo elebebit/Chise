@@ -264,7 +264,7 @@ class LayeringTests(unittest.TestCase):
         """最底下那层必须是纯的：只要它开始 import 别的 Peach 模块，就不再是策略了。"""
         self.assertEqual(
             _local_imports(SOURCE_ROOT / "catalog_rules.py"), set(),
-            "catalog_rules 是最底层纯规则，不能依赖任何 Peach 模块",
+            "catalog_rules 是最底层纯规则，不能依赖任何 Chise 模块",
         )
 
     def test_the_old_web_logic_name_is_gone(self):

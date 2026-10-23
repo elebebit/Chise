@@ -233,7 +233,7 @@ def tray_main() -> int:
         message = failure_details("tray-import", error)
         if os.name == "nt":
             import ctypes
-            ctypes.windll.user32.MessageBoxW(None, message, "Peach 启动失败", 0x10)
+            ctypes.windll.user32.MessageBoxW(None, message, "Chise 启动失败", 0x10)
         elif sys.stderr is not None:
             print(message, file=sys.stderr)
         return 1

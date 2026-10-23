@@ -60,7 +60,7 @@ class ProjectBoardTests(unittest.TestCase):
 
     def issue(self, **changes):
         return {"__typename": "Issue", "state": "OPEN", "labels": {"nodes": []},
-                "repository": {"nameWithOwner": "peach-mitao/peach"}, **changes}
+                "repository": {"nameWithOwner": "elebebit/Chise"}, **changes}
 
     def test_merge_and_publication_keep_open_issue_waiting_for_acceptance(self):
         release = {"tag_name": "v1.2.0", "html_url": "https://example.test/release"}
@@ -83,12 +83,12 @@ class ProjectBoardTests(unittest.TestCase):
         self.assertEqual(self.script.decision(waiting, {}, [{"merged": True}], None)["Status"], "待评估")
 
     def test_reference_lines_exclude_other_repositories_and_casual_mentions(self):
-        body = "参考 #64 的讨论\nRefs #65, peach-mitao/peach#66, other/repo#67\nCloses #68"
-        self.assertEqual(self.script.references(body, "peach-mitao/peach"),
-                         {f"peach-mitao/peach#{number}" for number in (65, 66, 68)})
+        body = "参考 #64 的讨论\nRefs #65, elebebit/Chise#66, other/repo#67\nCloses #68"
+        self.assertEqual(self.script.references(body, "elebebit/Chise"),
+                         {f"elebebit/Chise#{number}" for number in (65, 66, 68)})
 
     def test_migrated_references_deduplicate_without_cross_repository_number_collision(self):
-        main, planning = "peach-mitao/peach", "peach-mitao/peach-roadmap"
+        main, planning = "elebebit/Chise", "peach-mitao/peach-roadmap"
         config = {"repository": main, "issue_repositories": [main, planning],
                   "issue_aliases": {f"{main}#70": f"{planning}#1"}}
         pr = {"state": "MERGED", "merged": True, "mergeCommit": {"oid": "a" * 40}, "url": "https://example.test/pr",
@@ -114,7 +114,7 @@ class ProjectBoardTests(unittest.TestCase):
         ancestry.assert_called_once_with("b" * 40, "origin/master")
 
     def test_planning_poll_includes_closed_issues_and_alias_cycles_fail(self):
-        main, planning = "peach-mitao/peach", "peach-mitao/peach-roadmap"
+        main, planning = "elebebit/Chise", "peach-mitao/peach-roadmap"
         closed = self.issue(id="closed", state="CLOSED")
         with mock.patch.object(self.script, "connection", side_effect=[[], [closed]]) as read:
             result = self.script.incoming_issues({"repository": main, "planning_repository": planning,
@@ -137,7 +137,7 @@ class ProjectBoardTests(unittest.TestCase):
         fields += [{"id": "status", "name": "Status", "options": [{"id": "verify", "name": "待验证"}]},
                    {"id": "delivery", "name": "交付进度", "options": [{"id": "published", "name": "已发布"}]},
                    {"id": "source", "name": "来源", "options": [{"id": "feedback", "name": "用户反馈"}, {"id": "plan", "name": "维护者待办"}]}]
-        issue = self.issue(id="issue", number=65, title="历史导入", author={"login": "visitor"}, url="https://github.com/peach-mitao/peach/issues/65")
+        issue = self.issue(id="issue", number=65, title="历史导入", author={"login": "visitor"}, url="https://github.com/elebebit/Chise/issues/65")
         item = {"id": "item", "content": issue, "isArchived": False, "fieldValues": {"nodes": []}}
         archived = {**item, "id": "archive", "isArchived": True, "content": {**issue, "id": "old", "number": 90}}
         draft = {"id": "draft", "isArchived": False, "content": {"__typename": "DraftIssue", "id": "draft-content"}}
@@ -164,11 +164,11 @@ class ProjectBoardTests(unittest.TestCase):
         with mock.patch.object(self.script, "graphql", side_effect=api_result), \
                 mock.patch.object(self.script, "gh", return_value=releases), \
                 mock.patch.object(self.script, "ancestor", return_value=True):
-            changes = self.script.reconcile({"project_id": "project", "repository": "peach-mitao/peach",
-                                              "implementation_commits": {"peach-mitao/peach#65": [commit]}}, apply=True)
-            maintained = self.script.reconcile({"project_id": "project", "repository": "peach-mitao/peach",
-                                                "planning_repository": "peach-mitao/peach",
-                                                "implementation_commits": {"peach-mitao/peach#65": [commit]}}, apply=False)
+            changes = self.script.reconcile({"project_id": "project", "repository": "elebebit/Chise",
+                                              "implementation_commits": {"elebebit/Chise#65": [commit]}}, apply=True)
+            maintained = self.script.reconcile({"project_id": "project", "repository": "elebebit/Chise",
+                                                "planning_repository": "elebebit/Chise",
+                                                "implementation_commits": {"elebebit/Chise#65": [commit]}}, apply=False)
         self.assertEqual({change["number"] for change in changes}, {65})
         actual = {change["field"]: change["value"] for change in changes}
         self.assertEqual(actual["发布版本"], "v0.43.0")
@@ -203,8 +203,8 @@ class ProjectBoardTests(unittest.TestCase):
         candidates = {"private-draft": internal}
         with mock.patch.object(self.script, "connection", return_value=[issue]), \
                 mock.patch.object(self.script, "graphql", return_value={"node": pr}) as api:
-            self.script.include_incoming({"repository": "peach-mitao/peach", "project_id": "public", "issues_only": True},
-                                         candidates, [pr], {"repository": {"full_name": "peach-mitao/peach"},
+            self.script.include_incoming({"repository": "elebebit/Chise", "project_id": "public", "issues_only": True},
+                                         candidates, [pr], {"repository": {"full_name": "elebebit/Chise"},
                                                             "pull_request": {"node_id": "pr"}}, False)
         self.assertEqual(set(candidates), {"private-draft", "public-issue"})
         self.assertIs(candidates["private-draft"], internal)
@@ -4918,7 +4918,7 @@ class PinnedReleaseTests(unittest.TestCase):
                 "--repo", "owner/repo", "--release-sha", self.SHA, "--apply"]), 0)
         self.assertEqual(plan.call_args_list, [mock.call("owner/repo", self.SHA)] * 2)
         self.assertEqual(ShipTests._writes(command), [
-            ("git", "tag", "-a", "v0.37.0", self.SHA, "-m", "Peach v0.37.0 Windows 测试版"),
+            ("git", "tag", "-a", "v0.37.0", self.SHA, "-m", "Chise v0.37.0 Windows 测试版"),
             ("git", "push", "https://github.com/owner/repo.git", "refs/tags/v0.37.0"),
         ])
 
@@ -5031,7 +5031,7 @@ class ShipTests(unittest.TestCase):
             ("git", "add", "src/peach/__init__.py", "CHANGELOG.md"),
             ("git", "-c", "peach.masterWriter=release", "commit", "-m", "chore(release): 版本 0.8.0"),
             ("git", "push", "https://github.com/owner/repo.git", "refs/heads/master"),
-            ("git", "tag", "-a", "v0.8.0", "abc", "-m", "Peach v0.8.0 Windows 测试版"),
+            ("git", "tag", "-a", "v0.8.0", "abc", "-m", "Chise v0.8.0 Windows 测试版"),
             ("git", "push", "https://github.com/owner/repo.git", "refs/tags/v0.8.0"),
         ])
         self.assertEqual(result["test"], "test-url")
@@ -5053,7 +5053,7 @@ class ShipTests(unittest.TestCase):
             result = self.release.ship("owner/repo", apply=True)
         self.assertEqual((result["commit"], result["push"]), (False, False))
         self.assertEqual(self._writes(command), [
-            ("git", "tag", "-a", "v0.8.0", "abc", "-m", "Peach v0.8.0 Windows 测试版"),
+            ("git", "tag", "-a", "v0.8.0", "abc", "-m", "Chise v0.8.0 Windows 测试版"),
             ("git", "push", "https://github.com/owner/repo.git", "refs/tags/v0.8.0"),
         ])
 

@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" data-theme-color="light">
 <meta name="theme-color" content="#080A0D" media="(prefers-color-scheme: dark)" data-theme-color="dark">
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
-<title>Peach · 蜜桃</title>
+<title>Chise</title>
 <!-- React 子树（BoardUI 源码 + Tailwind）排在旧样式表前面：`:root` 上同名的 `--color-*` token
      由后面的 board.css 定值，未迁移页面的颜色不受这份样式影响；React 子树在 `.peach-react`
      容器上重新声明上游值。 -->
@@ -221,7 +221,7 @@ if(location.pathname==='/wall')document.documentElement.setAttribute('data-wall-
 
 <header class="top">
   <button class="ib" id="filterBtn" title="导航与筛选" aria-label="展开导航与筛选"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-panel-left"/></svg></button>
-  <a class="brand" href="#" id="brandHome"><img class="mark" src="/peach-logo.png" alt=""><h1 class="disp">Peach</h1><span class="sub mono">蜜桃</span></a>
+  <a class="brand" href="#" id="brandHome"><img class="mark" src="/peach-logo.png" alt=""><h1 class="disp">Chise</h1><span class="sub mono">媒体馆藏</span></a>
   <button class="ib searchback" id="searchBack" title="退出搜索" aria-label="退出搜索"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
   <div class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-search"/></svg>
     <input id="q" name="q" type="search" enterkeyhint="search" placeholder="搜索馆藏" data-suggestion="" autocomplete="off" aria-label="搜索作品、女优、厂牌或标签">
@@ -256,7 +256,7 @@ if(location.pathname==='/wall')document.documentElement.setAttribute('data-wall-
   <div class="loadmore mono" id="loadSentinel" hidden></div>
 </main>
 
-<section id="postSetupTutorial" aria-label="Peach 安装教程" aria-live="polite" hidden></section>
+<section id="postSetupTutorial" aria-label="Chise 安装教程" aria-live="polite" hidden></section>
 
 <div id="scrim" data-sidebar-scrim></div>
 <!-- 左侧抽屉：滚动层是常驻组件 sidebar（`react/sidebar/`），由路由树画进 #drawerScroll；抽屉本身、覆盖式滚动条与底栏归壳。

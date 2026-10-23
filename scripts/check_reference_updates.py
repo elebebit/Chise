@@ -267,7 +267,7 @@ def command_accept(args: argparse.Namespace) -> int:
     registry_path.write_text(
         json.dumps(registry, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n"
     )
-    print(f"已锁定 {source['id']}；这一步没有修改任何 Peach 实现。")
+    print(f"已锁定 {source['id']}；这一步没有修改任何 Chise 实现。")
     return 0
 
 

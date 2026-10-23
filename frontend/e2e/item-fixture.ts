@@ -22,14 +22,14 @@ const detail = (id: number, extra: Record<string, unknown> = {}): Row => {
     id, name: `sample_${id}.mp4`, title: `演示作品 ${id}`, is_jav: false, medium: 'video', location: 'local',
     cost: 'free', size: 1_234_567_890, duration: 3600, play_seconds: 900, play_count: 2, leave_ratio: 0.4,
     has_cover: false, has_thumb: true, has_local_poster: false, performers, performer_total: performers.length,
-    performer_entities: performers.map((_, at) => ({ id: at + 1, has_image: false })), creator: '', studio: 'Peach Studio',
+    performer_entities: performers.map((_, at) => ({ id: at + 1, has_image: false })), creator: '', studio: 'Chise Studio',
     feedback: null, disposal: null, watch_later: false, width: 1920, height: 1080, release_date: '2026-08-01',
     region: 'jp', region_label: '日本', region_settled: true, rating: 60, liked: false, like_reason: '', o_count: 1,
     better_version: false, better_version_reason: '', has_studio_logo: false, poster_box: null,
     tags: TAGS.map((k) => ({ k, cat: 'general', official: false })),
     entity_refs: {
       performer: performers.map((name, at) => ref(name, at + 1)),
-      studio: [ref('Peach Studio', 50, { has_logo: false })], creator: [], series: [ref('夏日系列', 70)],
+      studio: [ref('Chise Studio', 50, { has_logo: false })], creator: [], series: [ref('夏日系列', 70)],
     },
     ...extra,
   };

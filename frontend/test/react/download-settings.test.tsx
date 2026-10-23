@@ -365,7 +365,7 @@ it('用浏览器登录拉起窗口后轮询，登好就显示登录方式并停�
   await tick(2000);
   await settle();
   expect(receipt).toHaveBeenCalledWith('已登录 PikPak');
-  expect(host.textContent).toContain('浏览器登录，由 Peach 续期');
+  expect(host.textContent).toContain('浏览器登录，由 Chise 续期');
   expect(host.textContent).not.toContain('登录过期后需要回到这里重新登录');
   expect(buttonNamed('登出', host)).not.toBeNull();
   await tick(6000);

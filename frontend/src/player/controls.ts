@@ -1,4 +1,4 @@
-/* 挂在 Video.js 控制条上的 Peach 控件：设置菜单（氛围模式、播放速度、清晰度）、影院模式键、
+/* 挂在 Video.js 控制条上的 Chise 控件：设置菜单（氛围模式、播放速度、清晰度）、影院模式键、
  * 控制条排版与形变图标、拖动预览、Media Session、转圈与外挂字幕，外加舞台的氛围光采样。
  *
  * 控件样式取自 YouTube delhi-modern（player 9470c977），每一块的出处写在它自己的函数上。 */
@@ -236,7 +236,7 @@ export function mountPlayerQualityControl(
   /* 播放速度面板照 YouTube delhi-modern（player 9470c977 的 base.js）：滑条两端取播放器
      支持的最低与最高倍速，步进 0.05，加减键各动 0.05 并按两位小数收敛，读数写成 1.00x。
      预设胶囊点了就地生效，面板不退回上一级。第五格 3.0 在上游是 Premium 专属，本机装的
-     Peach 没有会员分级这回事，那一格照上游留着，只是不画角标；滑条上限跟着抬到 3，
+     Chise 没有会员分级这回事，那一格照上游留着，只是不画角标；滑条上限跟着抬到 3，
      不然点 3.0 会被收敛回 2。 */
   const SPEED_MIN = .25, SPEED_MAX = 3, SPEED_STEP = .05, SPEED_PRESETS = [1, 1.25, 1.5, 2, 3];
   const speedLabel = (speed: number) => Number.isInteger(speed) ? speed.toFixed(1) : String(speed);
@@ -643,7 +643,7 @@ export function mountPlayerSpinner(player: VjsPlayer): void {
 
 /** 本机资产的外挂字幕。服务端已经把 srt/ass/ssa 换成 WebVTT，这里只把它挂成 text track。
  *  一律不设 default：自动打开某一条等于替用户选了语言，而同一部片常有简体、繁体、日语三条。
- *  Peach 字幕菜单只在有轨的时候出现；轨道挂在原生 video 上，随同一枚元素保留。 */
+ *  Chise 字幕菜单只在有轨的时候出现；轨道挂在原生 video 上，随同一枚元素保留。 */
 export function mountPlayerSubtitles(player: VjsPlayer, assetId: number): void {
   (api(`/api/assets/${assetId}/subtitles`) as Promise<{ subtitles?: { playable?: boolean; src: string; language?: string; label: string }[] } | null>)
     .then((payload) => {

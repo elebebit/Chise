@@ -34,7 +34,7 @@ const HEADS = [
   ['/trash', '回收站', '回收站', false],
   ['/subscriptions', '关注管理', '', false],
   ['/tasks', '任务中心', '', false],
-  ['/settings/library', 'Peach 配置', '', true],
+  ['/settings/library', 'Chise 配置', '', true],
 ] as const;
 
 const BLOCKS = '[data-manage-header] > :is([data-manage-bar], [data-manage-crumb], [data-manage-title])';

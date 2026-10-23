@@ -267,7 +267,7 @@ class InterviewTests(_Case):
             port=8900, mdns_name="peach-two"))
         # 媒体目录问完一个就问「再加一个」，回车结束；追加的目录和第一个走同一套校验。
         self.assertEqual([prompt for prompt, _ in ask.seen], [
-            "数据目录（Peach 数据库、缓存和设置文件都放在这里）",
+            "数据目录（Chise 数据库、缓存和设置文件都放在这里）",
             "媒体目录（必须已经存在，可以在外置硬盘上）",
             "再加一个媒体目录（不加就直接回车）",
             "再加一个媒体目录（不加就直接回车）",
@@ -498,7 +498,7 @@ class SetupJsonContractTests(_SetupHttpCase):
         response = self._get("/")
         self.assertEqual(response.status_code, 200)
         body = response.text
-        self.assertIn("<title>Peach · 首次运行</title>", body)
+        self.assertIn("<title>Chise · 首次运行</title>", body)
         self.assertIn('<link rel="icon" href="/favicon.ico" type="image/x-icon">', body)
         self.assertLess(body.index('localStorage.getItem("peach.settings.v1")'), body.index("/dist/peach-pages.css"))
         for symbol in ("folder-search", "hard-drive", "database"):
@@ -647,7 +647,7 @@ class SetupJsonContractTests(_SetupHttpCase):
             self.assertEqual(len(by_key["media_dir"]["help"]), 1)
         else:
             self.assertIsNone(data["media_root"])
-            self.assertIn("本机文件夹是这台电脑读取媒体的位置", by_key["media_dir"]["help"][-1])
+        self.assertIn("填写这台设备实际读取媒体的文件夹", by_key["media_dir"]["help"][-1])
         self.assertEqual(data["cloud"]["link"]["url"], "https://www.clouddrive2.com/help.html")
         # 默认对局域网开放，所以访问密码开关第一次出现就开着；扫描默认勾上，导入历史默认不勾。
         self.assertEqual((data["access_enabled"], data["scan_now"], data["history_guide"]), (True, True, False))
@@ -699,7 +699,7 @@ class SetupJsonContractTests(_SetupHttpCase):
         cases = (
             ("已配置", {"configured": True}, 404, "not found"),
             ("非回环调用方", {"client": ("198.51.100.7", 51000)}, 403, "setup is loopback-only"),
-            ("别的页面发来", {"headers": {"Origin": "http://elsewhere.example"}}, 403, "请从 Peach 设置页提交"),
+            ("别的页面发来", {"headers": {"Origin": "http://elsewhere.example"}}, 403, "请从 Chise 设置页提交"),
         )
         for name, kwargs, status, message in cases:
             with self.subTest(name):
@@ -1119,7 +1119,7 @@ class StandaloneConfigurationTests(_Case):
             self.assertFalse(client.get("/healthz").json()["configurable"])
             response = client.get("/api/configuration", headers=headers)
             self.assertEqual(response.status_code, 403)
-            self.assertEqual(response.json(), {"error": "请在运行 Peach 的电脑上打开配置"})
+            self.assertEqual(response.json(), {"error": "请在运行 Chise 的电脑上打开配置"})
             response = client.post("/api/configuration", headers=headers, json=data)
             self.assertEqual(response.status_code, 403)
         self.assertEqual(before, self.config.path.read_bytes())
@@ -1138,14 +1138,14 @@ class StandaloneConfigurationTests(_Case):
                                        db_path=self.config.data_root / "database" / "ledger.db"))
 
         def refuse(status: int):
-            raise HTTPException(status, {403: "请在运行 Peach 的电脑上打开配置", 409: "请先完成首次设置"}
+            raise HTTPException(status, {403: "请在运行 Chise 的电脑上打开配置", 409: "请先完成首次设置"}
                                 .get(status, "服务出错"))
         # 页面 catch-all 排在最后会吃掉一切路径，测试路由要插到它前面。
         app.add_api_route("/refuse/{status}", refuse, methods=["GET"])
         app.router.routes.insert(0, app.router.routes.pop())
         html = {"Accept": "text/html,application/xhtml+xml"}
         with TestClient(app, base_url="http://localhost") as client:
-            for status, detail in ((403, "请在运行 Peach 的电脑上打开配置"), (409, "请先完成首次设置"),
+            for status, detail in ((403, "请在运行 Chise 的电脑上打开配置"), (409, "请先完成首次设置"),
                                    (400, "服务出错")):
                 with self.subTest(status):
                     page = client.get(f"/refuse/{status}", headers=html)

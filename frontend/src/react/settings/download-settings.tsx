@@ -10,7 +10,7 @@
  *
  * 令牌与密码只往本机凭据文件写，读接口只回「存没存过」，所以令牌框保存后清空、提示改成
  * 「已保存，留空不改」。PikPak 要人机验证时服务端回一个验证页地址，这里给出链接让用户在浏览器
- * 里完成，Peach 不替他过验证。 */
+ * 里完成，Chise 不替他过验证。 */
 import { useEffect, useState, type FormEvent } from 'react';
 
 import { Button } from '@/components/base/buttons/button';
@@ -284,8 +284,8 @@ function CheckReport({ report, detected, suggested, create, creating }: {
   );
 }
 
-/** PikPak 账号卡。主路径是「用浏览器登录」（ADR-0093）：服务端拉起一个 Peach 专用的浏览器窗口，
- *  用户在里面登录，Peach 取走网页端会话后关窗，之后只由 Peach 续期。这里拉起后每两秒读一次状态，
+/** PikPak 账号卡。主路径是「用浏览器登录」（ADR-0093）：服务端拉起一个 Chise 专用的浏览器窗口，
+ *  用户在里面登录，Chise 取走网页端会话后关窗，之后只由 Chise 续期。这里拉起后每两秒读一次状态，
  *  直到登好、取消、超时或失败。账号密码表单直接显示，登录方式在底栏选择。 */
 function PikPakAccount({ state, settle, receipt, username, setUsername }: CardProps & {
   username: string;
@@ -388,7 +388,7 @@ function PikPakAccount({ state, settle, receipt, username, setUsername }: CardPr
         <FactList>
           <Fact term="账号">{account.username || '已登录'}</Fact>
           {account.method === 'browser' ? (
-            <Fact term="登录方式">浏览器登录，由 Peach 续期</Fact>
+            <Fact term="登录方式">浏览器登录，由 Chise 续期</Fact>
           ) : (
             <Fact term="密码">{account.remember ? '已保存，登录过期时自动重新登录' : '未保存，登录过期后需要回到这里重新登录'}</Fact>
           )}

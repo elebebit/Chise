@@ -20,8 +20,8 @@ AppName=Peach
 AppVersion={#AppVersion}
 AppVerName=Peach {#AppVersion}
 AppPublisher=Peach
-AppPublisherURL=https://github.com/peach-mitao/peach
-AppSupportURL=https://github.com/peach-mitao/peach/issues
+AppPublisherURL=https://github.com/elebebit/Chise
+AppSupportURL=https://github.com/elebebit/Chise/issues
 ; 只装到当前用户：自更新在程序目录旁边建事务目录再整目录切换，Program Files 不可写。
 PrivilegesRequired=lowest
 DefaultDirName={userpf}\Peach
@@ -86,7 +86,7 @@ Name: "{userdesktop}\Peach"; Filename: "{app}\Peach.exe"; Parameters: "--show"; 
 
 [Run]
 Filename: "{app}\Peach.exe"; Parameters: "--show"; Description: "{cm:LaunchProgram,Peach}"; Flags: nowait postinstall skipifsilent
-Filename: "https://github.com/peach-mitao/peach"; Description: "打开 Peach 仓库，给项目加星"; Flags: shellexec postinstall skipifsilent unchecked
+Filename: "https://github.com/elebebit/Chise"; Description: "打开 Peach 仓库，给项目加星"; Flags: shellexec postinstall skipifsilent unchecked
 
 [UninstallDelete]
 ; 自更新整目录换过之后，卸载记录里的文件清单不再完整，按目录整个移除。

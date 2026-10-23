@@ -44,7 +44,7 @@ from .web_state import FAVICON
 
 router = APIRouter()
 
-#: 整站的收录态度，`api.py` 的中间件给每个响应都挂上这一份。Peach 是一个人的私人
+#: 整站的收录态度，`api.py` 的中间件给每个响应都挂上这一份。Chise 是一个人的私人
 #: 馆藏，任何一次公网暴露都不该在搜索引擎里留下痕迹：不收录、不跟随、不留快照。
 ROBOTS_TAG = "noindex, nofollow, noarchive"
 ROBOTS_TXT = "User-agent: *\nDisallow: /\n"
@@ -58,13 +58,13 @@ _SETUP_SYMBOLS = re.compile(r'<symbol id="i-(?:folder-search|hard-drive|database
 #: 键 -> 页面上的题目与一句说明。顺序、默认值与校验仍然来自 `onboarding.questions()`，
 #: 这里只决定同一道题在浏览器里怎么称呼：命令行那份题面要把可选值写进去，页面用控件表达。
 _SETUP_COPY = {
-    "data_root": ("数据目录", "Peach 数据库、缓存和设置文件都放在这里。"),
-    "media_dir": ("媒体库", "Peach 从媒体库读取视频和图片。请选择已存在的文件夹，也可以使用外置硬盘。"),
+    "data_root": ("数据目录", "Chise 数据库、缓存和设置文件都放在这里。"),
+    "media_dir": ("媒体库", "Chise 从媒体库读取视频和图片。请选择已存在的文件夹，也可以使用外置硬盘。"),
     "host": ("谁可以访问", ""),
     "port": ("端口", "浏览器地址里冒号后面的数字，一般不用改。"),
-    "mdns_name": ("局域网访问地址", "选了「同一局域网的设备」之后，其他设备在浏览器里输入这个地址就能打开 Peach。"),
+    "mdns_name": ("局域网访问地址", "选了「同一局域网的设备」之后，其他设备在浏览器里输入这个地址就能打开 Chise。"),
 }
-#: 「谁可以访问」在页面上的顺序：局域网在左边，也是默认选项——Peach 的本意就是给
+#: 「谁可以访问」在页面上的顺序：局域网在左边，也是默认选项——Chise 的本意就是给
 #: 同一局域网里的设备看。命令行问答按 `HOST_OPTIONS` 的编号顺序念，两边取值一致。
 _HOST_ORDER = ("2", "1")
 
@@ -75,7 +75,7 @@ def setup_shell() -> str:
     字形从 `web/index.html` 的雪碧图里按名字摘。
     """
     index = (PROJECT_ROOT / "web/index.html").read_text(encoding="utf-8")
-    return page_shell("Peach · 首次运行", "setup", symbols="".join(_SETUP_SYMBOLS.findall(index)))
+    return page_shell("Chise · 首次运行", "setup", symbols="".join(_SETUP_SYMBOLS.findall(index)))
 
 
 def error_page(status: int, message: str) -> str:
@@ -83,7 +83,7 @@ def error_page(status: int, message: str) -> str:
 
     标题、说明的显隐与「返回首页」归页面包，这里只给状态码和已换成中文的说明。
     """
-    return page_shell("Peach", "error", {"status": str(status), "detail": message})
+    return page_shell("Chise", "error", {"status": str(status), "detail": message})
 
 
 def _copy_for(key: str, fallback: str) -> tuple[str, str]:
@@ -235,7 +235,7 @@ def index(request: Request, args: dict[str, str] = Depends(require_page_auth)):
         response.headers["Cache-Control"] = "no-store"
         return response
     if not settings.page_path.is_file():
-        return PlainTextResponse("Peach page missing", status_code=500)
+        return PlainTextResponse("Chise page missing", status_code=500)
     shape = getattr(request.state, "entity_shape", None)
     editor = "edit" in request.query_params and _copy_editor_available()
     if shape is not None or editor:
@@ -322,7 +322,7 @@ def _setup_guard(request: Request, *, submit: bool) -> None:
         return
     origin = request.headers.get("origin")
     if origin and origin.rstrip("/") != str(request.base_url).rstrip("/"):
-        raise HTTPException(status_code=403, detail="请从 Peach 设置页提交")
+        raise HTTPException(status_code=403, detail="请从 Chise 设置页提交")
 
 
 @router.get("/api/setup/questions")
@@ -434,7 +434,7 @@ async def setup_submit_json(request: Request):
         except ValueError as exc:
             errors["port"] = str(exc)
     if not errors:
-        # Peach 数据目录决定设置文件在哪，所以拿到它之后要按它重新解析一次，不能沿用进程启动
+        # Chise 数据目录决定设置文件在哪，所以拿到它之后要按它重新解析一次，不能沿用进程启动
         # 那一刻按发现顺序算出来的这份。
         resolved, _broken = onboarding.resolve_config(answers.data_root)
         if resolved.path.exists():

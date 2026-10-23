@@ -12,7 +12,7 @@ describe('范围控件',()=>{
     expect(document.querySelector('.board-segment-thumb')?.getAttribute('aria-hidden')).toBe('true');
   });
   it('口味页的证据切换也是分段控件，拿到同一枚滑块',()=>{
-    document.body.innerHTML='<div class="insightswitch" role="radiogroup"><label><input type="radio" name="e" value="browser" checked><span>浏览器记录</span></label><label><input type="radio" name="e" value="peach"><span>Peach 内部</span></label></div>';
+    document.body.innerHTML='<div class="insightswitch" role="radiogroup"><label><input type="radio" name="e" value="browser" checked><span>浏览器记录</span></label><label><input type="radio" name="e" value="peach"><span>Chise 内部</span></label></div>';
     wireBoardSegments(document);wireBoardSegments(document);
     expect(document.querySelectorAll('.insightswitch .board-segment-thumb')).toHaveLength(1);
     expect(document.querySelector('.insightswitch')?.getAttribute('data-board-segments')).toBe('true');

@@ -36,7 +36,7 @@ export function ReleaseUpdates({ initial, initialJob }: { initial: ReleaseState;
     if (mounted.current) setJob(result);
   };
   const confirmRestart = () => void confirmModal({
-    title: '更新已准备好', body: `Peach ${job.version || ''} 将在重启后安装。`,
+    title: '更新已准备好', body: `Chise ${job.version || ''} 将在重启后安装。`,
     confirmLabel: '立即重启', cancelLabel: '稍后', onConfirm: restart,
   });
 
@@ -64,7 +64,7 @@ export function ReleaseUpdates({ initial, initialJob }: { initial: ReleaseState;
         if (!controller.signal.aborted && automatic.result) setData(automatic.result);
       } catch {
         failures += 1;
-        if (failures >= MAX_FAILURES && !controller.signal.aborted) setPollError('尚未连接到 Peach，请检查托盘后刷新页面。');
+        if (failures >= MAX_FAILURES && !controller.signal.aborted) setPollError('尚未连接到 Chise，请检查托盘后刷新页面。');
       }
       if (!controller.signal.aborted && failures < MAX_FAILURES) timer = setTimeout(poll, delay);
     };

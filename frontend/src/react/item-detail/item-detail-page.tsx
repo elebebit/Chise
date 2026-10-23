@@ -487,7 +487,7 @@ function SourceTools({ id, actions, onStatus }: { id: number; actions: ItemDetai
       <button type="button" data-reveal={id} title="在文件管理器里打开源文件所在目录" aria-label="定位源文件"
         {...(busy === 'reveal' ? { 'aria-busy': true, 'aria-disabled': true } : {})} onClick={() => void reveal()}
         dangerouslySetInnerHTML={{ __html: busy === 'reveal' ? spinnerHtml('正在定位') : icon('folder-open') }} />
-      <button type="button" data-sync={id} title="核对该目录：磁盘上已删除的移入 Peach 回收站，带个人记录的标为已消失" aria-label="同步删除"
+      <button type="button" data-sync={id} title="核对该目录：磁盘上已删除的移入 Chise 回收站，带个人记录的标为已消失" aria-label="同步删除"
         {...(busy === 'sync' ? { 'aria-busy': true, 'aria-disabled': true } : {})} onClick={() => void sync()}>
         <Glyph name="folder-sync" />
       </button>

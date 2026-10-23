@@ -41,7 +41,7 @@ def preparation() -> RestartPreparation:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="静默无窗口地重启 Windows Peach 托盘及子服务")
+    parser = argparse.ArgumentParser(description="静默无窗口地重启 Windows Chise 托盘及子服务")
     parser.add_argument("--target", type=Path,
                         default=PROJECT_ROOT / "dist" / "Peach" / "Peach.exe")
     parser.add_argument("--timeout", type=float, default=DEFAULT_TIMEOUT)

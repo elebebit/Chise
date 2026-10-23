@@ -144,7 +144,7 @@ def w_taste_refresh(contract: WebContract, body, *, progress=None, checkpoint=No
                 checkpoint=lambda **fields: job.checkpoint(job_id, **fields), resume_state=job.snapshot())
             job.update(job_id, **result, status="complete", message="部分浏览记录未取得" if result["warnings"] else "口味分析已更新", completed_at=time.time())
         return job.start(work, restart=True, initial={
-            "stage": "discovering", "message": "正在查找 Peach 主机上的浏览器资料"},
+            "stage": "discovering", "message": "正在查找 Chise 主机上的浏览器资料"},
             recovery={'background': True, 'window': body.get('window') or 'all'})
     window = str(body.get("window") or "all")
     sources = enabled_history_sources(contract.taste_history_store)

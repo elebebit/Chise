@@ -53,7 +53,7 @@ def validate(raw: dict) -> dict:
         raise ValueError('启用状态必须为布尔值')
     network = raw.get('network', 'direct')
     if network not in ('direct', 'peach_proxy'):
-        raise ValueError('请选择直连或 Peach 代理')
+        raise ValueError('请选择直连或 Chise 代理')
     code_format = raw.get('code_format', 'original')
     if code_format not in ('original', 'lowercase', 'compact', 'underscore'):
         raise ValueError('番号格式无效')
@@ -202,7 +202,7 @@ def query(config: dict, code: str, *, deadline=None, secrets_root=None) -> SiteR
     options = None
     if checked['network'] == 'peach_proxy':
         if secrets_root is None:
-            raise ValueError('Peach 代理配置未取得')
+            raise ValueError('Chise 代理配置未取得')
         from .peach_proxy import client_options
         options = client_options(Path(secrets_root))
     try:

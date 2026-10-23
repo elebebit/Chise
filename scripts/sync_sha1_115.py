@@ -33,12 +33,12 @@ def parse_args(argv=None):
     parser.add_argument("--cookie-file", type=Path,
                         default=Path(os.environ.get("PEACH_115_COOKIE_FILE")
                                      or SECRETS_DIR / "115-cookies.txt"),
-                        help="115 Cookie 文件，默认使用配置 Peach 数据目录的 secrets 目录")
+                        help="115 Cookie 文件，默认使用配置 Chise 数据目录的 secrets 目录")
     parser.add_argument("--dupes", action="store_true", help="写入后生成 SHA1 重复报告")
     parser.add_argument("--dupes-out", type=Path,
                         default=Path(os.environ.get("PEACH_115_DUPES_OUT")
                                      or REVIEW_DIR / "115-sha1重复.csv"),
-                        help="重复报告路径，默认使用配置 Peach 数据目录的 review 目录")
+                        help="重复报告路径，默认使用配置 Chise 数据目录的 review 目录")
     parser.add_argument("--deprioritize-dir", action="append", default=[],
                         help="重复报告中优先删除的目录名，可重复指定")
     args = parser.parse_args(argv)

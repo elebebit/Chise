@@ -165,6 +165,8 @@ class VerificationTests(unittest.TestCase):
         (self.repo / name).write_text("value = 1\n", encoding="utf-8")
         self.git("add", "--", name)
         self.git("commit", "-m", "test: fixture")
+        path = self.repo / name
+        path.chmod(path.stat().st_mode | 0o111)
         self.git("update-index", "--chmod=+x", name)
         contents = runner.changed_contents(self.repo, "HEAD", [name])
         self.assertEqual(runner.scopes_for_changes([name], contents=contents)[0], ("full",))

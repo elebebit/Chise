@@ -1180,11 +1180,11 @@ def _taste_analysis(
     browser_only = next((name for name in browser_names if peach_categories[name] <= 0), "")
 
     if browser_names and peach_names:
-        headline = f"浏览兴趣以{browser_names[0]}为主，Peach 中稳定出现{'、'.join(peach_names[:3])}。"
+        headline = f"浏览兴趣以{browser_names[0]}为主，Chise 中稳定出现{'、'.join(peach_names[:3])}。"
     elif browser_names:
-        headline = f"浏览兴趣目前以{browser_names[0]}为主，Peach 观看证据仍偏少。"
+        headline = f"浏览兴趣目前以{browser_names[0]}为主，Chise 观看证据仍偏少。"
     elif peach_names:
-        headline = f"Peach 观看行为目前更集中在{'、'.join(peach_names[:3])}。"
+        headline = f"Chise 观看行为目前更集中在{'、'.join(peach_names[:3])}。"
     else:
         headline = "证据还不足以形成稳定口味结论。"
 
@@ -1196,7 +1196,7 @@ def _taste_analysis(
         })
     if peach_names:
         points.append({
-            "label": "Peach 印证",
+            "label": "Chise 印证",
             "text": "、".join(peach_names),
         })
     if shared:
