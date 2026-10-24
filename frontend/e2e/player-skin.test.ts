@@ -36,6 +36,10 @@ describe('播放器皮肤', () => {
     };
     try {
       await button.waitFor();
+      await page.setViewportSize({ width: 2440, height: 1000 });
+      const expandedStage = await page.locator('#stage').boundingBox();
+      assert.ok(expandedStage && Math.abs(expandedStage.width - 2408) < 1, JSON.stringify(expandedStage));
+      assert.ok((await page.locator('#stage .video-js').boundingBox())!.width > 1440);
       await button.click();
       await assertWindowFilled();
       await page.setViewportSize({ width: 1000, height: 650 });

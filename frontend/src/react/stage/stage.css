@@ -42,6 +42,7 @@
 [data-stage][data-stage-kind]:is([data-stage-kind="item"],[data-stage-kind="jav"])>[data-stage-scroll]{display:block;max-height:100%;height:100%;overflow:hidden auto}
 [data-stage]:is([data-stage-kind="item"],[data-stage-kind="jav"]){--detail-media-height:76dvh;--detail-gallery-height:calc(var(--detail-media-height) - 116px)}
 @media(min-width:1081px){
+  [data-chise-desktop] [data-stage]{width:calc(100vw - 32px)}
   [data-stage][data-stage-kind="jav"]{--detail-media-height:calc(100dvh - 34px)}
   [data-stage][data-stage-kind="item"]{--detail-media-height:clamp(300px,calc(100dvh - 294px),76dvh)}
 }
