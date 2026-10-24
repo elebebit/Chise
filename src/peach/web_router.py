@@ -51,6 +51,7 @@ from .web_downloads import (q_downloads, w_download_cancel, w_download_postproce
 from .web_resource_search import q_resource_search
 from .web_jav_detail import q_jav_detail, q_jav_image, q_jav_resources, q_jav_reviews
 from .web_jav_discovery import q_jav_discoveries
+from .web_entity_releases import q_entity_releases
 from .web_feeds import (
     q_feed_check,
     q_feed_discoveries,
@@ -359,6 +360,7 @@ GET_HANDLERS = {
     "/api/parts": q_parts,
     "/api/editions": q_editions,
     "/api/entity": q_entity,
+    "/api/entity/releases": q_entity_releases,
     "/api/entity/shapes": _get_entity_shapes,
     "/api/links": w_links,
     "/api/photos": q_entity_photos,

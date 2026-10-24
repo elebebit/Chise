@@ -22,6 +22,12 @@ App 详情面板在桌面布局中按窗口宽度展开，两侧各留 16px；�
 
 铺满时的右侧播放列表复用详情的队列组件和推荐组件，通过 React Portal 挂在播放器内，共用原有条目、顺序和切换动作。右边缘悬停、按钮和键盘焦点可以展开，移开后收起；没有队列时使用现有推荐。MutationObserver 跟随播放器铺满属性和挂载变化，退出后恢复底部内容，卸载时取消观察。同一详情内切换媒体保留铺满状态，关闭详情时清除，无新增依赖或 API。
 
+## 人物最新影片
+
+女优资料页的“最新影片”按需读取 JavBus 演员搜索和作品目录，显示发行日期与馆藏命中，分页最多 20 页。同名候选由用户选择，来源身份不自动写入 ledger。目录快照复用 `PublicSnapshots`，保存一小时；传输、超时、Cookie 和冷却复用 `SourceTransport`、`HostLimitedTransport` 与 `sources.Session`，解析复用已固定的 BeautifulSoup 4.15.0（MIT），无新增依赖。验证页与未知结构按失败报告，不能当成零部影片。
+
+当前树已有 JavBus 单部作品解析及 JavDB 新作订阅；Git 历史未取得 JavBus 人物目录消费者。对照 [ovnrain/javbus-api](https://github.com/ovnrain/javbus-api/tree/4cedcfdf3d10515c329966116964a0ae7f7d5c78) 的 `api/javbus-parser.ts` 核对公开目录的 `photo-info date`、`next` 与 `existmag=all` 参数形态；该候选是 Node.js 自托管 API 服务，另起服务无法复用 Python 请求预算与会话，仓库未附许可证，因此只核对协议字段，不复制实现。隔离测试覆盖演员歧义、馆藏映射、分页边界、验证失败及两个视口的长标题。真实匿名请求取得年龄确认页，真实影片列表与排序未取得；通过来源验证后的在线验收仍需执行。
+
 ## 检查输入与源码文案
 
 测试差异复用 Git 文件快照、Python AST、标准库 TOML/JSON 解析器及现有 filelock。Python 注释和清单说明字段通过有效内容比较识别；真实依赖、执行模式和无法解析的输入保留完整验证。完整批次按测试文件保存结果，仅补齐受影响范围，不延长结果有效期。
