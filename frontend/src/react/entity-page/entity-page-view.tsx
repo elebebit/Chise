@@ -34,6 +34,7 @@ import {
   photosOptions, tagList, tagPressed, type EntityPageData, type EntityPageProps, type PhotoPage,
 } from './entity-page';
 import { useEntityOnline } from './use-entity-online';
+import { EntityReleases } from './entity-releases';
 
 export function EntityPage(props: EntityPageProps) {
   const { kind, name } = props;
@@ -387,6 +388,7 @@ function EntityLoaded(props: EntityPageProps & { entity: EntityPageData }) {
     <>
       <EntityHeroPage key={avatarEpoch} kind={kind} name={name} entity={entity} feedNew={feed.data ?? null}
         feedHost={entityId ? hosts.feed : null} jav={javPage} actions={heroActions} helpers={heroHelpers} />
+      {kind === 'performer' && entityId ? <EntityReleases key={entityId} id={entityId} /> : null}
       {createPortal(
         <EntityFilterPage kind={kind} name={name} view={view} views={views} state={filters.state || ''}
           states={props.states} tags={tags} combo={combo} readout={readout} busy={busy}

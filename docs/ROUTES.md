@@ -108,4 +108,6 @@
 
 `/api/*`、`/stream`、`/follow-stream`、封面、图片及其他媒体端点使用各自的服务契约。实体只读接口 `/api/entity`、`/api/photos` 支持 `kind` 加 `id`，也接受 `kind` 加 `name`。鉴权与本机写入权限由服务端检查。
 
+女优页“最新影片”使用只读接口 `/api/entity/releases?id=<实体 ID>`；`actor` 为用户选定的 JavBus 演员路径，`page` 为 1–20。返回 `actors` 候选、`actor` 当前身份、`items` 作品、`next_page` 和 `source_url`。作品包含 `code`、`title`、`release_date`、`url` 与命中的 `asset_id`；来源失败返回 `error`，不作为空列表处理。
+
 启用接口文档时，`/docs`、`/docs/oauth2-redirect` 和 `/openapi.json` 是服务文档入口；首次运行表单由未配置状态下的首页展示。
