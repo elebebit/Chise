@@ -111735,9 +111735,7 @@ function avt(e) {
 		$9.get(e) === n && ($9.delete(e), r(), Q9 && nvt(Q9));
 	}, (0, gt.flushSync)(() => n.render(/* @__PURE__ */ (0, C.jsx)(ivt, {}))), n;
 }
-//#endregion
-//#region src/react/bootstrap.tsx
-d();
+d(), document.documentElement.toggleAttribute("data-chise-desktop", window.chiseDesktop === !0);
 var ovt = document.getElementById("appRoot");
 if (!ovt) throw Error("主界面宿主缺失");
 avt(ovt);
