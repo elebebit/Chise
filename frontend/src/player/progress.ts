@@ -5,6 +5,13 @@ import type { PlayerItem } from './types';
 
 const KEY = 'peach.playback-position.v1';
 const tracking = new WeakMap<HTMLVideoElement, () => void>();
+const listeners = new Map<string, Set<() => void>>();
+
+export function subscribePlaybackPosition(key: string, listener: () => void): () => void {
+  const group = listeners.get(key) || new Set<() => void>();
+  group.add(listener); listeners.set(key, group);
+  return () => { group.delete(listener); if (!group.size) listeners.delete(key) };
+}
 
 export function stopPlaybackPosition(video: HTMLVideoElement): void {
   tracking.get(video)?.();
@@ -40,6 +47,7 @@ export function trackPlaybackPosition(key: string, video: HTMLVideoElement): voi
     const time = video.ended ? 0 : Math.max(0, video.currentTime);
     try {
       localStorage.setItem(`${KEY}:${key}`, String(time));
+      listeners.get(key)?.forEach(listener => listener());
     } catch { /* 存储不可用不阻断播放。 */ }
   };
   const loaded = () => { ready = true };

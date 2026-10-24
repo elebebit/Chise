@@ -47,6 +47,15 @@ export function CatalogListPage(props: CatalogGridProps) {
   useEffect(() => { positions.set(scope, state) }, [scope, state]);
   const offset = pagination.pageIndex * pagination.pageSize;
   const sort = sorting[0];
+  const playbackParams = new URLSearchParams(params);
+  if (sort) { playbackParams.set('sort', sort.id); playbackParams.set('dir', sort.desc ? 'desc' : 'asc') }
+  const playbackProps = { ...props, actions: { ...props.actions,
+    open: (item: MediaItem, anchor: HTMLElement) => {
+      if (props.mode === 'catalog' && props.filters?.state !== 'trash' && (!item.medium || item.medium === 'video') && props.actions.openCatalog) {
+        props.actions.openCatalog(item, anchor, playbackParams.toString(), false);
+      } else props.actions.open(item, anchor);
+    },
+  } };
   const result = useQuery({
     queryKey: ['catalog-grid', 'table', scope, params, props.revision, pagination, sorting],
     placeholderData: keepPreviousData,
@@ -91,7 +100,7 @@ export function CatalogListPage(props: CatalogGridProps) {
         isDisabled={result.isPlaceholderData}
         isSelected={row.getIsSelected()} onChange={on => row.toggleSelected(on)} /> }),
       helper.accessor(item => item.name || '', { id: 'name', header: '名称', enableSorting: true,
-        cell: ({ row }) => <ListIdentity item={row.original} props={props} disabled={result.isPlaceholderData} /> }),
+        cell: ({ row }) => <ListIdentity item={row.original} props={playbackProps} disabled={result.isPlaceholderData} /> }),
       helper.accessor(item => item.duration, { id: 'dur', header: '时长', enableSorting: true,
         cell: ({ row }) => fmtDur(row.original.duration) || '—' }),
       helper.accessor(item => item.size, { id: 'size', header: '体积', enableSorting: true,
@@ -99,7 +108,7 @@ export function CatalogListPage(props: CatalogGridProps) {
       helper.accessor(item => item.play_count, { id: 'plays', header: '观看次数', enableSorting: true,
         cell: ({ row }) => Number(row.original.play_count || 0).toLocaleString() }),
     ]);
-  }, [props.helpers, props.actions, props.layout, props.selectMode, result.isPlaceholderData]);
+  }, [props.helpers, props.actions, props.layout, props.selectMode, result.isPlaceholderData, playbackParams.toString()]);
   const table = useTable({
     features, columns, data: items, getRowId: item => String(item.id),
     manualSorting: true, manualPagination: true, rowCount: total,

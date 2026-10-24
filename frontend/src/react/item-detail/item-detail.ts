@@ -1,4 +1,4 @@
-/* 作品详情 `/assets/:id` 与四种队列（Mix、分卷、版本、播放列表）的数据与判定（ADR-0031）。
+/* 作品详情 `/assets/:id` 与筛选结果、Mix、分卷、版本、播放列表的数据与判定（ADR-0031）。
  *
  * 这一块是舞台岛（`../stage/`）树里的子组件，舞台本身、进出场、小窗与 Video.js 归舞台岛，
  * 关注详情也在用同一套。条目归这里：`/api/items` 的卡片没有 `entity_refs`、标签也只是
@@ -13,6 +13,7 @@ import { mixLabel, type FaceRef } from '@peach/card-art';
 import { apiGet } from '../../api';
 import type { MediaCardActions, MediaCardHelpers, MediaCardLayout, MediaItem } from '../catalog-grid/types';
 import { queryClient } from '../query';
+import { collapseGroups, fetchCatalogPage } from '../catalog-grid/catalog-grid';
 
 /* ── 接口形状（`src/peach/web_catalog.py` 的 `q_item`） ── */
 
@@ -63,16 +64,18 @@ export interface DetailItem extends Omit<CardFields, 'tags'> {
 /** 队列里的一条：卡片那一份，外加版次与卷标。 */
 export interface QueueItem extends MediaItem { edition_label?: string; part_label?: string; version_id?: number }
 
-export type QueueKind = 'mix' | 'parts' | 'editions' | 'playlist';
+export type QueueKind = 'mix' | 'parts' | 'editions' | 'playlist' | 'catalog';
 
 /** 壳递进来的队列引用。`fresh` 为真表示这一下是从外面进这个队列，要重取；同一个队列里
  *  换一条时为假，读缓存。播放列表每次都重取：它的顺序和内容别处也在改。 */
-export interface QueueRef { kind: QueueKind; seedId?: number; playlistId?: number; fresh?: boolean; autoplay?: boolean }
+export interface QueueRef { kind: QueueKind; seedId?: number; playlistId?: number; params?: string; groupCollapse?: boolean; fresh?: boolean; autoplay?: boolean }
 
 export interface DetailQueue {
   kind: QueueKind;
   seedId?: number;
   playlistId?: number;
+  params?: string;
+  groupCollapse?: boolean;
   title: string;
   items: QueueItem[];
   /** 播放列表记下的续播位置。 */
@@ -91,7 +94,8 @@ export interface PlaylistPayload {
 /* ── 取数 ── */
 
 export const itemKey = (id: number): QueryKey => ['item', id];
-export const queueKey = (ref: QueueRef): QueryKey => ['item-queue', ref.kind, ref.kind === 'playlist' ? ref.playlistId : ref.seedId];
+export const queueKey = (ref: QueueRef): QueryKey => ['item-queue', ref.kind, ref.kind === 'catalog' ? [ref.params, !!ref.groupCollapse] : ref.kind === 'playlist' ? ref.playlistId : ref.seedId];
+export const queueRef = (queue: DetailQueue): QueueRef => ({ kind: queue.kind, seedId: queue.seedId, playlistId: queue.playlistId, params: queue.params, groupCollapse: queue.groupCollapse });
 export const relatedKey = (id: number, limit: number): QueryKey => ['item-related', id, limit];
 
 export const ITEM_URL = (id: number) => `/api/item?id=${id}`;
@@ -117,6 +121,28 @@ interface GroupPayload { error?: string; title?: string; items?: QueueItem[]; co
 /** 一个队列的全部条目。Mix 是种子加上它的相关作品（相关那一份每个种子只取一次，和目录里
  *  Mix 卡的悬停翻页共用）；分卷与版本是同一个番号下的几个可播条目；播放列表按它自己的顺序。 */
 export async function fetchQueue(ref: QueueRef, helpers: Pick<ItemDetailHelpers, 'mixRelated' | 'tagLabel'>, signal?: AbortSignal): Promise<DetailQueue> {
+  if (ref.kind === 'catalog') {
+    const items: QueueItem[] = [];
+    const ids = new Set<number>();
+    const batch = 60;
+    const requestSignal = signal || new AbortController().signal;
+    let offset = 0;
+    let total: number | undefined;
+    while (true) {
+      signal?.throwIfAborted();
+      const page = await fetchCatalogPage(ref.params || '', offset, batch, false, requestSignal);
+      if (offset === 0) total = page.total;
+      for (const row of page.items) {
+        if ((!row.medium || row.medium === 'video') && row.disposal !== 'vanished' && !ids.has(row.id)) {
+          ids.add(row.id); items.push(row);
+        }
+      }
+      if (!page.items.length || page.has_more === false || (total != null ? offset + batch >= total : page.has_more !== true)) break;
+      offset += batch;
+    }
+    return { kind: 'catalog', params: ref.params, groupCollapse: ref.groupCollapse, title: '当前筛选结果',
+      items: collapseGroups(items, { parts: new Set(), editions: new Set() }, !!ref.groupCollapse) };
+  }
   if (ref.kind === 'mix') {
     const seedId = ref.seedId!;
     const [seed, related] = await Promise.all([fetchItem(seedId, signal), helpers.mixRelated(seedId)]);
@@ -169,6 +195,10 @@ export function withPartLabel(item: DetailItem, queue: DetailQueue | null): Deta
 
 /** 播完一卷只接同一版本的下一卷；选另一个版本由用户发起。 */
 export function nextPart(queue: DetailQueue | null, id: number): QueueItem | null {
+  if (queue?.kind === 'catalog') {
+    const index = queue.items.findIndex(row => row.id === id);
+    return index >= 0 ? queue.items[index + 1] || null : null;
+  }
   if (!queue || (queue.kind !== 'parts' && queue.kind !== 'editions')) return null;
   const index = queue.items.findIndex((row) => row.id === id);
   const current = queue.items[index];
@@ -192,6 +222,7 @@ export async function prefetchItemDetail(props: ItemDetailProps, signal: AbortSi
       queue = cached || await queryClient.fetchQuery({ queryKey: key, queryFn: () => fetchQueue(ref, props.helpers, signal), staleTime: 0 });
     } catch (error) {
       if (signal.aborted) throw error;
+      if (ref.kind === 'catalog') throw error;
       if (props.id != null) actions.redirect({ kind: 'item', id: props.id });
       else actions.redirect({ kind: 'gone' });
       return;
@@ -438,7 +469,7 @@ export function pickerSections(query: string, candidates: readonly TagCount[], r
  *  正片），但队列里两条并排时「什么都不写」等于让人自己猜哪条是哪条。 */
 export const EDITION_TONE: Record<string, string> = { 中字: 'subtitle', 无码: 'uncensored', 无码破解: 'cracked', 有码: 'censored' };
 
-const QUEUE_LABEL: Record<QueueKind, string> = { mix: 'Mix', parts: '分卷', editions: '版本', playlist: '播放列表' };
+const QUEUE_LABEL: Record<QueueKind, string> = { mix: 'Mix', parts: '分卷', editions: '版本', playlist: '播放列表', catalog: '播放列表' };
 
 /** 队列头那两行：类别与摘要。版次队列的标题是「版本 · 番号」，而番号就印在正上方的详情标题里，
  *  标题栏又已经写着「版本」——三处说同一件事，这里只留数量。别的队列标题带真信息（播放列表名、

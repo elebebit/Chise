@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { playbackKey, playbackPosition, stopPlaybackPosition, trackPlaybackPosition } from '../src/player/progress';
+import { playbackKey, playbackPosition, stopPlaybackPosition, subscribePlaybackPosition, trackPlaybackPosition } from '../src/player/progress';
 import { disposePlayer } from '../src/player/dispose';
 import { stopTelemetry, wireFollowTelemetry } from '../src/player/telemetry';
 import type { VjsPlayer } from '../src/player/types';
@@ -17,6 +17,31 @@ beforeEach(() => { localStorage.clear(); video = document.createElement('video')
 afterEach(() => { stopPlaybackPosition(video); stopTelemetry(video); vi.useRealTimers(); vi.unstubAllGlobals() });
 
 describe('视频续播位置', () => {
+  it('切换视频分别保存秒数，进度订阅只通知对应条目并能清理', () => {
+    const other = { id: 13, duration: 600 };
+    const otherKey = playbackKey('item', other);
+    const changed = vi.fn(), otherChanged = vi.fn();
+    const unsubscribe = subscribePlaybackPosition(key, changed);
+    const unsubscribeOther = subscribePlaybackPosition(otherKey, otherChanged);
+    trackPlaybackPosition(key, video);
+    video.dispatchEvent(new Event('loadedmetadata'));
+    video.currentTime = 87;
+    video.dispatchEvent(new Event('seeked'));
+    expect(changed).toHaveBeenCalledOnce();
+    expect(otherChanged).not.toHaveBeenCalled();
+    stopPlaybackPosition(video);
+    video.currentTime = 0;
+    trackPlaybackPosition(otherKey, video);
+    video.dispatchEvent(new Event('loadedmetadata'));
+    video.currentTime = 152;
+    video.dispatchEvent(new Event('pause'));
+    expect(playbackPosition(key, item)).toBe(87);
+    expect(playbackPosition(otherKey, other)).toBe(152);
+    unsubscribe(); unsubscribeOther();
+    changed.mockClear(); otherChanged.mockClear();
+    stopPlaybackPosition(video);
+    expect(changed).not.toHaveBeenCalled(); expect(otherChanged).not.toHaveBeenCalled();
+  });
   it('关注片段的实际时长独立于帖子时长，恢复到该片段的保存位置', async () => {
     configurePlayer({ settings: () => ({ ambientMode: false, theaterMode: false, seekSeconds: 10,
       miniplayer: true, detailAutoplay: false, javImage: 'cover' }), saveSettings: () => {}, toast: () => {},
