@@ -26,6 +26,26 @@ function mounted() {
 }
 
 describe('Video.js 10 播放会话', () => {
+  it('同一详情内切换条目保留铺满状态，显式退出后清除状态', async () => {
+    (window as Window & { chiseDesktop?: boolean }).chiseDesktop = true;
+    const stage = document.createElement('div'); stage.setAttribute('data-stage', ''); document.body.append(stage);
+    const create = () => {
+      const video = document.createElement('video'); stage.append(video);
+      return createV10Player(video, { controls: true });
+    };
+    const first = create();
+    first.el().querySelector<HTMLButtonElement>('button.vjs-fullscreen-control')!.click();
+    first.dispose();
+    const next = create();
+    await Promise.resolve();
+    expect(next.isFullscreen()).toBe(true);
+    next.el().querySelector<HTMLButtonElement>('button.vjs-fullscreen-control')!.click();
+    next.dispose();
+    const normal = create();
+    await Promise.resolve();
+    expect(normal.isFullscreen()).toBe(false);
+    normal.dispose();
+  });
   it('App 全屏铺满窗口，按钮、Escape 与销毁保持状态一致', () => {
     (window as Window & { chiseDesktop?: boolean }).chiseDesktop = true;
     const video = document.createElement('video'); document.body.append(video);

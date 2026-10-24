@@ -79,13 +79,15 @@ export const createV10Player: VideojsFactory = (video, options) => {
     active();
   };
   const emit = (name: string) => events.dispatchEvent(new Event(name));
+  const stage = root.closest('[data-stage]');
   let windowFullscreen = false;
   let fullscreenFocus: HTMLElement | null = null;
   const fullscreenButton = root.querySelector<HTMLButtonElement>('button.vjs-fullscreen-control');
-  const setWindowFullscreen = (enabled: boolean) => {
+  const setWindowFullscreen = (enabled: boolean, remember = true) => {
     if (enabled === windowFullscreen) return;
     if (enabled) fullscreenFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     windowFullscreen = enabled;
+    if (remember) stage?.toggleAttribute('data-window-playback', enabled);
     root.classList.toggle('vjs-fullscreen', enabled);
     root.toggleAttribute('data-window-fullscreen', enabled);
     fullscreenButton?.setAttribute('aria-pressed', String(enabled));
@@ -93,6 +95,9 @@ export const createV10Player: VideojsFactory = (video, options) => {
     if (!enabled && fullscreenFocus?.isConnected) fullscreenFocus.focus({ preventScroll: true });
   };
   fullscreenButton?.addEventListener('click', () => setWindowFullscreen(!windowFullscreen), { signal });
+  queueMicrotask(() => {
+    if (!disposed && desktopWindow && stage?.hasAttribute('data-window-playback')) setWindowFullscreen(true);
+  });
   document.addEventListener('keydown', event => {
     if (!windowFullscreen || event.key !== 'Escape') return;
     event.preventDefault(); event.stopPropagation(); setWindowFullscreen(false);
@@ -163,7 +168,7 @@ export const createV10Player: VideojsFactory = (video, options) => {
     isDisposed: () => disposed,
     dispose: () => {
       if (disposed) return;
-      setWindowFullscreen(false);
+      setWindowFullscreen(false, false);
       emit('dispose'); disposed = true; cleanup.abort(); if (idle) clearTimeout(idle);
       media.adapter.destroy(); video.pause(); video.removeAttribute('src'); video.load(); root.remove();
     },
