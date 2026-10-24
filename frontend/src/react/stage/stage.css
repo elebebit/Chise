@@ -35,6 +35,8 @@
 /* 骨架期间焦点停在浮窗本身（里面还没有可操作的东西），外沿不画焦点环；内容到了焦点交给关闭键。 */
 [data-stage]:focus-visible{outline:none}
 [data-stage]:has(.video-js[data-window-fullscreen]){inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;border:0;border-radius:0}
+[data-stage]:has(.video-js[data-window-fullscreen]) :is([data-stage-side],[data-detail-continuation],[data-stage-close],[data-ambient-canvas],[data-stage-fade]){display:none}
+[data-stage] [data-stage-media]:has(>.video-js[data-window-fullscreen]){isolation:auto;z-index:auto;position:static}
 /* 作品舞台与媒体区按视口预留空间，取数、媒体切换与推荐加载共用同一画框。 */
 [data-stage][data-stage-kind="item"],[data-stage][data-stage-kind="jav"]{height:calc(100dvh - 32px)}
 [data-stage][data-stage-kind]:is([data-stage-kind="item"],[data-stage-kind="jav"])>[data-stage-scroll]{display:block;max-height:100%;height:100%;overflow:hidden auto}

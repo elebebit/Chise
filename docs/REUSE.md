@@ -10,6 +10,8 @@ macOS 源码窗口复用 `pywebview==6.2.1`（BSD-3-Clause），用系统 WebKit
 
 原生窗口在同步 `before_show` 事件中声明 AppKit 的 [fullScreenPrimary](https://developer.apple.com/documentation/appkit/nswindow/collectionbehavior-swift.struct/fullscreenprimary)，绿色按钮进入和退出 macOS 全屏。网页宿主身份通过 WebKit 的文档起始用户脚本设置；原生视图通过已固定的 pywebview 6.2.1 Cocoa `BrowserView.instances` 取得，升级该依赖时须复核此适配点。App 中的播放器复用既有窗口内铺满样式，按钮、双击、F 键和 Escape 共用会话状态；浏览器中的播放器使用标准 Fullscreen API。WebKit 桥接沿用 pywebview 已引入的 `pyobjc-framework-WebKit==12.2.2`，在 macOS 依赖组显式固定，无额外安装包。
 
+App 播放器铺满期间，详情资料、推荐、详情关闭键和环境光退出布局；媒体容器解除独立显示层，画面与播放器控件覆盖内容区。退出铺满后由既有响应式样式恢复布局。原生 WebKit 夹具核对宽屏、窄屏、390×844 的四角及中央命中元素，并核对周边区域的隐藏与恢复。
+
 ## 检查输入与源码文案
 
 测试差异复用 Git 文件快照、Python AST、标准库 TOML/JSON 解析器及现有 filelock。Python 注释和清单说明字段通过有效内容比较识别；真实依赖、执行模式和无法解析的输入保留完整验证。完整批次按测试文件保存结果，仅补齐受影响范围，不延长结果有效期。
