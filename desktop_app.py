@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from functools import lru_cache
 from pathlib import Path
 import subprocess
 import sys
@@ -43,6 +44,39 @@ def ensure_backend() -> subprocess.Popen | None:
     raise RuntimeError('Chise 服务未能在 20 秒内启动，请检查托盘与 8900 端口。')
 
 
+@lru_cache(maxsize=1)
+def background_delegate_types(browser):
+    """继承宿主委托，保留原生退出及窗口事件。"""
+    class ChiseBackgroundWindowDelegate(browser.WindowDelegate):
+        def windowShouldClose_(self, window):
+            window.orderOut_(None)
+            return False
+
+    class ChiseBackgroundAppDelegate(browser.AppDelegate):
+        def applicationShouldHandleReopen_hasVisibleWindows_(self, app, visible):
+            for instance in list(browser.instances.values()):
+                window = instance.window
+                if window.isMiniaturized():
+                    window.deminiaturize_(None)
+                window.makeKeyAndOrderFront_(None)
+            app.activateIgnoringOtherApps_(True)
+            return False
+
+    return ChiseBackgroundWindowDelegate, ChiseBackgroundAppDelegate
+
+
+def install_background_lifecycle(window) -> None:
+    """保留隐藏窗口，并由 Dock 恢复同一页面。"""
+    browser = window.gui.BrowserView
+    instance = browser.instances[window.uid]
+    window_delegate, app_delegate = background_delegate_types(browser)
+    instance._windowDelegate = window_delegate.alloc().init()
+    window.native.setDelegate_(instance._windowDelegate)
+    if not isinstance(browser._shared_app_delegate, app_delegate):
+        browser._shared_app_delegate = app_delegate.alloc().init()
+    browser.app.setDelegate_(browser._shared_app_delegate)
+
+
 def configure_desktop_window(window) -> None:
     """在 Cocoa 主线程配置窗口全屏与网页宿主身份。"""
     if sys.platform != 'darwin':
@@ -50,6 +84,7 @@ def configure_desktop_window(window) -> None:
     import AppKit
     import WebKit
 
+    install_background_lifecycle(window)
     behavior = window.native.collectionBehavior()
     window.native.setCollectionBehavior_(
         (behavior & ~AppKit.NSWindowCollectionBehaviorFullScreenNone)

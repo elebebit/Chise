@@ -6,6 +6,8 @@
 
 ## Chise 原生窗口
 
+macOS 窗口叉号与 ⌘W 复用 AppKit 的 `orderOut_` 隐藏窗口，页面和播放会话保留；点击 Dock 图标恢复同一窗口，最小化窗口同时还原。关闭与退出分别使用 [windowShouldClose](https://developer.apple.com/documentation/appkit/nswindowdelegate/windowshouldclose(_:)) 和 pywebview 现有应用退出委托，菜单、Dock 的“退出”与 ⌘Q 结束 App。Dock 恢复复用 [applicationShouldHandleReopen](https://developer.apple.com/documentation/appkit/nsapplicationdelegate/applicationshouldhandlereopen(_:hasvisiblewindows:))；委托继承已固定的 Cocoa 宿主并由宿主保留引用，无新增依赖。
+
 macOS 源码窗口复用 `pywebview==6.2.1`（BSD-3-Clause），用系统 WebKit 显示现有前端，窗口 API 与持久会话遵循 [官方 API](https://pywebview.flowrl.com/api/)。本机 Python 3.14 已安装该版本；依赖通过 `macos` 可选组与 `uv.lock` 固定。Chise 只负责 `/healthz` 身份检查、托盘启动与等待上限，不复制浏览器引擎或前端业务。系统 WebKit 限定可播放的编码；完整独立发行仍使用现有打包流程。窗口存储沿用本机目录，ledger 与生产入口不在构建时修改。
 
 原生窗口在同步 `before_show` 事件中声明 AppKit 的 [fullScreenPrimary](https://developer.apple.com/documentation/appkit/nswindow/collectionbehavior-swift.struct/fullscreenprimary)，绿色按钮进入和退出 macOS 全屏。网页宿主身份通过 WebKit 的文档起始用户脚本设置；原生视图通过已固定的 pywebview 6.2.1 Cocoa `BrowserView.instances` 取得，升级该依赖时须复核此适配点。App 中的播放器复用既有窗口内铺满样式，按钮、双击、F 键和 Escape 共用会话状态；浏览器中的播放器使用标准 Fullscreen API。WebKit 桥接沿用 pywebview 已引入的 `pyobjc-framework-WebKit==12.2.2`，在 macOS 依赖组显式固定，无额外安装包。
