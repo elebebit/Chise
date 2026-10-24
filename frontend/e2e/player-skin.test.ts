@@ -23,11 +23,16 @@ describe('播放器皮肤', () => {
       const frame = await page.locator('#stage .video-js').evaluate(root => {
         const box = root.getBoundingClientRect();
         return { box: [box.x, box.y, box.width, box.height], viewport: [0, 0, innerWidth, innerHeight],
-          native: !!document.fullscreenElement, center: root.contains(document.elementFromPoint(innerWidth / 2, innerHeight / 2)) };
+          native: !!document.fullscreenElement,
+          covered: [[.1,.1],[.9,.1],[.1,.9],[.9,.9],[.5,.5]].every(([x,y]) =>
+            root.contains(document.elementFromPoint(innerWidth * x!, innerHeight * y!))),
+          surroundingsHidden: [...document.querySelectorAll('#stage [data-stage-side],#stage [data-detail-continuation],#stage [data-stage-close]')]
+            .every(node => getComputedStyle(node).display === 'none') };
       });
-      assert.deepEqual(frame.box, frame.viewport);
+      assert.ok(frame.box.every((value, index) => Math.abs(value - frame.viewport[index]!) < 1), JSON.stringify(frame));
       assert.equal(frame.native, false);
-      assert.equal(frame.center, true);
+      assert.equal(frame.covered, true);
+      assert.equal(frame.surroundingsHidden, true);
     };
     try {
       await button.waitFor();
@@ -38,6 +43,7 @@ describe('播放器皮肤', () => {
       await page.keyboard.press('Escape');
       assert.equal(await page.locator('#stage').evaluate((dialog: HTMLDialogElement) => dialog.open), true);
       assert.equal(await page.locator('#stage [data-window-fullscreen]').count(), 0);
+      assert.notEqual(await page.locator('#stage [data-stage-side]').evaluate(node => getComputedStyle(node).display), 'none');
       await button.click();
       await assertWindowFilled();
       await button.click();
