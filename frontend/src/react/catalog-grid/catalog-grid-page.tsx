@@ -116,7 +116,11 @@ function GridBody(props: CatalogGridProps) {
     return () => { live = false };
   }, [failed]);
 
-  const open = useCallback((item: MediaItem, anchor: HTMLElement) => actions.open(item, anchor), [actions]);
+  const open = useCallback((item: MediaItem, anchor: HTMLElement) => {
+    if (props.mode === 'catalog' && props.filters?.state !== 'trash' && (!item.medium || item.medium === 'video') && actions.openCatalog) {
+      actions.openCatalog(item, anchor, catalogParams(props.filters || {}, !!props.excludeVertical), !!props.groupCollapse);
+    } else actions.open(item, anchor);
+  }, [actions, props.mode, props.filters, props.excludeVertical, props.groupCollapse]);
   const openResource = useCallback(
     (item: MediaItem, anchor: HTMLElement) => actions.openResource(item, anchor), [actions]);
   const openShort = useCallback((item: MediaItem) => actions.openShort(item), [actions]);

@@ -9,7 +9,7 @@ import { receiptsState } from './receipts.js';
 import { dropBars, fetchBars, fetchTopsPage } from './../catalog-bars';
 import { confirmModal, dissolveValue, fitSkeleton, wireHorizontalScroller } from '../ui-kit';
 import { navigationState, paintSidebar, syncNavigation } from './navigation.js';
-import { disposeStage, mediaState, openEditions, openItem, openMix, openParts, openTok } from './media.js';
+import { disposeStage, mediaState, openCatalogItem, openEditions, openItem, openMix, openParts, openTok } from './media.js';
 import { buildManageBar, cardLayout, homeLayoutActive, javActive, layoutState, setHomeLayout, setJavLayout, showHomeSurfaces } from './layout.js';
 import { selectionState, setSelectMode, toggleSelection } from './selection.js';
 import { javDisplayName, javTitleHtml } from '../core/jav-title';
@@ -549,6 +549,7 @@ catalogState.gridHelpers = {
   tagLabel:tag=>tagLabel(tag),
 };
 catalogState.gridActions = {
+  openCatalog:(it,anchor,params,groupCollapse)=>openCatalogItem({kind:'catalog',params,groupCollapse,fresh:true},it.id,true,anchor),
   wallPlayer:async(it,frame,signal)=>{
     const stage=await loadStage(mediaState.stageHost);
     signal.throwIfAborted();

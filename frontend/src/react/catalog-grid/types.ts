@@ -77,6 +77,8 @@ export interface MediaCardActions {
   wallDetails?(item: MediaItem, anchor: HTMLElement): void;
   /** 打开一张作品卡：小窗开着时在小窗里换片，分卷与版次组进各自的队列，其余打开详情。 */
   open(item: MediaItem, anchor: HTMLElement): void;
+  /** 按当前目录的筛选、排序与折叠规则打开播放队列。 */
+  openCatalog?(item: MediaItem, anchor: HTMLElement, params: string, groupCollapse: boolean): void;
   /** 回收站里的一张：视频打开详情，本地图片在新标签页看原图，其余切换选中。 */
   openResource(item: MediaItem, anchor: HTMLElement): void;
   /** 竖屏带里的一张：从它开始进沉浸模式。 */

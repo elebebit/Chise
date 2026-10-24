@@ -4,6 +4,7 @@
  * 布局要真浏览器，在 `frontend/e2e/item-detail.test.ts` 里量；尺寸与色板在 `e2e/design-*.test.ts`。 */
 import { notifyManager, QueryClientProvider, type InfiniteData } from '@tanstack/react-query';
 import { act } from 'react';
+import { playbackKey, stopPlaybackPosition, trackPlaybackPosition } from '../../src/player/progress';
 import { afterEach, describe, expect, it, vi, type Mock } from 'vitest';
 
 import type { GridPage } from '../../src/react/catalog-grid/catalog-grid';
@@ -85,6 +86,39 @@ async function show(shown: DetailItem, patch: Partial<ItemDetailProps> = {}) {
 }
 
 describe('标签身份', () => {
+  it('筛选队列读取失败保留错误，不切换为推荐详情', async () => {
+    serve();
+    const given = props({ queue: { kind: 'catalog', params: 'tag=A' } });
+    await expect(prefetchItemDetail(given, new AbortController().signal)).rejects.toThrow();
+    expect(given.actions.redirect).not.toHaveBeenCalled();
+  });
+  it('筛选队列显示每条续播秒数，当前条目更新进度并按同一筛选切换', async () => {
+    const ref = { kind: 'catalog' as const, params: 'folder=fixture&tag=A&sort=name', groupCollapse: true };
+    queryClient.setQueryData(queueKey(ref), queue('catalog', [1, 2], { ...ref,
+      items: [row(1, { duration: 300 }), row(2, { duration: 600 })], title: '当前筛选结果' }));
+    localStorage.setItem('peach.playback-position.v1:item:2', '91');
+    serve();
+    const { host, actions: given } = await show(item(1, { duration: 300, leave_ratio: 0 }), { queue: ref });
+    const progress = (id: number) => host.querySelector(`[data-queue-item="${id}"] [data-queue-progress]`)?.textContent;
+    const video = document.createElement('video');
+    try {
+      expect(progress(2)).toBe('1:31 / 10:00');
+      await act(async () => {
+        trackPlaybackPosition(playbackKey('item', { id: 1 }), video);
+        video.dispatchEvent(new Event('loadedmetadata'));
+        video.currentTime = 53;
+        video.dispatchEvent(new Event('seeked'));
+      });
+      expect(progress(1)).toBe('0:53 / 5:00');
+      expect(progress(2)).toBe('1:31 / 10:00');
+      await click(host.querySelector('[data-queue-item="2"]'));
+      expect(given.openQueueItem).toHaveBeenCalledWith(expect.objectContaining({ ...ref, autoplay: true }), 2);
+    } finally {
+      stopPlaybackPosition(video);
+      localStorage.removeItem('peach.playback-position.v1:item:1');
+      localStorage.removeItem('peach.playback-position.v1:item:2');
+    }
+  });
   it('详情显示完整制服名与角色名', async () => {
     serve();
     const { host } = await show(item(1, { tags: [{ k: 'OL制服' }, { k: '秘书OL' }] }),

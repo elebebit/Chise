@@ -7,9 +7,10 @@
  *
  * 写操作（评分、标签、反馈、稍后看、高清目标、偏好、播放列表排序与移出）都在岛里发，成功后
  * 把服务端回的那几个字段换进 `['item', id]`，目录网格缓存里的同一张卡一起换，不重读列表。 */
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { fmtDur, fmtSize, icon, requestErrorMessage } from '@peach/legacy/core';
+import { fmtClock, fmtDur, fmtSize, icon, requestErrorMessage } from '@peach/legacy/core';
+import { playbackKey, playbackPosition, subscribePlaybackPosition } from '../../player/progress';
 import {
   coverUrl, mixLabel, performerLabel, queueAvatarHtml, queueThumbHtml,
 } from '@peach/card-art';
@@ -39,7 +40,7 @@ import {
   CAST_SHOWN, EDITION_TONE, FEEDBACK_URL, ITEM_TAG_URL, PLAYLIST_URL, PREFERENCE_URL, QUALITY_GOAL_URL,
   RELATED_URL, WATCH_LATER_URL, chooseItem, clampRating, detailTags, feedbackReceipt, fetchItem, fetchQueue,
   hasTag, identityGroups, isVanished, itemKey, mediaGate, movedOrder, nextPart, nextRating, partLabel, partLabelHtml, pickerSections, playlistQueue,
-  queueCopy, queueKey, ratingStars, ratingText, realWatched, recentTags, relatedKey, rememberTag, sameOrder,
+  queueCopy, queueKey, queueRef, ratingStars, ratingText, realWatched, recentTags, relatedKey, rememberTag, sameOrder,
   withPartLabel, withTag, withoutTag,
   type DetailEntityRef, type DetailItem, type DetailQueue, type DetailTag, type ItemDetailActions,
   type ItemDetailHelpers, type ItemDetailProps, type MediaGate, type PlaylistPayload, type TagCount,
@@ -60,6 +61,7 @@ export function ItemDetailPage(props: ItemDetailProps) {
     queryKey: ref ? queueKey(ref) : ['item-queue', 'none'],
     queryFn: ({ signal }) => fetchQueue(ref!, props.helpers, signal),
     enabled: !!ref,
+    staleTime: ref?.kind === 'catalog' ? Infinity : 0,
   });
   const queue = ref ? queueResult.data || null : null;
   const id = queue ? chooseItem(queue, props.id) : ref ? null : props.id;
@@ -107,7 +109,7 @@ function Detail(props: ItemDetailProps & { item: DetailItem; queue: DetailQueue 
   const gate = mediaGate(item, helpers.sourceOffline(item.location || ''));
   const next = nextPart(queue, item.id);
   const continuePart = () => {
-    if (next && queue) actions.openQueueItem({ kind: queue.kind, seedId: queue.seedId, autoplay: true }, next.id);
+    if (next && queue) actions.openQueueItem({ ...queueRef(queue), autoplay: true }, next.id);
   };
   return (
     <>
@@ -263,7 +265,7 @@ function Queue({ queue, itemId, helpers, actions }: {
       ? <button type="button" data-edit-playlist="" title="编辑播放列表" aria-label="编辑播放列表" onClick={actions.editPlaylist}
         dangerouslySetInnerHTML={{ __html: icon('playlist') }} />
       : null;
-  const ref = { kind: queue.kind, seedId: queue.seedId, playlistId: queue.playlistId };
+  const ref = queueRef(queue);
   return (
     <MixQueue kind={queue.kind} title={copy.title} summary={copy.summary} onClose={actions.close} actions={head} listRef={listRef}>
       {queue.items.map((row) => {
@@ -275,7 +277,7 @@ function Queue({ queue, itemId, helpers, actions }: {
           <MixQueueRow key={row.id} current={row.id === itemId} data-queue-item={row.id} row={{ 'data-queue-row': row.id }}
             disabled={gone} title={gone ? '文件已不在盘上，不能播放' : undefined}
             {...(gone ? { 'data-queue-vanished': '' } : {})}
-            onClick={() => { if (!gone) actions.openQueueItem(ref, row.id) }}
+            onClick={() => { if (!gone) actions.openQueueItem({ ...ref, ...(queue.kind === 'catalog' ? { autoplay: true } : {}) }, row.id) }}
             pic={<><Html html={queueThumbHtml(row, helpers.javImage())} /><i className="mono" data-mix-item-duration="">{fmtDur(row.duration)}</i></>}
             lead={<Html html={queueAvatarHtml(row)} />}
             after={queue.kind === 'playlist' ? (
@@ -289,11 +291,19 @@ function Queue({ queue, itemId, helpers, actions }: {
             <span data-truncate-end="">{gone ? '已消失 · 文件已不在盘上'
               : queue.kind === 'parts' || (queue.kind === 'editions' && row.part_label)
                 ? partLabel(row.part_label) : mixLabel(row, helpers.tagLabel)}</span>
+            <QueueProgress item={row} />
           </MixQueueRow>
         );
       })}
     </MixQueue>
   );
+}
+
+function QueueProgress({ item }: { item: DetailQueue['items'][number] }) {
+  const key = playbackKey('item', item);
+  const subscribe = useCallback((listener: () => void) => subscribePlaybackPosition(key, listener), [key]);
+  const time = useSyncExternalStore(subscribe, () => playbackPosition(key, item));
+  return <span data-queue-progress="">{fmtClock(time)}{Number(item.duration) > 0 ? ` / ${fmtClock(item.duration)}` : ''}</span>;
 }
 
 /** 保存 Mix：壳弹表单（舞台是原生模态，弹层要进同一层），确认时由这里写库。 */

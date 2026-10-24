@@ -68,6 +68,15 @@ export function openParts(seedId,itemId=seedId,push=true,anchor=null){return ope
 
 export function openPlaylist(playlistId,itemId=null,push=true){return openQueue('playlist',playlistId,itemId,push)}
 
+export function openCatalogItem(queue,id,push=true,anchor=null){
+  if(push){
+    if(activeQueue?.kind!=='catalog')writeShell({detailReturnPath:location.pathname+location.search});
+    requestOverlay('/assets/'+(+id),'item',()=>openItem(id,false,queue,anchor,true));
+    return;
+  }
+  return openItem(id,false,queue,anchor,true);
+}
+
 export function hasReturnSurface(){
   return !!$('#grid').querySelector('[data-id],[data-mix-seed]')
     ||!$('#index').hidden||!$('#stats').hidden;
@@ -101,7 +110,7 @@ export async function openItem(id,push=true,queue=null,anchor=null,queuePush=fal
   if(stageApi()?.showing()!=='item')disposeStage(false,true,{miniplayer:false,preserveQueueRequest:queueRequest});
   writeShell({detailOriginAnchor:origin,detailOriginAbove:above,detailReturnNeedsRestore:needsReturnRestore});
   writeShell({detailReturnBarsContext:returnBars});
-  writeShell({activeQueue:queue&&{kind:queue.kind,seedId:queue.seedId,playlistId:queue.playlistId}});
+  writeShell({activeQueue:queue&&{...queue}});
   writeShell({pendingQueueRoute:queue&&queuePush
     ? `${queue.kind}=${queue.kind==='playlist'?queue.playlistId:queue.seedId}`:null});
   if(push&&!queue)navigationState.route('/assets/'+id,false,overlayState('item'));
@@ -228,13 +237,16 @@ mediaState.itemDetailActions = {
     if(to.kind==='playlists'){if(push||location.pathname!=='/playlists')openRoutedPage('/playlists');else rereadPlaylists();return}
     disposeStage(false);
   },
-  openQueueItem:(queue,id,push=true)=>void openQueue(queue.kind,queue.kind==='playlist'?queue.playlistId:queue.seedId,id,push,null,{autoplay:queue.autoplay}),
+  openQueueItem:(queue,id,push=true)=>queue.kind==='catalog'
+    ? void openCatalogItem({...queue,fresh:false},id,push)
+    : void openQueue(queue.kind,queue.kind==='playlist'?queue.playlistId:queue.seedId,id,push,null,{autoplay:queue.autoplay}),
   // 盘回来了就按正常路径重开，不在半路挂播放器；开着的队列跟着留下。
   reopen:()=>{
     const it=presentedItem;
     if(!it)return;
     const queue=activeQueue;
-    if(queue)void openQueue(queue.kind,queue.kind==='playlist'?queue.playlistId:queue.seedId,it.id,false);
+    if(queue?.kind==='catalog')void openCatalogItem(queue,it.id,false);
+    else if(queue)void openQueue(queue.kind,queue.kind==='playlist'?queue.playlistId:queue.seedId,it.id,false);
     else void openItem(it.id,false);
   },
   checkSource:async key=>(await loadSourceStatus())[key]!==false,
