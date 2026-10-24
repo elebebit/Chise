@@ -37,6 +37,19 @@
 [data-stage]:has(.video-js[data-window-fullscreen]){inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;border:0;border-radius:0}
 [data-stage]:has(.video-js[data-window-fullscreen]) :is([data-stage-side],[data-detail-continuation],[data-stage-close],[data-ambient-canvas],[data-stage-fade]){display:none}
 [data-stage] [data-stage-media]:has(>.video-js[data-window-fullscreen]){isolation:auto;z-index:auto;position:static}
+.video-js [data-player-playlist]{position:absolute;inset:0 0 64px auto;width:min(380px,calc(100% - 32px));z-index:var(--layer-popover);pointer-events:none;font-size:var(--fs-md);line-height:1.5;color:var(--ink)}
+[data-player-playlist-edge]{position:absolute;inset:0 0 0 auto;width:16px;padding:0;border:0;background:transparent;cursor:pointer;pointer-events:auto}
+[data-player-playlist-edge]:after{content:"";position:absolute;right:3px;top:calc(50% - 16px);width:3px;height:32px;border-radius:var(--pill-radius);background:var(--border-15)}
+[data-player-playlist-edge]:focus-visible{outline:2px solid var(--tungsten);outline-offset:-2px}
+[data-player-playlist-panel]{box-sizing:border-box;position:absolute;inset:0;padding:16px;background:var(--ground);border-left:1px solid var(--line);overflow:auto;overscroll-behavior:contain;pointer-events:auto}
+[data-player-playlist-panel][hidden]{display:none}
+[data-player-playlist-title]{margin:0 0 12px;font-size:var(--fs-lg);font-weight:500}
+[data-player-playlist-panel] [data-mix-queue]{max-height:none;border:0;background:transparent}
+[data-player-playlist-panel] :is([data-mix-queue-actions],[data-mix-row]>:not([data-mix-item])){display:none}
+[data-player-playlist-panel] [data-item-related]{border:0;padding:0;background:transparent}
+.video-js [data-player-playlist-panel] [data-related-row]{display:block;margin:0;padding:0;overflow:visible}
+[data-player-playlist-panel] [data-media-grid]{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.video-js [data-player-playlist-panel] [data-media-card]{width:100%;min-width:0;max-width:none}
 /* 作品舞台与媒体区按视口预留空间，取数、媒体切换与推荐加载共用同一画框。 */
 [data-stage][data-stage-kind="item"],[data-stage][data-stage-kind="jav"]{height:calc(100dvh - 32px)}
 [data-stage][data-stage-kind]:is([data-stage-kind="item"],[data-stage-kind="jav"])>[data-stage-scroll]{display:block;max-height:100%;height:100%;overflow:hidden auto}

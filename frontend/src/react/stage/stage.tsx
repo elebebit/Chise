@@ -346,6 +346,8 @@ function exit(): Promise<void> {
 }
 
 function dispose({ miniplayer = true }: { miniplayer?: boolean } = {}): void {
+  const fullscreen = stageDialog()?.querySelector<HTMLButtonElement>('.video-js[data-window-fullscreen] button.vjs-fullscreen-control');
+  fullscreen?.click();
   generation++;
   controller?.abort();
   controller = null;

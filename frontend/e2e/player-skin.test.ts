@@ -42,6 +42,14 @@ describe('播放器皮肤', () => {
       assert.ok((await page.locator('#stage .video-js').boundingBox())!.width > 1440);
       await button.click();
       await assertWindowFilled();
+      await page.mouse.move(2438, 300);
+      const playlist = page.locator('#stage [data-player-playlist-panel]');
+      await playlist.waitFor({ state: 'visible' });
+      const playlistBounds = (await playlist.boundingBox())!;
+      assert.ok(playlistBounds.x >= 0 && playlistBounds.x + playlistBounds.width <= 2440);
+      assert.ok(playlistBounds.y + playlistBounds.height <= 936);
+      await page.mouse.move(400, 300);
+      await playlist.waitFor({ state: 'hidden' });
       await page.setViewportSize({ width: 1000, height: 650 });
       await assertWindowFilled();
       await page.keyboard.press('Escape');
