@@ -90,6 +90,7 @@ class DesktopFullscreenTests(unittest.TestCase):
                            NSWindowCollectionBehaviorFullScreenNone=512)
         webkit = mock.Mock(WKUserScriptInjectionTimeAtDocumentStart=0)
         with mock.patch.object(desktop.sys, 'platform', 'darwin'), \
+                mock.patch.object(desktop, 'install_background_lifecycle'), \
                 mock.patch.dict('sys.modules', {'AppKit': appkit, 'WebKit': webkit}):
             desktop.configure_desktop_window(window)
         window.native.setCollectionBehavior_.assert_called_once_with(4 | 128)
@@ -103,3 +104,69 @@ class DesktopFullscreenTests(unittest.TestCase):
         with mock.patch.object(desktop.sys, 'platform', 'win32'):
             desktop.configure_desktop_window(window)
         window.gui.BrowserView.instances.__getitem__.assert_not_called()
+
+
+class DesktopBackgroundTests(unittest.TestCase):
+    def setUp(self):
+        class Delegate:
+            @classmethod
+            def alloc(cls):
+                return cls()
+
+            def init(self):
+                return self
+
+            def applicationShouldTerminate_(self, app):
+                return app.approve_quit()
+
+        class Browser:
+            WindowDelegate = Delegate
+            AppDelegate = Delegate
+            instances = {}
+            app = mock.Mock()
+            _shared_app_delegate = None
+
+        self.browser = Browser
+        self.window_delegate, self.app_delegate = desktop.background_delegate_types(Browser)
+        self.addCleanup(desktop.background_delegate_types.cache_clear)
+
+    def test_close_hides_the_window_and_vetoes_destruction(self):
+        window = mock.Mock()
+        self.assertFalse(self.window_delegate().windowShouldClose_(window))
+        window.orderOut_.assert_called_once_with(None)
+        window.close.assert_not_called()
+
+    def test_reopen_restores_hidden_and_minimized_windows(self):
+        hidden = mock.Mock()
+        hidden.isMiniaturized.return_value = False
+        minimized = mock.Mock()
+        minimized.isMiniaturized.return_value = True
+        self.browser.instances = {'hidden': mock.Mock(window=hidden),
+                                  'minimized': mock.Mock(window=minimized)}
+        app = mock.Mock()
+        self.assertFalse(self.app_delegate().applicationShouldHandleReopen_hasVisibleWindows_(app, False))
+        hidden.deminiaturize_.assert_not_called()
+        minimized.deminiaturize_.assert_called_once_with(None)
+        for window in (hidden, minimized):
+            window.makeKeyAndOrderFront_.assert_called_once_with(None)
+        app.activateIgnoringOtherApps_.assert_called_once_with(True)
+
+    def test_explicit_quit_keeps_the_host_termination_decision(self):
+        app = mock.Mock()
+        app.approve_quit.return_value = True
+        self.assertTrue(self.app_delegate().applicationShouldTerminate_(app))
+        app.approve_quit.assert_called_once_with()
+
+    def test_installed_delegates_are_retained_by_the_host(self):
+        window = mock.Mock(uid='main')
+        window.gui.BrowserView = self.browser
+        instance = mock.Mock()
+        self.browser.instances = {'main': instance}
+        desktop.install_background_lifecycle(window)
+        self.assertIsInstance(instance._windowDelegate, self.window_delegate)
+        window.native.setDelegate_.assert_called_once_with(instance._windowDelegate)
+        shared = self.browser._shared_app_delegate
+        self.assertIsInstance(shared, self.app_delegate)
+        desktop.install_background_lifecycle(window)
+        self.assertIs(self.browser._shared_app_delegate, shared)
+        self.browser.app.setDelegate_.assert_called_with(shared)
